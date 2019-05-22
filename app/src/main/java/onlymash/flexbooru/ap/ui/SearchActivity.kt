@@ -3,7 +3,7 @@ package onlymash.flexbooru.ap.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.commitNow
+import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.QUERY_KEY
@@ -11,7 +11,6 @@ import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
-import onlymash.flexbooru.ap.ui.fragment.PostFragment
 
 class SearchActivity : KodeinActivity() {
 
@@ -28,11 +27,12 @@ class SearchActivity : KodeinActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         val query = intent?.getStringExtra(QUERY_KEY) ?: ""
-        if (savedInstanceState == null) {
-            supportFragmentManager.commitNow {
-                replace(R.id.fragment_content, PostFragment.newInstance(query))
+        findNavController(R.id.search_nav_host_fragment).setGraph(
+            R.navigation.search_navigation,
+            Bundle().apply {
+                putString(QUERY_KEY, query)
             }
-        }
+        )
         fab.setOnClickListener {
             sendBroadcast(
                 Intent(JUMP_TO_TOP_ACTION_FILTER_KEY)

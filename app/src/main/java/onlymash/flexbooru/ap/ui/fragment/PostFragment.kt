@@ -119,14 +119,4 @@ class PostFragment : KodeinFragment() {
         super.onStop()
         requireActivity().unregisterReceiver(broadcastReceiver)
     }
-
-    companion object {
-        fun newInstance(query: String): PostFragment {
-            return PostFragment().apply {
-                arguments = Bundle().apply {
-                    putString(QUERY_KEY, query)
-                }
-            }
-        }
-    }
 }

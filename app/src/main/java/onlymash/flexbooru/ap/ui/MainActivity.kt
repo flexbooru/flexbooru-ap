@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
@@ -81,7 +82,7 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_search -> SearchActivity.startSearchActivity(this, "yuri")
+            R.id.action_search -> search("yuri")
             R.id.action_settings -> Log.w("onOptionsItemSelected", "Settings")
         }
         return super.onOptionsItemSelected(item)
@@ -101,5 +102,14 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
     override fun onDestroy() {
         super.onDestroy()
         sp.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    private fun search(query: String) {
+        findNavController(R.id.nav_host_fragment).navigate(
+            R.id.nav_search,
+            Bundle().apply {
+                putString(QUERY_KEY, query)
+            }
+        )
     }
 }
