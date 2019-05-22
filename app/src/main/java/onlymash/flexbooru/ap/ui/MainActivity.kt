@@ -16,7 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
@@ -24,6 +24,7 @@ import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
+import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 import org.kodein.di.generic.instance
 
 class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -64,8 +65,9 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
         }
         fab.setOnClickListener {
             sendBroadcast(
-                Intent(JUMP_TO_TOP_ACTION_FILTER_KEY).putExtra(JUMP_TO_TOP_KEY, true)
-            )
+                Intent(JUMP_TO_TOP_ACTION_FILTER_KEY)
+                    .putExtra(JUMP_TO_TOP_KEY, true)
+                    .putExtra(JUMP_TO_TOP_QUERY_KEY, ""))
         }
     }
 
@@ -79,7 +81,7 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_posts -> Log.w("onOptionsItemSelected", "Posts")
+            R.id.action_search -> SearchActivity.startSearchActivity(this, "yuri")
             R.id.action_settings -> Log.w("onOptionsItemSelected", "Settings")
         }
         return super.onOptionsItemSelected(item)

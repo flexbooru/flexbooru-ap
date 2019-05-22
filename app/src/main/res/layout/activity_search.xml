@@ -4,11 +4,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.SearchActivity">
 
     <include layout="@layout/app_bar"/>
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_search"/>
 
     <include layout="@layout/floating_action_button"/>
 

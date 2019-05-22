@@ -4,7 +4,7 @@ import okhttp3.HttpUrl
 import onlymash.flexbooru.ap.data.Search
 
 fun Search.getPostsUrl(page: Int): HttpUrl {
-    return HttpUrl.Builder()
+    val builder = HttpUrl.Builder()
         .scheme(scheme)
         .host(host)
         .addPathSegments("pictures/view_posts/$page")
@@ -13,5 +13,8 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("posts_per_page", limit.toString())
         .addQueryParameter("order_by", "date")
         .addQueryParameter("ldate", "0")
-        .build()
+    if (query.isNotEmpty()) {
+        builder.addQueryParameter("search_tag", query)
+    }
+    return builder.build()
 }

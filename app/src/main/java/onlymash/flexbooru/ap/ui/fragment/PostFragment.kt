@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_post.*
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Search
@@ -28,8 +29,8 @@ import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import org.kodein.di.generic.instance
 import java.util.concurrent.Executor
 
-const val QUERY_KEY = "query_key"
 const val JUMP_TO_TOP_KEY = "jump_to_top"
+const val JUMP_TO_TOP_QUERY_KEY = "jump_to_top_query"
 const val JUMP_TO_TOP_ACTION_FILTER_KEY = "jump_to_top_action_filter"
 
 class PostFragment : KodeinFragment() {
@@ -44,8 +45,12 @@ class PostFragment : KodeinFragment() {
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            val isJump = intent?.getBooleanExtra(JUMP_TO_TOP_KEY, false) ?: return
-            if (isJump) {
+            if (intent == null) {
+                return
+            }
+            val isJump = intent.getBooleanExtra(JUMP_TO_TOP_KEY, false)
+            val query = intent.getStringExtra(JUMP_TO_TOP_QUERY_KEY) ?: ""
+            if (isJump && query == search.query) {
                 list.scrollToPosition(0)
             }
         }
@@ -86,7 +91,6 @@ class PostFragment : KodeinFragment() {
             layoutManager = StaggeredGridLayoutManager(3, RecyclerView.VERTICAL)
             adapter = postAdapter
         }
-        requireActivity().registerReceiver(broadcastReceiver, IntentFilter(JUMP_TO_TOP_ACTION_FILTER_KEY))
         postViewModel.posts.observe(this, Observer {
             postAdapter.submitList(it)
         })
@@ -106,8 +110,13 @@ class PostFragment : KodeinFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStart() {
+        super.onStart()
+        requireActivity().registerReceiver(broadcastReceiver, IntentFilter(JUMP_TO_TOP_ACTION_FILTER_KEY))
+    }
+
+    override fun onStop() {
+        super.onStop()
         requireActivity().unregisterReceiver(broadcastReceiver)
     }
 

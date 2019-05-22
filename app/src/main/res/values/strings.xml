@@ -19,4 +19,5 @@
     <string name="settings_night_mode_system">Follow system</string>
     <string name="settings_night_mode_battery">Follow battery saver</string>
 
+    <string name="action_search">Search</string>
 </resources>
