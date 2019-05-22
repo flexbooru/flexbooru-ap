@@ -1,5 +1,9 @@
 package onlymash.flexbooru.ap.ui.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +29,8 @@ import org.kodein.di.generic.instance
 import java.util.concurrent.Executor
 
 const val QUERY_KEY = "query_key"
+const val JUMP_TO_TOP_KEY = "jump_to_top"
+const val JUMP_TO_TOP_ACTION_FILTER_KEY = "jump_to_top_action_filter"
 
 class PostFragment : KodeinFragment() {
 
@@ -35,6 +41,15 @@ class PostFragment : KodeinFragment() {
     private val ioExecutor by instance<Executor>()
     private lateinit var search: Search
     private lateinit var postAdapter: PostAdapter
+
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val isJump = intent?.getBooleanExtra(JUMP_TO_TOP_KEY, false) ?: return
+            if (isJump) {
+                list.scrollToPosition(0)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +86,7 @@ class PostFragment : KodeinFragment() {
             layoutManager = StaggeredGridLayoutManager(3, RecyclerView.VERTICAL)
             adapter = postAdapter
         }
+        requireActivity().registerReceiver(broadcastReceiver, IntentFilter(JUMP_TO_TOP_ACTION_FILTER_KEY))
         postViewModel.posts.observe(this, Observer {
             postAdapter.submitList(it)
         })
@@ -88,6 +104,11 @@ class PostFragment : KodeinFragment() {
         refresh.setOnRefreshListener {
             postViewModel.refresh()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().unregisterReceiver(broadcastReceiver)
     }
 
     companion object {

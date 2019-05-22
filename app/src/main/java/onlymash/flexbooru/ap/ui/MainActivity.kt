@@ -1,5 +1,6 @@
 package onlymash.flexbooru.ap.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,8 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
+import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import org.kodein.di.generic.instance
 
 class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -58,6 +61,11 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
                 fab.visibility = View.GONE
             }
             delegate.invalidateOptionsMenu()
+        }
+        fab.setOnClickListener {
+            sendBroadcast(
+                Intent(JUMP_TO_TOP_ACTION_FILTER_KEY).putExtra(JUMP_TO_TOP_KEY, true)
+            )
         }
     }
 
