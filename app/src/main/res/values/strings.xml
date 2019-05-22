@@ -13,4 +13,10 @@
     <string name="nav_header_subtitle">im@fiepi.me</string>
     <string name="nav_header_desc">Navigation header</string>
 
+    <string name="settings_night_mode">Night mode</string>
+    <string name="settings_night_mode_on">On</string>
+    <string name="settings_night_mode_off">Off</string>
+    <string name="settings_night_mode_system">Follow system</string>
+    <string name="settings_night_mode_battery">Follow battery saver</string>
+
 </resources>

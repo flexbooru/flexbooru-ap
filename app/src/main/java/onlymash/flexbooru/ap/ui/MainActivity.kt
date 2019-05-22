@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
-import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE
+import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import org.kodein.di.generic.instance
@@ -84,7 +84,7 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            SETTINGS_NIGHT_MODE -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
+            SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
         }
     }
 
