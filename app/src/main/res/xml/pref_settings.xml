@@ -10,6 +10,7 @@
             app:defaultValue="system"
             app:title="Night mode"
             app:icon="@drawable/ic_brightness_2_24dp"
-            app:key="settings_night_mode"/>
+            app:key="settings_night_mode"
+            app:useSimpleSummaryProvider="true"/>
 
 </PreferenceScreen>

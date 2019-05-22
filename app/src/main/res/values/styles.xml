@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -17,7 +17,6 @@
         <item name="colorOnError">@color/colorOnError</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="scrimBackground">@color/scrimBackground</item>
-
         <item name="preferenceTheme">@style/PreferenceTheme</item>
     </style>
 
@@ -40,7 +39,6 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
 
     <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
-        <item name="android:tint">@color/colorIconTint</item>
         <item name="preferenceStyle">@style/PreferenceStyle</item>
     </style>
 
