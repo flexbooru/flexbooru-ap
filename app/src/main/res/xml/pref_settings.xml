@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:key="settings_screen"
+        app:initialExpandedChildrenCount="5">
+
+    <com.takisoft.preferencex.SimpleMenuPreference
+            app:entries="@array/settings_night_mode_entries"
+            app:entryValues="@array/settings_night_mode_entries_values"
+            app:defaultValue="system"
+            app:title="Night mode"
+            app:icon="@drawable/ic_brightness_2_24dp"
+            app:key="settings_night_mode"/>
+
+</PreferenceScreen>

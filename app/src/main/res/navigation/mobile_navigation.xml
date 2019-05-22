@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@+id/nav_posts">
+
+    <fragment
+            android:id="@+id/nav_posts"
+            android:name="onlymash.flexbooru.ap.ui.fragment.PostFragment"
+            android:label="@string/title_posts"
+            tools:layout="@layout/fragment_post"/>
+    <fragment
+            android:id="@+id/nav_settings"
+            android:name="onlymash.flexbooru.ap.ui.fragment.SettingsFragment"
+            android:label="@string/title_settings"/>
+</navigation>

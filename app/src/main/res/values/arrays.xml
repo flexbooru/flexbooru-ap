@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_night_mode_entries">
+        <item>System</item>
+        <item>On</item>
+        <item>Off</item>
+    </string-array>
+    <string-array name="settings_night_mode_entries_values">
+        <item>system</item>
+        <item>on</item>
+        <item>off</item>
+    </string-array>
+</resources>
