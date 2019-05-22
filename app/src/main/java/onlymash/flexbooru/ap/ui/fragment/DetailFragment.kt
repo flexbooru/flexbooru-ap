@@ -1,15 +1,20 @@
 package onlymash.flexbooru.ap.ui.fragment
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.github.chrisbanes.photoview.PhotoView
-import kotlinx.android.synthetic.main.fragment_detail.*
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
@@ -20,12 +25,14 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import org.kodein.di.generic.instance
+import java.io.File
 
 const val POST_ID_KEY = "post_id"
 
 class DetailFragment : KodeinFragment() {
 
     companion object {
+        private const val TAG = "DetailFragment"
         fun newInstance(postId: Int): DetailFragment {
             return DetailFragment().apply {
                 arguments = Bundle().apply {
@@ -67,24 +74,27 @@ class DetailFragment : KodeinFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val subsamplingScaleImageView = view.findViewById<SubsamplingScaleImageView>(R.id.post_image)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         detailViewModel.detail.observe(this, Observer {
             when (it) {
                 is NetResult.Error -> {
-                    val msg = it.errorMsg
-                    Log.w("Detail", msg)
+                    Log.w(TAG, it.errorMsg)
                 }
                 is NetResult.Success -> {
-                    val detail = it.data
-                    val context = requireContext()
-                    val photoView = PhotoView(context)
-                    photoView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                    detail_container.apply {
-                        removeAllViews()
-                        addView(photoView)
-                    }
-                    GlideApp.with(context)
-                        .load(detail.fileUrl)
-                        .into(photoView)
+                    GlideApp.with(requireContext())
+                        .downloadOnly()
+                        .load(it.data.fileUrl)
+                        .into(object : CustomTarget<File>() {
+                            override fun onLoadCleared(placeholder: Drawable?) {}
+                            override fun onResourceReady(resource: File, transition: Transition<in File>?) {
+                                subsamplingScaleImageView.setImage(ImageSource.uri(resource.toUri()))
+                                progressBar.visibility = View.GONE
+                            }
+                        })
+                }
+                else -> {
+                    Log.w(TAG, "unknown data")
                 }
             }
         })

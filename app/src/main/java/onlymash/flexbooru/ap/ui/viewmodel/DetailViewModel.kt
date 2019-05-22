@@ -18,9 +18,6 @@ class DetailViewModel(
     val detail = MutableLiveData<NetResult<Detail>>()
 
     fun load(postId: Int) {
-        if (viewModelScope.isActive) {
-            viewModelScope.cancel()
-        }
         viewModelScope.launch {
             val result = repo.getDetail(scheme, host, postId)
             detail.postValue(result)

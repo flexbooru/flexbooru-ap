@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.glide.GlideRequests
+import onlymash.flexbooru.ap.ui.DetailActivity
 import onlymash.flexbooru.ap.ui.base.BaseAdapter
 
 const val MAX_ITEM_ASPECT_RATIO = 1.3333f
@@ -29,7 +30,12 @@ class PostAdapter(
     }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as PostViewHolder).bind(getItem(position))
+        val post = getItem(position)
+        (holder as PostViewHolder).bind(post)
+        holder.itemView.setOnClickListener {
+            val query = post?.query ?: return@setOnClickListener
+            DetailActivity.startDetailActivity(holder.itemView.context, query, position)
+        }
     }
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
