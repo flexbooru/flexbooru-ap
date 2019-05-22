@@ -1,4 +1,4 @@
-package onlymash.flexbooru.ap.data.repository
+package onlymash.flexbooru.ap.data.repository.post
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData

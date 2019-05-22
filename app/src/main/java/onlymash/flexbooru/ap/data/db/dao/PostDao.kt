@@ -17,6 +17,9 @@ interface PostDao {
     @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `index_in_response` ASC")
     fun getPosts(query: String) : DataSource.Factory<Int, Post>
 
+    @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `index_in_response` ASC")
+    fun getPostsList(query: String) : List<Post>
+
     @Query("DELETE FROM `posts` WHERE `query` = :query")
     fun deletePosts(query: String)
 

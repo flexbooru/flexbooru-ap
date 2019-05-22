@@ -6,6 +6,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import onlymash.flexbooru.ap.common.USER_AGENT_KEY
+import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.PostResponse
 import onlymash.flexbooru.ap.extension.getUserAgent
 import retrofit2.Call
@@ -49,4 +50,7 @@ interface Api {
 
     @GET
     fun getPosts(@Url url: HttpUrl): Call<PostResponse>
+
+    @GET
+    fun getDetail(@Url url: HttpUrl): Call<Detail>
 }

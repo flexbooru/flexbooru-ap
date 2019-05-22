@@ -1,4 +1,4 @@
-package onlymash.flexbooru.ap.data.repository
+package onlymash.flexbooru.ap.data.repository.post
 
 import onlymash.flexbooru.ap.data.Listing
 import onlymash.flexbooru.ap.data.Search

@@ -18,3 +18,13 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
     }
     return builder.build()
 }
+
+fun getPostDetailUrl(scheme: String, host: String, postId: Int): HttpUrl {
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("pictures/view_post/$postId")
+        .addQueryParameter("lang", "en")
+        .addQueryParameter("type", "json")
+        .build()
+}

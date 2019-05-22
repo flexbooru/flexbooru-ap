@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
-import onlymash.flexbooru.ap.data.repository.PostRepositoryImpl
+import onlymash.flexbooru.ap.data.repository.post.PostRepositoryImpl
 import java.util.concurrent.Executor
 
 class PostViewModel(

@@ -23,6 +23,7 @@ class App : Application(), KodeinAware {
         bind<Context>() with instance(this@App)
         bind<SharedPreferences>() with provider { instance<Context>().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE) }
         bind() from singleton { MyDatabase(instance()) }
+        bind() from singleton { instance<MyDatabase>().postDao() }
         bind() from singleton { Api() }
         bind() from singleton { Executors.newSingleThreadExecutor() }
     }
