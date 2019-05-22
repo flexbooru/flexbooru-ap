@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.QUERY_KEY
@@ -39,5 +41,16 @@ class SearchActivity : KodeinActivity() {
                     .putExtra(JUMP_TO_TOP_KEY, true)
                     .putExtra(JUMP_TO_TOP_QUERY_KEY, query))
         }
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.title_posts)
+            subtitle = query
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
