@@ -8,9 +8,17 @@
             app:entries="@array/settings_night_mode_entries"
             app:entryValues="@array/settings_night_mode_entries_values"
             app:defaultValue="system"
-            app:title="Night mode"
+            app:title="@string/settings_night_mode"
             app:icon="@drawable/ic_brightness_2_24dp"
             app:key="settings_night_mode"
+            app:useSimpleSummaryProvider="true"/>
+
+    <com.takisoft.preferencex.SimpleMenuPreference
+            app:entries="@array/settings_page_limit_entries"
+            app:entryValues="@array/settings_page_limit_entries_values"
+            app:defaultValue="20"
+            app:title="@string/settings_page_limit"
+            app:key="settings_page_limit"
             app:useSimpleSummaryProvider="true"/>
 
 </PreferenceScreen>

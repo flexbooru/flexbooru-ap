@@ -14,6 +14,8 @@ private const val SETTINGS_NIGHT_MODE_OFF = "off"
 private const val SETTINGS_NIGHT_MODE_SYSTEM = "system"
 private const val SETTINGS_NIGHT_MODE_BATTERY = "battery"
 
+const val SETTINGS_PAGE_LIMIT_KEY = "settings_page_limit"
+
 object Settings {
 
     private val sp by App.app.instance<SharedPreferences>()
@@ -37,4 +39,7 @@ object Settings {
             SETTINGS_NIGHT_MODE_BATTERY -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
             else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
+
+    val pageLimit: Int
+        get() = sp.getString(SETTINGS_PAGE_LIMIT_KEY, "20")?.toInt() ?: 20
 }

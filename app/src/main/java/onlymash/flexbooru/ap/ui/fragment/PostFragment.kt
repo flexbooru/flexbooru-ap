@@ -1,9 +1,6 @@
 package onlymash.flexbooru.ap.ui.fragment
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_post.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.QUERY_KEY
+import onlymash.flexbooru.ap.common.SETTINGS_PAGE_LIMIT_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Search
@@ -33,9 +31,11 @@ const val JUMP_TO_TOP_KEY = "jump_to_top"
 const val JUMP_TO_TOP_QUERY_KEY = "jump_to_top_query"
 const val JUMP_TO_TOP_ACTION_FILTER_KEY = "jump_to_top_action_filter"
 
-class PostFragment : KodeinFragment() {
+class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var postViewModel: PostViewModel
+
+    private val sp by instance<SharedPreferences>()
 
     private val db by instance<MyDatabase>()
     private val api by instance<Api>()
@@ -61,7 +61,8 @@ class PostFragment : KodeinFragment() {
         search = Search(
             scheme = Settings.scheme,
             host = Settings.hostname,
-            query = arguments?.getString(QUERY_KEY) ?: ""
+            query = arguments?.getString(QUERY_KEY) ?: "",
+            limit = Settings.pageLimit
         )
         postViewModel = getViewModel(object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -73,6 +74,7 @@ class PostFragment : KodeinFragment() {
                 ) as T
             }
         })
+        sp.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreateView(
@@ -118,5 +120,19 @@ class PostFragment : KodeinFragment() {
     override fun onStop() {
         super.onStop()
         requireActivity().unregisterReceiver(broadcastReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sp.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            SETTINGS_PAGE_LIMIT_KEY -> {
+                search.limit = Settings.pageLimit
+                postViewModel.load(search)
+            }
+        }
     }
 }
