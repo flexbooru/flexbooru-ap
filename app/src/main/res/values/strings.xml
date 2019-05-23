@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Anime Pictures</string>
-    <string name="tab_text_posts">Posts</string>
-    <string name="tab_text_tags">Tags</string>
-    <string name="retry">Retry</string>
 
     <string name="title_posts">Posts</string>
     <string name="title_settings">Settings</string>
@@ -20,4 +17,11 @@
     <string name="settings_night_mode_battery">Follow battery saver</string>
 
     <string name="action_search">Search</string>
+
+    <string name="retry">Retry</string>
+    <string name="save_file">Save file</string>
+    <string name="tags">Tags</string>
+    <string name="info">Information</string>
+    <string name="add_to_fav">Add to favorites</string>
+
 </resources>

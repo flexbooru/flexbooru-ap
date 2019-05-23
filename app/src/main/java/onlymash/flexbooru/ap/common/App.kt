@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import org.kodein.di.Kodein
@@ -26,6 +27,7 @@ class App : Application(), KodeinAware {
         bind() from singleton { instance<MyDatabase>().postDao() }
         bind() from singleton { Api() }
         bind() from singleton { Executors.newSingleThreadExecutor() }
+        bind() from singleton { Picasso.Builder(instance()).build() }
     }
 
     override fun onCreate() {

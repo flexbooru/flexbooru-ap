@@ -15,17 +15,22 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
+import onlymash.flexbooru.ap.decoder.CustomDecoder
+import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
 import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
+import onlymash.flexbooru.ap.ui.DetailActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import org.kodein.di.generic.instance
 import java.io.File
+import java.util.concurrent.Executor
 
 const val POST_ID_KEY = "post_id"
 
@@ -43,6 +48,8 @@ class DetailFragment : KodeinFragment() {
     }
 
     private val api by instance<Api>()
+    private val ioExecutor by instance<Executor>()
+    private val picasso by instance<Picasso>()
 
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var scheme: String
@@ -75,6 +82,18 @@ class DetailFragment : KodeinFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val subsamplingScaleImageView = view.findViewById<SubsamplingScaleImageView>(R.id.post_image)
+        subsamplingScaleImageView.apply {
+            setOnClickListener {
+                (requireActivity() as DetailActivity).setVisibility()
+            }
+            setExecutor(ioExecutor)
+            setBitmapDecoderFactory{
+                CustomDecoder(picasso)
+            }
+            setRegionDecoderFactory {
+                CustomRegionDecoder()
+            }
+        }
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         detailViewModel.detail.observe(this, Observer {
             when (it) {
