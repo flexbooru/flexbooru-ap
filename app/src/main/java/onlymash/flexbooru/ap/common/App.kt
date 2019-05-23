@@ -20,11 +20,15 @@ class App : Application(), KodeinAware {
     companion object {
         lateinit var app: App
     }
+
     override val kodein: Kodein by Kodein.lazy {
         bind<Context>() with instance(this@App)
-        bind<SharedPreferences>() with provider { instance<Context>().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE) }
+        bind<SharedPreferences>() with provider {
+            instance<Context>().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+        }
         bind() from singleton { MyDatabase(instance()) }
         bind() from singleton { instance<MyDatabase>().postDao() }
+        bind() from singleton { instance<MyDatabase>().detailDao() }
         bind() from singleton { Api() }
         bind() from singleton { Executors.newSingleThreadExecutor() }
         bind() from singleton { Picasso.Builder(instance()).build() }

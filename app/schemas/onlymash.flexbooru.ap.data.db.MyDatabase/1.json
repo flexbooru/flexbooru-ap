@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ccc02d3d815b3d3e911cdfe47563b790",
+    "identityHash": "0ff080d7902661ee6f21293d5c67afb4",
     "entities": [
       {
         "tableName": "posts",
@@ -156,7 +156,7 @@
       },
       {
         "tableName": "details",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `big_preview` TEXT NOT NULL, `color` TEXT NOT NULL, `download_count` INTEGER NOT NULL, `erotics` INTEGER NOT NULL, `ext` TEXT NOT NULL, `favorite_folder` TEXT NOT NULL, `file_url` TEXT NOT NULL, `height` INTEGER NOT NULL, `id` INTEGER NOT NULL, `is_favorites` INTEGER NOT NULL, `md5` TEXT NOT NULL, `md5_pixels` TEXT NOT NULL, `medium_preview` TEXT NOT NULL, `pubtime` TEXT NOT NULL, `score` INTEGER NOT NULL, `score_number` INTEGER NOT NULL, `size` INTEGER NOT NULL, `small_preview` TEXT NOT NULL, `spoiler` INTEGER NOT NULL, `star_it` INTEGER NOT NULL, `status` INTEGER NOT NULL, `tags` TEXT NOT NULL, `tags_full` TEXT NOT NULL, `user_avatar` TEXT NOT NULL, `user_id` INTEGER NOT NULL, `user_name` TEXT NOT NULL, `width` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `big_preview` TEXT NOT NULL, `color` TEXT NOT NULL, `download_count` INTEGER NOT NULL, `erotics` INTEGER NOT NULL, `ext` TEXT NOT NULL, `favorite_folder` TEXT, `file_url` TEXT NOT NULL, `height` INTEGER NOT NULL, `id` INTEGER NOT NULL, `is_favorites` INTEGER NOT NULL, `md5` TEXT NOT NULL, `md5_pixels` TEXT NOT NULL, `medium_preview` TEXT NOT NULL, `pubtime` TEXT NOT NULL, `score` INTEGER NOT NULL, `score_number` INTEGER NOT NULL, `size` INTEGER NOT NULL, `small_preview` TEXT NOT NULL, `spoiler` INTEGER NOT NULL, `star_it` INTEGER NOT NULL, `status` INTEGER NOT NULL, `tags` TEXT NOT NULL, `tags_full` TEXT NOT NULL, `user_avatar` TEXT NOT NULL, `user_id` INTEGER NOT NULL, `user_name` TEXT NOT NULL, `width` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -198,7 +198,7 @@
             "fieldPath": "favoriteFolder",
             "columnName": "favorite_folder",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "fileUrl",
@@ -349,7 +349,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ccc02d3d815b3d3e911cdfe47563b790\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0ff080d7902661ee6f21293d5c67afb4\")"
     ]
   }
 }

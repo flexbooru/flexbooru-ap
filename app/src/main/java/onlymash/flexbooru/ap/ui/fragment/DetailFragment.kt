@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
+import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.decoder.CustomDecoder
 import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
@@ -48,6 +49,7 @@ class DetailFragment : KodeinFragment() {
     }
 
     private val api by instance<Api>()
+    private val detailDao by instance<DetailDao>()
     private val ioExecutor by instance<Executor>()
     private val picasso by instance<Picasso>()
 
@@ -70,7 +72,7 @@ class DetailFragment : KodeinFragment() {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return DetailViewModel(
-                    repo = DetailRepositoryImpl(api = api),
+                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
                     scheme = scheme,
                     host = host
                 ) as T

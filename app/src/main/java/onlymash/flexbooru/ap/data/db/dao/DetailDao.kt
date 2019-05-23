@@ -20,7 +20,7 @@ interface DetailDao {
     fun getAllDetailsLivaData() : LiveData<List<Detail>>
 
     @Query("SELECT * FROM `details` WHERE `id` = :id")
-    fun getDetailById(id: Int) : Detail
+    fun getDetailById(id: Int) : Detail?
 
     @Query("DELETE FROM `details` WHERE `id` = :id")
     fun deleteDetailById(id: Int)

@@ -33,7 +33,7 @@ data class Detail(
 
     @ColumnInfo(name = "favorite_folder")
     @SerializedName("favorite_folder")
-    val favoriteFolder: String,
+    val favoriteFolder: String?,
 
     @ColumnInfo(name = "file_url")
     @SerializedName("file_url")
