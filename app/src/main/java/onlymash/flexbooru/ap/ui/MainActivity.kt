@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -72,17 +73,39 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         when (currentFragmentId) {
-            R.id.nav_posts -> menuInflater.inflate(R.menu.fragment_post, menu)
-            R.id.nav_settings -> menuInflater.inflate(R.menu.fragment_settings, menu)
+            R.id.nav_posts -> {
+                menuInflater.inflate(R.menu.posts, menu)
+                val item = menu?.findItem(R.id.action_search) ?: return true
+                val searchView = item.actionView as SearchView
+                initSearchView(searchView)
+            }
+            R.id.nav_settings -> menuInflater.inflate(R.menu.settings, menu)
         }
         return true
     }
 
+    private fun initSearchView(searchView: SearchView) {
+        searchView.queryHint = getString(R.string.search_posts_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) return false
+                return true
+            }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query.isNullOrEmpty()) return false
+                search(query)
+                return true
+            }
+        })
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_search -> search("yuri")
+            R.id.action_search -> {
+
+            }
             R.id.action_settings -> Log.w("onOptionsItemSelected", "Settings")
         }
         return super.onOptionsItemSelected(item)

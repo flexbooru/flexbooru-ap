@@ -24,4 +24,6 @@
     <string name="info">Information</string>
     <string name="add_to_fav">Add to favorites</string>
 
+    <string name="search_posts_hint">Search posts…</string>
+
 </resources>

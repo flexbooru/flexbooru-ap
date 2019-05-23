@@ -3,6 +3,8 @@ package onlymash.flexbooru.ap.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
@@ -51,5 +53,37 @@ class SearchActivity : KodeinActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.posts, menu)
+        val item = menu?.findItem(R.id.action_search) ?: return true
+        val searchView = item.actionView as SearchView
+        initSearchView(searchView)
+        return true
+    }
+
+    private fun initSearchView(searchView: SearchView) {
+        searchView.queryHint = getString(R.string.search_posts_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) return false
+                return true
+            }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query.isNullOrEmpty()) return false
+                search(query)
+                return true
+            }
+        })
+    }
+
+    private fun search(query: String) {
+        findNavController(R.id.search_nav_host_fragment).navigate(
+            R.id.nav_search,
+            Bundle().apply {
+                putString(QUERY_KEY, query)
+            }
+        )
     }
 }

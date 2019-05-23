@@ -15,4 +15,14 @@
                 app:argType="string"
                 app:nullable="true"/>
     </fragment>
+    <activity
+            android:id="@+id/nav_search"
+            android:name="onlymash.flexbooru.ap.ui.SearchActivity"
+            android:label="activity_search"
+            tools:layout="@layout/activity_search">
+        <argument
+                android:name="query"
+                app:argType="string"
+                app:nullable="true"/>
+    </activity>
 </navigation>
