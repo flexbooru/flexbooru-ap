@@ -18,6 +18,7 @@
 
     <color name="colorIconTint">@color/grey_600</color>
     <color name="colorBackgroundCard">@color/white</color>
+    <color name="colorFastScrollBar">@color/grey_300</color>
 
     <color name="grey">#2C2C2C</color>
     <color name="black">#000000</color>
@@ -25,8 +26,10 @@
     <color name="scrim">#52000000</color>
     <color name="dark">#121212</color>
 
+    <color name="grey_300">#E0E0E0</color>
     <color name="grey_400">#BDBDBD</color>
     <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
     <color name="grey_900">#212121</color>
 
     <color name="color_light_primary">#6200EE</color>

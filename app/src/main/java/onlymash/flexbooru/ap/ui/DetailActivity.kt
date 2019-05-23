@@ -21,6 +21,7 @@ import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.adapter.DetailAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.ui.dialog.TagsDialog
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
 import org.kodein.di.generic.instance
 
@@ -43,7 +44,8 @@ class DetailActivity : KodeinActivity() {
     private lateinit var detailAdapter: DetailAdapter
     private var pos = 0
     private var query = ""
-    private var posts: List<Post> = mutableListOf()
+    private var posts: List<Post> = listOf()
+    private var currentPostId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,19 +56,7 @@ class DetailActivity : KodeinActivity() {
             pos = getIntExtra(CURRENT_POSITION_KEY, 0)
         }
         initView()
-        localPostViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return LocalPostViewModel(LocalRepositoryImpl(postDao)) as T
-            }
-        })
-        localPostViewModel.posts.observe(this, Observer {
-            posts = it
-            detailAdapter.updateData(it)
-            posts_pager.setCurrentItem(pos, false)
-            toolbar.title = "Post ${it[pos].id}"
-        })
-        localPostViewModel.load(query)
+        initViewModel()
     }
     private fun initView() {
         detailAdapter = DetailAdapter(supportFragmentManager, lifecycle)
@@ -89,9 +79,32 @@ class DetailActivity : KodeinActivity() {
         posts_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                toolbar.title = "Post ${posts[position].id}"
+                currentPostId = posts[position].id
+                toolbar.title = "Post $currentPostId"
             }
         })
+        post_tags.setOnClickListener {
+            TagsDialog.newInstance(currentPostId).show(supportFragmentManager, "tags")
+        }
+        post_info.setOnClickListener {
+
+        }
+    }
+
+    private fun initViewModel() {
+        localPostViewModel = getViewModel(object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return LocalPostViewModel(LocalRepositoryImpl(postDao)) as T
+            }
+        })
+        localPostViewModel.posts.observe(this, Observer {
+            posts = it
+            detailAdapter.updateData(it)
+            posts_pager.setCurrentItem(pos, false)
+            toolbar.title = "Post ${it[pos].id}"
+        })
+        localPostViewModel.load(query)
     }
 
     private fun initWindow() {

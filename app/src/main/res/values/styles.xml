@@ -45,4 +45,13 @@
     <style name="PreferenceStyle" parent="Preference.Material">
         <item name="iconSpaceReserved">true</item>
     </style>
+
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+    </style>
+
+    <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/scrim</item>
+    </style>
+
 </resources>

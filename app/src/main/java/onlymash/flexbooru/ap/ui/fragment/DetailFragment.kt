@@ -17,6 +17,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
@@ -32,8 +33,6 @@ import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import org.kodein.di.generic.instance
 import java.io.File
 import java.util.concurrent.Executor
-
-const val POST_ID_KEY = "post_id"
 
 class DetailFragment : KodeinFragment() {
 
