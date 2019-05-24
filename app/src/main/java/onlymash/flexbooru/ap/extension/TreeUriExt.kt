@@ -27,7 +27,7 @@ fun getFileUriByDocId(docId: String): Uri? {
     return DocumentsContract.buildDocumentUriUsingTree(treeUri, docId)
 }
 
-private fun Activity.openDocumentTree() {
+fun Activity.openDocumentTree() {
     try {
         startActivityForResult(
             Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {

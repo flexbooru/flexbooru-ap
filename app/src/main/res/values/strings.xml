@@ -32,6 +32,8 @@
     <string name="settings_detail_size_medium">Medium</string>
     <string name="settings_detail_size_big">Big</string>
     <string name="settings_detail_size_origin">Origin</string>
+    <string name="settings_download_path">Download path</string>
+    <string name="settings_unset">Not set</string>
 
     <string name="retry">Retry</string>
     <string name="save_file">Save file</string>
