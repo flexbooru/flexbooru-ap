@@ -15,6 +15,16 @@ private const val SETTINGS_NIGHT_MODE_SYSTEM = "system"
 private const val SETTINGS_NIGHT_MODE_BATTERY = "battery"
 
 const val SETTINGS_PAGE_LIMIT_KEY = "settings_page_limit"
+const val DOWNLOAD_PATH_KEY = "settings_path"
+const val DOWNLOAD_PATH_TREE_ID_KEY = "settings_path_tree_id"
+const val DOWNLOAD_PATH_AUTHORITY_KEY = "settings_path_authority"
+
+private const val SETTINGS_PREVIEW_SIZE_KEY = "settings_preview_size"
+private const val SETTINGS_DETAIL_SIZE_KEY = "settings_detail_size"
+const val FILE_SIZE_SMALL = "small"
+const val FILE_SIZE_MEDIUM = "medium"
+const val FILE_SIZE_BIG = "big"
+const val FILE_SIZE_ORIGIN = "origin"
 
 object Settings {
 
@@ -42,4 +52,22 @@ object Settings {
 
     val pageLimit: Int
         get() = sp.getString(SETTINGS_PAGE_LIMIT_KEY, "20")?.toInt() ?: 20
+
+    var pathString: String?
+        get() = sp.getString(DOWNLOAD_PATH_KEY, "")
+        set(value) = sp.edit().putString(DOWNLOAD_PATH_KEY, value).apply()
+
+    var pathTreeId: String?
+        get() = sp.getString(DOWNLOAD_PATH_TREE_ID_KEY, "")
+        set(value) = sp.edit().putString(DOWNLOAD_PATH_TREE_ID_KEY, value).apply()
+
+    var pathAuthority: String?
+        get() = sp.getString(DOWNLOAD_PATH_AUTHORITY_KEY, "")
+        set(value) = sp.edit().putString(DOWNLOAD_PATH_AUTHORITY_KEY, value).apply()
+
+    val previewSize: String
+        get() = sp.getString(SETTINGS_PREVIEW_SIZE_KEY, FILE_SIZE_SMALL) ?: FILE_SIZE_SMALL
+
+    val detailSize: String
+        get() = sp.getString(SETTINGS_DETAIL_SIZE_KEY, FILE_SIZE_BIG) ?: FILE_SIZE_BIG
 }

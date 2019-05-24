@@ -29,7 +29,7 @@ import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.dialog.TagsDialog
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.diffcallback.PostDiffCallback
@@ -43,7 +43,7 @@ const val FROM_WHERE_KEY = "from_where"
 const val FROM_POSTS = 0
 const val FROM_HISTORY = 1
 
-class DetailActivity : KodeinActivity() {
+class DetailActivity : BaseActivity() {
 
     companion object {
         private const val TAG = "DetailActivity"

@@ -25,6 +25,7 @@ import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.decoder.CustomDecoder
 import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
 import onlymash.flexbooru.ap.extension.NetResult
+import onlymash.flexbooru.ap.extension.getDetailUrl
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.DetailActivity
@@ -92,7 +93,7 @@ class DetailFragment : KodeinFragment() {
                 CustomRegionDecoder()
             }
             setOnClickListener {
-                (requireActivity() as? DetailActivity)?.setVisibility()
+                (activity as? DetailActivity)?.setVisibility()
             }
         }
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
@@ -104,7 +105,7 @@ class DetailFragment : KodeinFragment() {
                 is NetResult.Success -> {
                     GlideApp.with(requireContext())
                         .downloadOnly()
-                        .load(it.data.fileUrl)
+                        .load(it.data.getDetailUrl())
                         .into(object : CustomTarget<File>() {
                             override fun onLoadCleared(placeholder: Drawable?) {}
                             override fun onResourceReady(resource: File, transition: Transition<in File>?) {

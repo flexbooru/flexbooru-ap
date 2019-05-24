@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.data.model.Post
+import onlymash.flexbooru.ap.extension.getPreviewUrl
 import onlymash.flexbooru.ap.glide.GlideRequests
 import onlymash.flexbooru.ap.ui.DetailActivity
 import onlymash.flexbooru.ap.ui.FROM_POSTS
@@ -64,7 +65,7 @@ class PostAdapter(
                 }
             }
             preview.layoutParams = lp
-            glide.load(post.mediumPreview)
+            glide.load(post.getPreviewUrl())
                 .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.background_card))
                 .into(preview)
         }

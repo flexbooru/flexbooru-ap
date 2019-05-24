@@ -3,7 +3,6 @@ package onlymash.flexbooru.ap.ui
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -28,11 +27,11 @@ import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
-import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.fragment.*
 import org.kodein.di.generic.instance
 
-class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sp by instance<SharedPreferences>()
     private val detailDao by instance<DetailDao>()
