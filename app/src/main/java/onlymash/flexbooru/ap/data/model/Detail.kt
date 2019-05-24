@@ -1,15 +1,23 @@
 package onlymash.flexbooru.ap.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "details")
+@Entity(
+    tableName = "details",
+    indices = [(Index(value = ["id"], unique = true))]
+)
 data class Detail(
 
     @ColumnInfo(name = "uid")
     @PrimaryKey(autoGenerate = true)
     var uid: Long = 0,
+
+    @ColumnInfo(name = "id")
+    @SerializedName("id")
+    val id: Int,
 
     @ColumnInfo(name = "big_preview")
     @SerializedName("big_preview")
@@ -42,10 +50,6 @@ data class Detail(
     @ColumnInfo(name = "height")
     @SerializedName("height")
     val height: Int,
-
-    @ColumnInfo(name = "id", index = true)
-    @SerializedName("id")
-    val id: Int,
 
     @ColumnInfo(name = "is_favorites")
     @SerializedName("is_favorites")

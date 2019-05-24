@@ -84,15 +84,15 @@ class DetailFragment : KodeinFragment() {
         super.onViewCreated(view, savedInstanceState)
         val subsamplingScaleImageView = view.findViewById<SubsamplingScaleImageView>(R.id.post_image)
         subsamplingScaleImageView.apply {
-            setOnClickListener {
-                (requireActivity() as DetailActivity).setVisibility()
-            }
             setExecutor(ioExecutor)
             setBitmapDecoderFactory{
                 CustomDecoder(picasso)
             }
             setRegionDecoderFactory {
                 CustomRegionDecoder()
+            }
+            setOnClickListener {
+                (requireActivity() as? DetailActivity)?.setVisibility()
             }
         }
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
