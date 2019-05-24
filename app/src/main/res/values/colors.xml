@@ -17,8 +17,9 @@
     <color name="scrimBackground">@color/color_light_scrim</color>
 
     <color name="colorIconTint">@color/grey_600</color>
-    <color name="colorBackgroundCard">@color/white</color>
     <color name="colorFastScrollBar">@color/grey_300</color>
+    <color name="colorBackgroundCard">@color/white</color>
+    <color name="colorBackgroundDialog">@color/colorBackgroundCard</color>
 
     <color name="grey">#2C2C2C</color>
     <color name="black">#000000</color>
