@@ -6,21 +6,44 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('.gradle/keystore.properties').newDataInputStream())
+Integer verCode = 'git rev-list HEAD --first-parent --count'.execute().text.trim().toInteger()
+
 android {
+    signingConfigs {
+        release {
+            storeFile file('../.gradle/keystore.jks')
+            keyAlias properties.getProperty('KEY_ALIAS')
+            keyPassword properties.getProperty('KEY_PASS')
+            storePassword properties.getProperty('STORE_PASS')
+        }
+    }
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "onlymash.flexbooru.ap"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode verCode
+        versionName "0.1.0"
+        versionNameSuffix '.c' + verCode
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "flexbooru-ap_${defaultConfig.versionName}${defaultConfig.versionNameSuffix}.apk"
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix '.debug'
         }
     }
     compileOptions {
