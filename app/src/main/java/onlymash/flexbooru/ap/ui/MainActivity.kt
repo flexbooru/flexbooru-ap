@@ -8,8 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -19,10 +21,13 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
+import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.fragment.*
 import org.kodein.di.generic.instance
@@ -30,6 +35,7 @@ import org.kodein.di.generic.instance
 class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sp by instance<SharedPreferences>()
+    private val detailDao by instance<DetailDao>()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -118,10 +124,19 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_search -> {
-
+            R.id.action_clear_all_history -> {
+                AlertDialog.Builder(this)
+                    .setTitle(R.string.history_clear_all)
+                    .setMessage(R.string.history_clear_all_content)
+                    .setPositiveButton(R.string.dialog_ok) { _, _ ->
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            detailDao.deleteAll()
+                        }
+                    }
+                    .setNegativeButton(R.string.dialog_cancel, null)
+                    .create()
+                    .show()
             }
-            R.id.action_settings -> Log.w("onOptionsItemSelected", "Settings")
         }
         return super.onOptionsItemSelected(item)
     }

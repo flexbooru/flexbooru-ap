@@ -18,6 +18,7 @@
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="scrimBackground">@color/scrimBackground</item>
         <item name="preferenceTheme">@style/PreferenceTheme</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialog.DayNight</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -27,17 +28,25 @@
     </style>
 
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
-        <item name="cardElevation">1dp</item>
-        <item name="cardCornerRadius">6dp</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardCornerRadius">@dimen/corner_radius</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">true</item>
-        <item name="contentPadding">0dp</item>
+        <item name="contentPadding">@dimen/card_content_padding</item>
         <item name="cardBackgroundColor">@color/colorBackgroundCard</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+
+    <style name="AppTheme.AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert"/>
+
+    <style name="AppTheme.AlertDialog.DayNight" parent="AppTheme.AlertDialog">
+        <item name="android:windowBackground">@drawable/background_dialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Button.TextButton.Dialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Button</item>
+    </style>
 
     <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
         <item name="preferenceStyle">@style/PreferenceStyle</item>
@@ -53,6 +62,18 @@
 
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@color/scrim</item>
+    </style>
+
+    <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="Widget.Button.TextButton.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="Widget.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/corner_radius</item>
     </style>
 
 </resources>
