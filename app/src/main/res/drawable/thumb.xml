@@ -5,8 +5,5 @@
             android:topLeftRadius="44dp"
             android:topRightRadius="44dp"
             android:bottomLeftRadius="44dp" />
-    <padding
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp" />
     <solid android:color="@color/colorFastScrollBar" />
 </shape>
