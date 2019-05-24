@@ -141,6 +141,7 @@ class DetailActivity : KodeinActivity() {
                         posts_pager.setCurrentItem(pos, false)
                     }
                     toolbar.title = "Post ${it[pos].id}"
+                    localPostViewModel.posts.removeObservers(this)
                 })
                 localPostViewModel.load(query)
             }
@@ -168,6 +169,7 @@ class DetailActivity : KodeinActivity() {
                         posts_pager.setCurrentItem(pos, false)
                     }
                     toolbar.title = "Post ${it[pos].id}"
+                    localDetailViewModel.details.removeObservers(this)
                 })
                 localDetailViewModel.loadAll()
             }
