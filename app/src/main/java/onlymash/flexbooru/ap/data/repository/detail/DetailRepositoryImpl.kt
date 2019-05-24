@@ -1,5 +1,6 @@
 package onlymash.flexbooru.ap.data.repository.detail
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.data.api.Api
@@ -40,6 +41,12 @@ class DetailRepositoryImpl(private val api: Api,
                     }
                 }
             }
+        }
+    }
+
+    override suspend fun getLocalDetails(): LiveData<List<Detail>> {
+        return withContext(Dispatchers.IO) {
+            detailDao.getAllDetailsLivaData()
         }
     }
 }

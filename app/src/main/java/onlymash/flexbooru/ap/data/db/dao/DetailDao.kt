@@ -16,7 +16,7 @@ interface DetailDao {
     @Query("SELECT * FROM `details` ORDER BY `uid` ASC")
     fun getAllDetails() : List<Detail>
 
-    @Query("SELECT * FROM `details` ORDER BY `uid` ASC")
+    @Query("SELECT * FROM `details` ORDER BY `uid` DESC")
     fun getAllDetailsLivaData() : LiveData<List<Detail>>
 
     @Query("SELECT * FROM `details` WHERE `id` = :id")

@@ -9,4 +9,6 @@
     <dimen name="nav_header_height">176dp</dimen>
 
     <dimen name="bottom_bar_height">56dp</dimen>
+
+    <dimen name="history_item_height">100dp</dimen>
 </resources>

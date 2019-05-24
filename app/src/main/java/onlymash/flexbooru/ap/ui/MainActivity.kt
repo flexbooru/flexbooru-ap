@@ -46,6 +46,7 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_posts,
+                R.id.nav_history,
                 R.id.nav_settings
             ),
             drawer_layout
@@ -81,7 +82,8 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
                 val searchView = item.actionView as SearchView
                 initSearchView(searchView)
             }
-            R.id.nav_settings -> menuInflater.inflate(R.menu.settings, menu)
+            R.id.nav_history -> menu?.clear()
+            R.id.nav_settings -> menu?.clear()
         }
         return true
     }
