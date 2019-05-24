@@ -2,9 +2,11 @@ package onlymash.flexbooru.ap.data.repository.post
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
+import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,15 +58,23 @@ class PostRepositoryImpl(
         val refreshState = Transformations.switchMap(refreshTrigger) {
             refresh(search)
         }
-        val livePagedList = db.postDao()
-            .getPosts(search.query)
-            .toLiveData(
-                config = Config(
-                  pageSize = search.limit,
-                    enablePlaceholders = true
-                ),
-                boundaryCallback = boundaryCallback
-            )
+        val livePagedList = MediatorLiveData<PagedList<Post>>()
+        scope.launch {
+            val data = withContext(Dispatchers.IO) {
+                db.postDao()
+                    .getPosts(search.query)
+                    .toLiveData(
+                        config = Config(
+                            pageSize = search.limit,
+                            enablePlaceholders = true
+                        ),
+                        boundaryCallback = boundaryCallback
+                    )
+            }
+            livePagedList.addSource(data) {
+                livePagedList.value = it
+            }
+        }
         return Listing(
             pagedList = livePagedList,
             networkState = boundaryCallback!!.networkState,
