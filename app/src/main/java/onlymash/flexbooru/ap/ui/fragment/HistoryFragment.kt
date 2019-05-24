@@ -26,7 +26,10 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
+import onlymash.flexbooru.ap.ui.DetailActivity
+import onlymash.flexbooru.ap.ui.FROM_HISTORY
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
+import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import org.kodein.di.generic.instance
 
@@ -79,28 +82,13 @@ class HistoryFragment : KodeinFragment() {
                     oldItems.addAll(details)
                     details.clear()
                     details.addAll(it)
-                    DiffUtil.calculateDiff(HistoryAdapterDiffCallback(oldItems, details))
+                    DiffUtil.calculateDiff(DetailDiffCallback(oldItems, details))
                 }
                 result.dispatchUpdatesTo(historyAdapter)
                 progress_bar.visibility = View.GONE
             }
         })
         detailViewModel.loadAll()
-    }
-
-    inner class HistoryAdapterDiffCallback(
-        private val oldItems: MutableList<Detail>,
-        private val newItems: MutableList<Detail>
-    ) : DiffUtil.Callback() {
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldItems[oldItemPosition].score == newItems[newItemPosition].score
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean  =
-            oldItems[oldItemPosition].id == newItems[newItemPosition].id
-
-        override fun getNewListSize(): Int = newItems.size
-
-        override fun getOldListSize(): Int = oldItems.size
     }
 
     inner class HistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -112,6 +100,13 @@ class HistoryFragment : KodeinFragment() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             (holder as HistoryViewHolder).bind(details[position])
+            holder.itemView.setOnClickListener {
+                DetailActivity.startDetailActivity(
+                    context = requireContext(),
+                    fromWhere = FROM_HISTORY,
+                    position = position
+                )
+            }
         }
 
         inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

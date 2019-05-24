@@ -12,6 +12,7 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.glide.GlideRequests
 import onlymash.flexbooru.ap.ui.DetailActivity
+import onlymash.flexbooru.ap.ui.FROM_POSTS
 import onlymash.flexbooru.ap.ui.base.BaseAdapter
 
 const val MAX_ITEM_ASPECT_RATIO = 1.3333f
@@ -34,7 +35,12 @@ class PostAdapter(
         (holder as PostViewHolder).bind(post)
         holder.itemView.setOnClickListener {
             val query = post?.query ?: return@setOnClickListener
-            DetailActivity.startDetailActivity(holder.itemView.context, query, position)
+            DetailActivity.startDetailActivity(
+                context = holder.itemView.context,
+                fromWhere = FROM_POSTS,
+                query = query,
+                position = position
+            )
         }
     }
 
