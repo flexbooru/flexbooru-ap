@@ -69,7 +69,7 @@ class DetailActivity : KodeinActivity() {
     private var query = ""
     private val posts: MutableList<Post> = mutableListOf()
     private val details: MutableList<Detail> = mutableListOf()
-    private var currentPostId = -1
+    private var currentPostId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

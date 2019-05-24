@@ -5,6 +5,9 @@
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>
 
+    <string name="history_clear_all">Clear all</string>
+    <string name="history_clear_all_content">All history will be clear.</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">onlymash</string>

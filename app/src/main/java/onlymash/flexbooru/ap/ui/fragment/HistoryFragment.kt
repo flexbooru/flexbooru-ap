@@ -1,5 +1,9 @@
 package onlymash.flexbooru.ap.ui.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.format.Formatter
 import android.view.LayoutInflater
@@ -33,6 +37,10 @@ import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import org.kodein.di.generic.instance
 
+
+const val HISTORY_JUMP_TO_TOP_KEY = "history_jump_to_top"
+const val HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY = "history_jump_to_top_action_filter"
+
 class HistoryFragment : KodeinFragment() {
 
     private val api by instance<Api>()
@@ -45,10 +53,31 @@ class HistoryFragment : KodeinFragment() {
 
     private var details: MutableList<Detail> = mutableListOf()
 
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent == null) {
+                return
+            }
+            if (intent.getBooleanExtra(HISTORY_JUMP_TO_TOP_KEY, false)) {
+                history_list.scrollToPosition(0)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         scheme = Settings.scheme
         host = Settings.hostname
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireActivity().registerReceiver(broadcastReceiver, IntentFilter(HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireActivity().unregisterReceiver(broadcastReceiver)
     }
 
     override fun onCreateView(

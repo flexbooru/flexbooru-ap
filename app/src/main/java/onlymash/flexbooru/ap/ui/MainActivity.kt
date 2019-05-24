@@ -24,9 +24,7 @@ import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
-import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
-import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
-import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
+import onlymash.flexbooru.ap.ui.fragment.*
 import org.kodein.di.generic.instance
 
 class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -57,20 +55,35 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
         navController.addOnDestinationChangedListener { _, destination, _ ->
             currentFragmentId = destination.id
             val lp = toolbar.layoutParams as AppBarLayout.LayoutParams
-            if (destination.id == R.id.nav_posts) {
-                lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-                fab.visibility = View.VISIBLE
-            } else {
-                lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
-                fab.visibility = View.GONE
+            when (currentFragmentId) {
+                R.id.nav_posts,
+                R.id.nav_history -> {
+                    lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    fab.visibility = View.VISIBLE
+                }
+                else -> {
+                    lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
+                    fab.visibility = View.GONE
+                }
             }
             delegate.invalidateOptionsMenu()
         }
         fab.setOnClickListener {
-            sendBroadcast(
-                Intent(JUMP_TO_TOP_ACTION_FILTER_KEY)
-                    .putExtra(JUMP_TO_TOP_KEY, true)
-                    .putExtra(JUMP_TO_TOP_QUERY_KEY, ""))
+            when (currentFragmentId) {
+                R.id.nav_posts -> {
+                    sendBroadcast(
+                        Intent(JUMP_TO_TOP_ACTION_FILTER_KEY)
+                            .putExtra(JUMP_TO_TOP_KEY, true)
+                            .putExtra(JUMP_TO_TOP_QUERY_KEY, "")
+                    )
+                }
+                R.id.nav_history -> {
+                    sendBroadcast(
+                        Intent(HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY)
+                            .putExtra(HISTORY_JUMP_TO_TOP_KEY, true)
+                    )
+                }
+            }
         }
     }
 
@@ -82,7 +95,7 @@ class MainActivity : KodeinActivity(), SharedPreferences.OnSharedPreferenceChang
                 val searchView = item.actionView as SearchView
                 initSearchView(searchView)
             }
-            R.id.nav_history -> menu?.clear()
+            R.id.nav_history -> menuInflater.inflate(R.menu.history, menu)
             R.id.nav_settings -> menu?.clear()
         }
         return true
