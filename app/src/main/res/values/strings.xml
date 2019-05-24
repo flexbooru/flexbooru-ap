@@ -40,6 +40,9 @@
     <string name="tags">Tags</string>
     <string name="info">Information</string>
     <string name="add_to_fav">Add to favorites</string>
+    <string name="share_via">Via</string>
+
+    <string name="action_download">Download</string>
 
     <string name="search_posts_hint">Search posts…</string>
 
@@ -47,5 +50,7 @@
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
 
     <string name="msg_path_denied">Save failed! No access to the current path.</string>
+    <string name="msg_download_complete">Download complete</string>
+    <string name="msg_download_failed">Download failed</string>
 
 </resources>

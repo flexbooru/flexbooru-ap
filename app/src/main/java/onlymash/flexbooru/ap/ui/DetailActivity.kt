@@ -36,6 +36,7 @@ import onlymash.flexbooru.ap.ui.diffcallback.PostDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.DetailFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
+import onlymash.flexbooru.ap.worker.DownloadWorker
 import org.kodein.di.generic.instance
 
 const val CURRENT_POSITION_KEY = "current_position"
@@ -104,6 +105,7 @@ class DetailActivity : BaseActivity() {
         posts_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                pos = position
                 when (fromWhere) {
                     FROM_POSTS -> currentPostId = posts[position].id
                     FROM_HISTORY -> currentPostId = details[position].id
@@ -116,6 +118,21 @@ class DetailActivity : BaseActivity() {
         }
         post_info.setOnClickListener {
 
+        }
+        post_save.setOnClickListener {
+            if (fromWhere == FROM_HISTORY && details.isNotEmpty()) {
+                if (details.isEmpty()) return@setOnClickListener
+                DownloadWorker.download(this, details[pos])
+            } else if (fromWhere == FROM_POSTS && posts.isNotEmpty()) {
+                lifecycleScope.launch {
+                    val detail = withContext(Dispatchers.IO) {
+                        detailDao.getDetailById(posts[pos].id)
+                    }
+                    if (detail != null) {
+                        DownloadWorker.download(this@DetailActivity, detail)
+                    }
+                }
+            }
         }
     }
 

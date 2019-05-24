@@ -142,3 +142,18 @@ fun String.fileExt(): String {
         substring(start)
     }
 }
+
+fun String.fileName(): String {
+    val start = lastIndexOf('/') + 1
+    val end = indexOfFirst { it == '?' }
+    val encodeFileName = if (end > start) {
+        substring(start, end)
+    } else {
+        substring(start)
+    }
+    return Uri.decode(encodeFileName)
+        .replace("?", "")
+        .replace("!", "")
+        .replace(":", "_")
+        .replace("\"","_")
+}
