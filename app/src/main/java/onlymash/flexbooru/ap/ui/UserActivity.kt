@@ -36,7 +36,7 @@ class UserActivity : AppCompatActivity() {
                 .into(user_avatar)
             user_id.text = user.userId.toString()
             username.text = user.username
-            fav_action_button.setOnClickListener {
+            votes_button.setOnClickListener {
                 SearchActivity.startSearchActivity(
                     context = this,
                     query = "stars_by:${user.username}",
@@ -67,6 +67,7 @@ class UserActivity : AppCompatActivity() {
                         user?.let { user ->
                             UserManager.deleteByUid(user.uid)
                         }
+                        Settings.userToken = ""
                         Settings.userUid = -1L
                         finish()
                     }

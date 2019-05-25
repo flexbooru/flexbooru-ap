@@ -86,7 +86,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
             }
         })
         if (postId > -1) {
-            detailViewModel.load(postId)
+            detailViewModel.load(postId, Settings.userToken)
         } else {
             dismiss()
         }

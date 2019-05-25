@@ -119,6 +119,6 @@ class DetailFragment : KodeinFragment() {
                 }
             }
         })
-        detailViewModel.load(postId)
+        detailViewModel.load(postId, Settings.userToken)
     }
 }

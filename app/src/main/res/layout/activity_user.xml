@@ -60,18 +60,18 @@
                     android:orientation="vertical">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fav_action_button"
+                        android:id="@+id/votes_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:tint="@android:color/white"
-                        app:srcCompat="@drawable/ic_favorite_border_24dp"
+                        app:srcCompat="@drawable/ic_star_24dp"
                         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/user_favorites"
+                        android:text="@string/user_votes"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
 
             </LinearLayout>

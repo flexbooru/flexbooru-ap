@@ -7,7 +7,8 @@ data class Search(
     var order: String = "date",
     var limit: Int = 20,
     var type: SearchType = SearchType.NORMAL,
-    var userId: Int = -1
+    var userId: Int = -1,
+    var token: String
 )
 
 enum class SearchType(type: Int) {

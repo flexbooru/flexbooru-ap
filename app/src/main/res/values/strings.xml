@@ -42,7 +42,7 @@
     <string name="save_file">Save file</string>
     <string name="tags">Tags</string>
     <string name="info">Information</string>
-    <string name="add_to_fav">Add to favorites</string>
+    <string name="vote">Vote</string>
     <string name="share_via">Via</string>
 
     <string name="action_download">Download</string>
@@ -64,7 +64,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-    <string name="user_favorites">Favorites</string>
+    <string name="user_votes">Votes</string>
     <string name="user_logout">Logout</string>
     <string name="user_logout_content">Are you sure to logout?</string>
 

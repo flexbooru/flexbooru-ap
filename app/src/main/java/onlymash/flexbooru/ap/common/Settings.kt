@@ -27,6 +27,7 @@ const val FILE_SIZE_BIG = "big"
 const val FILE_SIZE_ORIGIN = "origin"
 
 const val USER_UID_KEY = "user_uid"
+const val USER_TOKEN_KEY = "token"
 
 object Settings {
 
@@ -76,4 +77,8 @@ object Settings {
     var userUid: Long
         get() = sp.getLong(USER_UID_KEY, -1L)
         set(value) = sp.edit().putLong(USER_UID_KEY, value).apply()
+
+    var userToken: String
+        get() = sp.getString(USER_TOKEN_KEY, "") ?: ""
+        set(value) = sp.edit().putString(USER_TOKEN_KEY, value).apply()
 }

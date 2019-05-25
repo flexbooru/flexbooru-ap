@@ -68,6 +68,7 @@ class LoginActivity : KodeinActivity() {
         progress_bar.visibility = View.GONE
         when (result) {
             is NetResult.Success -> {
+                Settings.userToken = result.data.token
                 Settings.userUid = result.data.uid
                 startActivity(Intent(this, UserActivity::class.java))
                 finish()

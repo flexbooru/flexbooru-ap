@@ -71,7 +71,8 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
             query = query,
             limit = Settings.pageLimit,
             type = searchType,
-            userId = userId
+            userId = userId,
+            token = Settings.userToken
         )
         postViewModel = getViewModel(object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")

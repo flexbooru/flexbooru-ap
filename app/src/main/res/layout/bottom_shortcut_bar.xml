@@ -45,14 +45,14 @@
                 android:contentDescription="@string/save_file"/>
 
         <ImageButton
-                android:id="@+id/post_fav"
+                android:id="@+id/post_vote"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/bottom_bar_height"
                 android:src="@drawable/ic_star_border_24dp"
                 android:tint="@color/white"
                 android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/add_to_fav"/>
+                android:contentDescription="@string/vote"/>
 
     </LinearLayout>
 

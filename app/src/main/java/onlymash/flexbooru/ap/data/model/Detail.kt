@@ -77,7 +77,7 @@ data class Detail(
 
     @ColumnInfo(name = "score_number")
     @SerializedName("score_number")
-    val scoreNumber: Int,
+    var scoreNumber: Int,
 
     @ColumnInfo(name = "size")
     @SerializedName("size")
@@ -93,7 +93,7 @@ data class Detail(
 
     @ColumnInfo(name = "star_it")
     @SerializedName("star_it")
-    val starIt: Boolean,
+    var starIt: Boolean,
 
     @ColumnInfo(name = "status")
     @SerializedName("status")
@@ -109,7 +109,7 @@ data class Detail(
 
     @ColumnInfo(name = "user_avatar")
     @SerializedName("user_avatar")
-    val userAvatar: String,
+    val userAvatar: String?,
 
     @ColumnInfo(name = "user_id")
     @SerializedName("user_id")

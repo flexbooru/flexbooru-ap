@@ -30,4 +30,7 @@ interface DetailDao {
 
     @Query("DELETE FROM `details`")
     fun deleteAll()
+
+    @Update
+    fun update(detail: Detail)
 }

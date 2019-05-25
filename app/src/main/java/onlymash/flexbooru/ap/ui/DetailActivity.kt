@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -28,10 +30,10 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
+import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.dialog.TagsDialog
-import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.diffcallback.PostDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.DetailFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
@@ -71,6 +73,7 @@ class DetailActivity : BaseActivity() {
     private val posts: MutableList<Post> = mutableListOf()
     private val details: MutableList<Detail> = mutableListOf()
     private var currentPostId = 0
+    private val allDetails: MutableList<Detail> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +114,7 @@ class DetailActivity : BaseActivity() {
                     FROM_HISTORY -> currentPostId = details[position].id
                 }
                 toolbar.title = "Post $currentPostId"
+                initVoteIcon()
             }
         })
         post_tags.setOnClickListener {
@@ -137,60 +141,109 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        when (fromWhere) {
-            FROM_POSTS -> {
-                localPostViewModel = getViewModel(object : ViewModelProvider.Factory {
-                    @Suppress("UNCHECKED_CAST")
-                    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                        return LocalPostViewModel(LocalRepositoryImpl(postDao)) as T
+        if (fromWhere == FROM_POSTS) {
+            localPostViewModel = getViewModel(object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return LocalPostViewModel(LocalRepositoryImpl(postDao)) as T
+                }
+            })
+            localPostViewModel.posts.observe(this, Observer {
+                lifecycleScope.launch {
+                    val result = withContext(Dispatchers.IO) {
+                        val oldItems = mutableListOf<Post>()
+                        oldItems.addAll(posts)
+                        posts.clear()
+                        posts.addAll(it)
+                        DiffUtil.calculateDiff(PostDiffCallback(oldItems, posts))
                     }
-                })
-                localPostViewModel.posts.observe(this, Observer {
-                    lifecycleScope.launch {
-                        val result = withContext(Dispatchers.IO) {
-                            val oldItems = mutableListOf<Post>()
-                            oldItems.addAll(posts)
-                            posts.clear()
-                            posts.addAll(it)
-                            DiffUtil.calculateDiff(PostDiffCallback(oldItems, posts))
-                        }
-                        result.dispatchUpdatesTo(detailAdapter)
-                        posts_pager.setCurrentItem(pos, false)
-                    }
-                    toolbar.title = "Post ${it[pos].id}"
-                    localPostViewModel.posts.removeObservers(this)
-                })
-                localPostViewModel.load(query)
+                    result.dispatchUpdatesTo(detailAdapter)
+                    posts_pager.setCurrentItem(pos, false)
+                }
+                toolbar.title = "Post ${it[pos].id}"
+                localPostViewModel.posts.removeObservers(this)
+            })
+            localPostViewModel.load(query)
+        }
+
+        localDetailViewModel = getViewModel(object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return DetailViewModel(
+                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
+                    scheme = Settings.scheme,
+                    host = Settings.hostname
+                ) as T
             }
-            FROM_HISTORY -> {
-                localDetailViewModel = getViewModel(object : ViewModelProvider.Factory {
-                    @Suppress("UNCHECKED_CAST")
-                    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                        return DetailViewModel(
-                            repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                            scheme = Settings.scheme,
-                            host = Settings.hostname
-                        ) as T
-                    }
-                })
-                localDetailViewModel.details.observe(this, Observer {
-                    lifecycleScope.launch {
-                        val result = withContext(Dispatchers.IO) {
-                            val oldItems = mutableListOf<Detail>()
-                            oldItems.addAll(details)
-                            details.clear()
-                            details.addAll(it)
-                            DiffUtil.calculateDiff(DetailDiffCallback(oldItems, details))
-                        }
-                        result.dispatchUpdatesTo(detailAdapter)
-                        posts_pager.setCurrentItem(pos, false)
-                    }
-                    toolbar.title = "Post ${it[pos].id}"
-                    localDetailViewModel.details.removeObservers(this)
-                })
-                localDetailViewModel.loadAll()
+        })
+        localDetailViewModel.details.observe(this, Observer {
+            allDetails.clear()
+            allDetails.addAll(it)
+            if (fromWhere == FROM_HISTORY && details.isEmpty()) {
+                toolbar.title = "Post ${it[pos].id}"
+                details.addAll(it)
+                detailAdapter.notifyDataSetChanged()
+                posts_pager.setCurrentItem(pos, false)
+            }
+            initVoteIcon()
+        })
+        localDetailViewModel.loadAll()
+        localDetailViewModel.voteResult.observe(this, Observer {
+            when (it) {
+                is NetResult.Success -> {
+
+                }
+                is NetResult.Error -> {
+                    Toast.makeText(this, it.errorMsg, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+        post_vote.setOnClickListener {
+            val token = Settings.userToken
+            if (token.isEmpty()) {
+                startActivity(Intent(this, LoginActivity::class.java))
+            } else {
+                val postId = currentPostId
+                if (postId <= 0) return@setOnClickListener
+                val detail = getCurrentDetail(postId) ?: return@setOnClickListener
+                val vote = if (detail.starIt) 0 else 9
+                localDetailViewModel.vote(vote, token, detail)
             }
         }
+    }
+
+    private fun getCurrentDetail(postId: Int): Detail? {
+        var detail: Detail? = null
+        allDetails.forEach {
+            if (it.id == postId) {
+                detail = it
+                return@forEach
+            }
+        }
+        return detail
+    }
+
+    private fun initVoteIcon() {
+        if (isVoted(currentPostId)) {
+            post_vote.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.ic_star_24dp
+                )
+            )
+        } else {
+            post_vote.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.ic_star_border_24dp
+                )
+            )
+        }
+    }
+
+    private fun isVoted(postId: Int): Boolean {
+        val index = allDetails.indexOfFirst { it.id == postId && it.starIt }
+        return index > -1
     }
 
     private fun initWindow() {

@@ -14,6 +14,7 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("posts_per_page", limit.toString())
         .addQueryParameter("order_by", "date")
         .addQueryParameter("ldate", "0")
+        .addQueryParameter("token", token)
     if (query.isNotEmpty() && type == SearchType.NORMAL) {
         builder.addQueryParameter("search_tag", query)
     }
@@ -23,13 +24,19 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
     return builder.build()
 }
 
-fun getPostDetailUrl(scheme: String, host: String, postId: Int): HttpUrl {
+fun getPostDetailUrl(
+    scheme: String,
+    host: String,
+    postId: Int,
+    token: String): HttpUrl {
+
     return HttpUrl.Builder()
         .scheme(scheme)
         .host(host)
         .addPathSegments("pictures/view_post/$postId")
         .addQueryParameter("lang", "en")
         .addQueryParameter("type", "json")
+        .addQueryParameter("token", token)
         .build()
 }
 
