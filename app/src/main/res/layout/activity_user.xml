@@ -27,7 +27,7 @@
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:contentDescription="@null"
-                    app:srcCompat="@color/grey_300"/>
+                    app:srcCompat="@color/colorUserHeader"/>
             <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_avatar"
                     android:layout_width="90dp"

@@ -2,6 +2,8 @@ package onlymash.flexbooru.ap.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,7 +11,9 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,6 +21,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.AppBarLayout
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
@@ -31,6 +36,7 @@ import onlymash.flexbooru.ap.common.USER_UID_KEY
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.fragment.*
 import org.kodein.di.generic.instance
@@ -46,6 +52,8 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private var currentFragmentId = R.id.nav_posts
 
     private var user: User? = null
+
+    private lateinit var headerView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,8 +104,9 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 }
             }
         }
+        headerView = nav_view.getHeaderView(0)
         loadUser()
-        nav_view.getHeaderView(0)?.setOnClickListener {
+        headerView.setOnClickListener {
             if (user == null) {
                 startActivity(Intent(this, LoginActivity::class.java))
             } else {
@@ -111,12 +120,23 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             user = withContext(Dispatchers.IO) {
                 UserManager.getUserByUid(Settings.userUid)
             }
-            when (val u = user) {
+            when (val user = user) {
                 null -> {
-
+                    headerView.apply {
+                        findViewById<CircleImageView>(R.id.user_avatar).setImageDrawable(ColorDrawable(Color.TRANSPARENT))
+                        findViewById<AppCompatTextView>(R.id.user_name).setText(R.string.nav_header_login)
+                        findViewById<AppCompatTextView>(R.id.user_id).text = ""
+                    }
                 }
                 else -> {
-                    u.uid
+                    headerView.apply {
+                        GlideApp.with(this@MainActivity)
+                            .load(user.avatarUrl)
+                            .placeholder(ContextCompat.getDrawable(this@MainActivity, R.drawable.avatar_user))
+                            .into(findViewById<CircleImageView>(R.id.user_avatar))
+                        findViewById<AppCompatTextView>(R.id.user_name).text = user.username
+                        findViewById<AppCompatTextView>(R.id.user_id).text = user.userId.toString()
+                    }
                 }
             }
         }

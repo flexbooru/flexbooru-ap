@@ -25,4 +25,9 @@ object UserManager {
         user.uid = userDao.insert(user)
         return user
     }
+
+    @Throws(SQLiteException::class)
+    fun deleteByUid(uid: Long) {
+        userDao.deleteByUid(uid)
+    }
 }

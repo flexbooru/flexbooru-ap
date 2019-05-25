@@ -19,5 +19,7 @@
     <color name="colorIconTint">@color/grey_400</color>
     <color name="colorFastScrollBar">@color/grey_700</color>
     <color name="colorBackgroundCard">@color/grey_900</color>
+    <color name="colorUserHeader">@color/grey_800</color>
+    <color name="colorItemDrawer">@color/grey_800</color>
 
 </resources>

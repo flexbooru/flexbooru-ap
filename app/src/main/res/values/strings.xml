@@ -13,12 +13,13 @@
 
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">onlymash</string>
-    <string name="nav_header_subtitle">im@fiepi.me</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_user_avatar_desc">User avatar</string>
+    <string name="nav_header_login">Login</string>
 
     <string name="settings_night_mode">Night mode</string>
     <string name="settings_night_mode_on">On</string>
@@ -64,5 +65,7 @@
     <string name="login_failed">"Login failed"</string>
 
     <string name="user_favorites">Favorites</string>
+    <string name="user_logout">Logout</string>
+    <string name="user_logout_content">Are you sure to logout?</string>
 
 </resources>
