@@ -28,3 +28,19 @@ fun getPostDetailUrl(scheme: String, host: String, postId: Int): HttpUrl {
         .addQueryParameter("type", "json")
         .build()
 }
+
+fun getLoginUrl(scheme: String, host: String): HttpUrl {
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("login/submit")
+        .build()
+}
+
+fun getVoteUrl(scheme: String, host: String): HttpUrl {
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("pictures/vote")
+        .build()
+}

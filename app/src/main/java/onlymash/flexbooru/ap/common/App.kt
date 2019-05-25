@@ -29,6 +29,7 @@ class App : Application(), KodeinAware {
         bind() from singleton { MyDatabase(instance()) }
         bind() from singleton { instance<MyDatabase>().postDao() }
         bind() from singleton { instance<MyDatabase>().detailDao() }
+        bind() from singleton { instance<MyDatabase>().userDao() }
         bind() from singleton { Api() }
         bind() from singleton { Executors.newSingleThreadExecutor() }
         bind() from singleton { Picasso.Builder(instance()).build() }

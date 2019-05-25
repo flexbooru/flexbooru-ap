@@ -7,10 +7,20 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.db.dao.PostDao
+import onlymash.flexbooru.ap.data.db.dao.UserDao
 import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.Post
+import onlymash.flexbooru.ap.data.model.User
 
-@Database(entities = [Post::class, Detail::class], version = 1, exportSchema = true)
+@Database(
+    entities = [
+        Post::class,
+        Detail::class,
+        User::class
+    ],
+    version = 1,
+    exportSchema = true
+)
 @TypeConverters(MyConverters::class)
 abstract class MyDatabase : RoomDatabase() {
 
@@ -30,4 +40,6 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
 
     abstract fun detailDao(): DetailDao
+
+    abstract fun userDao(): UserDao
 }

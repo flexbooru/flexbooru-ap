@@ -2,6 +2,7 @@ package onlymash.flexbooru.ap.common
 
 const val REFERER_KEY = "referer"
 const val USER_AGENT_KEY = "user-agent"
+const val COOKIE_KEY = "cookie"
 
 const val PREFERENCE_NAME = "settings"
 

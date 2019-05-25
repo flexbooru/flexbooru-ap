@@ -16,6 +16,10 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning"
             tools:targetApi="n">
+        <activity
+                android:name=".ui.LoginActivity"
+                android:label="@string/title_login">
+        </activity>
         <activity android:name=".ui.DetailActivity">
         </activity>
         <activity android:name=".ui.SearchActivity">
@@ -30,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <receiver android:name=".receiver.DownloadNotificationClickReceiver"/>
     </application>
 

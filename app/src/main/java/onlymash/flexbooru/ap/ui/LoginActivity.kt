@@ -1,0 +1,78 @@
+package onlymash.flexbooru.ap.ui
+
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_login.*
+import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.Settings
+import onlymash.flexbooru.ap.data.api.Api
+import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.data.repository.login.LoginRepositoryImpl
+import onlymash.flexbooru.ap.extension.NetResult
+import onlymash.flexbooru.ap.extension.getViewModel
+import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.ui.viewmodel.LoginViewModel
+import org.kodein.di.generic.instance
+
+class LoginActivity : KodeinActivity() {
+
+    private val api by instance<Api>()
+    private lateinit var loginViewModel: LoginViewModel
+
+    private var username = ""
+    private var password = ""
+    private var requesting = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+        loginViewModel = getViewModel(object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return LoginViewModel(LoginRepositoryImpl(api)) as T
+            }
+        })
+        loginViewModel.loginResult.observe(this, Observer {
+            handleResult(it)
+        })
+        sign_in_button.setOnClickListener {
+            attemptSignIn()
+        }
+    }
+
+    private fun attemptSignIn() {
+        if (requesting) return
+        username = username_edit.text.toString().trim()
+        password = password_edit.text.toString().trim()
+        if (username.isEmpty() || password.isEmpty()) {
+            Snackbar.make(sign_in_button, getString(R.string.msg_login_tip_empty), Snackbar.LENGTH_LONG).show()
+            return
+        }
+        loginViewModel.login(
+            scheme = Settings.scheme,
+            host = Settings.hostname,
+            username = username,
+            password = password
+        )
+        sign_in_button.visibility = View.GONE
+        progress_bar.visibility = View.VISIBLE
+    }
+
+    private fun handleResult(result: NetResult<User>) {
+        sign_in_button.visibility = View.VISIBLE
+        progress_bar.visibility = View.GONE
+        when (result) {
+            is NetResult.Success -> {
+                Log.w("Result", result.data.toString())
+            }
+            is NetResult.Error -> {
+                error_msg.text = result.errorMsg
+            }
+        }
+    }
+}
