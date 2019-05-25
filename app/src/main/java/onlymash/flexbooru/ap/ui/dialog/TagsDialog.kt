@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -140,6 +141,17 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
                 if (tag == null) return
                 tagName.text = tag.name
                 tagCount.text = tag.num.toString()
+                val colorId = when (tag.type) {
+                    1 -> R.color.color_tag_1_character
+                    2 -> R.color.color_tag_2_reference
+                    3 -> R.color.color_tag_3_copyright_product
+                    4 -> R.color.color_tag_4_author
+                    5 -> R.color.color_tag_5_copyright_game
+                    6 -> R.color.color_tag_6_copyright_other
+                    7 -> R.color.color_tag_7_object
+                    else -> R.color.color_tag_0_unknown
+                }
+                tagDot.setColorFilter(ContextCompat.getColor(itemView.context, colorId))
             }
         }
     }

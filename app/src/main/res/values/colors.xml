@@ -64,4 +64,13 @@
     <color name="color_dark_on_error">@color/black</color>
     <color name="color_dark_on_surface">@color/white</color>
     <color name="color_dark_scrim">@color/scrim</color>
+
+    <color name="color_tag_0_unknown">#AAFFFFFF</color>
+    <color name="color_tag_1_character">#006699</color>
+    <color name="color_tag_2_reference">#FFFFFF</color>
+    <color name="color_tag_3_copyright_product">#008000</color>
+    <color name="color_tag_4_author">#EC407A</color>
+    <color name="color_tag_5_copyright_game">#42A5F5</color>
+    <color name="color_tag_6_copyright_other">#FFCA28</color>
+    <color name="color_tag_7_object">#78909C</color>
 </resources>
