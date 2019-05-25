@@ -23,6 +23,7 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.TagsFull
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.NetResult
+import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.SearchActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
@@ -133,6 +134,10 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
                 itemView.setOnClickListener {
                     val query = tagFull?.name ?: return@setOnClickListener
                     SearchActivity.startSearchActivity(itemView.context, query)
+                }
+                itemView.setOnLongClickListener {
+                    itemView.context.copyText(tagFull?.name)
+                    true
                 }
             }
 
