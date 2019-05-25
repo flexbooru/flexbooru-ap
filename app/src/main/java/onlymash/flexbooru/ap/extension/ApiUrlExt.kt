@@ -2,6 +2,7 @@ package onlymash.flexbooru.ap.extension
 
 import okhttp3.HttpUrl
 import onlymash.flexbooru.ap.data.Search
+import onlymash.flexbooru.ap.data.SearchType
 
 fun Search.getPostsUrl(page: Int): HttpUrl {
     val builder = HttpUrl.Builder()
@@ -13,8 +14,11 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("posts_per_page", limit.toString())
         .addQueryParameter("order_by", "date")
         .addQueryParameter("ldate", "0")
-    if (query.isNotEmpty()) {
+    if (query.isNotEmpty() && type == SearchType.NORMAL) {
         builder.addQueryParameter("search_tag", query)
+    }
+    if (type == SearchType.FAVORITE) {
+        builder.addQueryParameter("stars_by", userId.toString())
     }
     return builder.build()
 }

@@ -14,6 +14,12 @@
                 android:name="query"
                 app:argType="string"
                 app:nullable="true"/>
+        <argument android:name="search_type"
+                  app:argType="onlymash.flexbooru.ap.data.SearchType"
+                  android:defaultValue="NORMAL"/>
+        <argument android:name="user_id"
+                  app:argType="integer"
+                  android:defaultValue="-1"/>
     </fragment>
     <activity
             android:id="@+id/nav_search"
@@ -24,5 +30,11 @@
                 android:name="query"
                 app:argType="string"
                 app:nullable="true"/>
+        <argument android:name="search_type"
+                  app:argType="onlymash.flexbooru.ap.data.SearchType"
+                  android:defaultValue="NORMAL"/>
+        <argument android:name="user_id"
+                  app:argType="integer"
+                  android:defaultValue="-1"/>
     </activity>
 </navigation>

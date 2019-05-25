@@ -10,6 +10,9 @@ import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.QUERY_KEY
+import onlymash.flexbooru.ap.common.SEARCH_TYPE_KEY
+import onlymash.flexbooru.ap.common.USER_ID_KEY
+import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
@@ -18,22 +21,42 @@ import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 class SearchActivity : KodeinActivity() {
 
     companion object {
-        fun startSearchActivity(context: Context, query: String) {
+        fun startSearchActivity(
+            context: Context,
+            query: String = "",
+            searchType: SearchType = SearchType.NORMAL,
+            userId: Int = -1
+        ) {
             context.startActivity(
                 Intent(context, SearchActivity::class.java)
-                .putExtra(QUERY_KEY, query)
+                .apply {
+                    putExtra(QUERY_KEY, query)
+                    putExtra(SEARCH_TYPE_KEY, searchType)
+                    putExtra(USER_ID_KEY, userId)
+                }
             )
         }
     }
 
+    private var query = ""
+    private var searchType = SearchType.NORMAL
+    private var userId: Int = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        val query = intent?.getStringExtra(QUERY_KEY) ?: ""
+        intent?.apply {
+            query = getStringExtra(QUERY_KEY) ?: ""
+            searchType = getSerializableExtra(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
+            userId = getIntExtra(USER_ID_KEY, -1)
+        }
+
         findNavController(R.id.search_nav_host_fragment).setGraph(
             R.navigation.search_navigation,
             Bundle().apply {
                 putString(QUERY_KEY, query)
+                putSerializable(SEARCH_TYPE_KEY, searchType)
+                putInt(USER_ID_KEY, userId)
             }
         )
         fab.setOnClickListener {

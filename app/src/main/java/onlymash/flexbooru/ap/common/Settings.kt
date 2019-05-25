@@ -26,6 +26,8 @@ const val FILE_SIZE_MEDIUM = "medium"
 const val FILE_SIZE_BIG = "big"
 const val FILE_SIZE_ORIGIN = "origin"
 
+const val USER_UID_KEY = "user_uid"
+
 object Settings {
 
     private val sp by App.app.instance<SharedPreferences>()
@@ -70,4 +72,8 @@ object Settings {
 
     val detailSize: String
         get() = sp.getString(SETTINGS_DETAIL_SIZE_KEY, FILE_SIZE_BIG) ?: FILE_SIZE_BIG
+
+    var userUid: Long
+        get() = sp.getLong(USER_UID_KEY, -1L)
+        set(value) = sp.edit().putLong(USER_UID_KEY, value).apply()
 }

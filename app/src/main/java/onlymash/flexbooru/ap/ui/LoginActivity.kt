@@ -1,7 +1,7 @@
 package onlymash.flexbooru.ap.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -68,7 +68,9 @@ class LoginActivity : KodeinActivity() {
         progress_bar.visibility = View.GONE
         when (result) {
             is NetResult.Success -> {
-                Log.w("Result", result.data.toString())
+                Settings.userUid = result.data.uid
+                startActivity(Intent(this, UserActivity::class.java))
+                finish()
             }
             is NetResult.Error -> {
                 error_msg.text = result.errorMsg

@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_post.*
 import onlymash.flexbooru.ap.R
-import onlymash.flexbooru.ap.common.QUERY_KEY
-import onlymash.flexbooru.ap.common.SETTINGS_PAGE_LIMIT_KEY
-import onlymash.flexbooru.ap.common.Settings
+import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Search
+import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.extension.getViewModel
@@ -58,11 +57,21 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var query = ""
+        var searchType = SearchType.NORMAL
+        var userId = -1
+        arguments?.apply {
+            query = getString(QUERY_KEY) ?: ""
+            searchType = getSerializable(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
+            userId = getInt(USER_ID_KEY)
+        }
         search = Search(
             scheme = Settings.scheme,
             host = Settings.hostname,
-            query = arguments?.getString(QUERY_KEY) ?: "",
-            limit = Settings.pageLimit
+            query = query,
+            limit = Settings.pageLimit,
+            type = searchType,
+            userId = userId
         )
         postViewModel = getViewModel(object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")

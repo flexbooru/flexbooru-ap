@@ -22,11 +22,15 @@ import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
 import onlymash.flexbooru.ap.common.Settings
+import onlymash.flexbooru.ap.common.USER_UID_KEY
+import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.fragment.*
 import org.kodein.di.generic.instance
@@ -40,6 +44,8 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
 
     @IdRes
     private var currentFragmentId = R.id.nav_posts
+
+    private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +96,29 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 }
             }
         }
+        loadUser()
         nav_view.getHeaderView(0)?.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            if (user == null) {
+                startActivity(Intent(this, LoginActivity::class.java))
+            } else {
+                startActivity(Intent(this, UserActivity::class.java))
+            }
+        }
+    }
+
+    private fun loadUser() {
+        lifecycleScope.launch {
+            user = withContext(Dispatchers.IO) {
+                UserManager.getUserByUid(Settings.userUid)
+            }
+            when (val u = user) {
+                null -> {
+
+                }
+                else -> {
+                    u.uid
+                }
+            }
         }
     }
 
@@ -151,6 +178,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
+            USER_UID_KEY -> loadUser()
         }
     }
 

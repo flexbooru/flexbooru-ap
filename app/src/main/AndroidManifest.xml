@@ -16,6 +16,8 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning"
             tools:targetApi="n">
+        <activity android:name=".ui.UserActivity">
+        </activity>
         <activity
                 android:name=".ui.LoginActivity"
                 android:label="@string/title_login">

@@ -4,6 +4,8 @@
     <string name="title_posts">Posts</string>
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>
+    <string name="title_login">Sign in</string>
+    <string name="title_account">Account</string>
 
     <string name="posts_search">Search</string>
     <string name="history_clear_all">Clear all</string>
@@ -54,13 +56,13 @@
     <string name="msg_download_failed">Download failed</string>
     <string name="msg_login_tip_empty">Username or Password can not be empty.</string>
 
-    <string name="title_login">Sign in</string>
-
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <string name="user_favorites">Favorites</string>
 
 </resources>

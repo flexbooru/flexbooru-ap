@@ -99,7 +99,7 @@ dependencies {
     implementation 'com.github.onlymash:subsampling-scale-image-view:3.10.1'
     implementation 'androidx.preference:preference-ktx:1.1.0-alpha05'
     implementation 'com.takisoft.preferencex:preferencex-simplemenu:1.1.0-alpha05'
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.3-SNAPSHOT'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
