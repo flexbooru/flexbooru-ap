@@ -27,12 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
 
 </LinearLayout>
