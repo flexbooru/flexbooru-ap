@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import org.kodein.di.generic.instance
 
 
-const val SCHEME_KEY = "scheme"
-const val HOST_NAME_KEY = "hostname"
+const val SETTINGS_SCHEME_KEY = "settings_scheme"
+const val SETTINGS_HOST_KEY = "settings_host"
 
 const val SETTINGS_NIGHT_MODE_KEY = "settings_night_mode"
 private const val SETTINGS_NIGHT_MODE_ON = "on"
@@ -34,12 +34,12 @@ object Settings {
     private val sp by App.app.instance<SharedPreferences>()
 
     var scheme: String
-        get() = sp.getString(SCHEME_KEY, "https") ?: "https"
-        set(value) = sp.edit().putString(SCHEME_KEY, value).apply()
+        get() = sp.getString(SETTINGS_SCHEME_KEY, "https") ?: "https"
+        set(value) = sp.edit().putString(SETTINGS_SCHEME_KEY, value).apply()
 
     var hostname: String
-        get() = sp.getString(HOST_NAME_KEY, "anime-pictures.net") ?: "anime-pictures.net"
-        set(value) = sp.edit().putString(HOST_NAME_KEY, value).apply()
+        get() = sp.getString(SETTINGS_HOST_KEY, "fiepi.com") ?: "fiepi.com"
+        set(value) = sp.edit().putString(SETTINGS_HOST_KEY, value).apply()
 
     private val nightModeString: String
         get() = sp.getString(SETTINGS_NIGHT_MODE_KEY, SETTINGS_NIGHT_MODE_SYSTEM) ?: SETTINGS_NIGHT_MODE_SYSTEM

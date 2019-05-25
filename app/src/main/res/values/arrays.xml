@@ -44,4 +44,12 @@
         <item>big</item>
         <item>origin</item>
     </string-array>
+    <string-array name="settings_scheme_entries">
+        <item>https</item>
+        <item>http</item>
+    </string-array>
+    <string-array name="settings_scheme_entries_values">
+        <item>https</item>
+        <item>http</item>
+    </string-array>
 </resources>

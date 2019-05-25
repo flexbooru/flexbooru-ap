@@ -143,6 +143,16 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
                 search.limit = Settings.pageLimit
                 postViewModel.load(search)
             }
+            SETTINGS_SCHEME_KEY -> {
+                search.scheme = Settings.scheme
+                postViewModel.load(search)
+                postViewModel.refresh()
+            }
+            SETTINGS_HOST_KEY -> {
+                search.host = Settings.hostname
+                postViewModel.load(search)
+                postViewModel.refresh()
+            }
         }
     }
 }

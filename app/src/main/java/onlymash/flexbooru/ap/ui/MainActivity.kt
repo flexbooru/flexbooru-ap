@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -112,6 +113,14 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             } else {
                 startActivity(Intent(this, UserActivity::class.java))
             }
+        }
+        if (Settings.hostname == "fiepi.com") {
+            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_settings)
+            Toast.makeText(
+                this,
+                getString(R.string.msg_you_must_first_set_your_host),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
