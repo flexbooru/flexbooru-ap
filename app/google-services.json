@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "876395963504",
+    "firebase_url": "https://flexbooru-ap.firebaseio.com",
+    "project_id": "flexbooru-ap",
+    "storage_bucket": "flexbooru-ap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876395963504:android:fffa6c64f59a7f4d",
+        "android_client_info": {
+          "package_name": "onlymash.flexbooru.ap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876395963504-5kf38umqgepurcd6qml2a0eck48qevpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjHHWNLf3Ce4uLb20Yfv5wTVT35NjKyvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876395963504-5kf38umqgepurcd6qml2a0eck48qevpc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

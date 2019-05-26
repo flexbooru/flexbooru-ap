@@ -4,6 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.Purchase
 import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
@@ -39,5 +43,38 @@ class App : Application(), KodeinAware {
         super.onCreate()
         app = this
         AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
+        checkOrder()
+    }
+
+    private fun checkOrder() {
+        val billingClient = BillingClient
+            .newBuilder(this)
+            .enablePendingPurchases()
+            .setListener { _, purchases ->
+                val index = purchases?.indexOfFirst {
+                    it.sku == INAPP_SKU && it.purchaseState == Purchase.PurchaseState.PURCHASED
+                }
+                if (index !== null && index >= 0) {
+                    Settings.isPro = true
+                }
+            }
+            .build()
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult?) {
+                if (billingClient.isReady) {
+                    val purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)?.purchasesList
+                    if (purchases != null) {
+                        val index = purchases.indexOfFirst {
+                            it.sku == INAPP_SKU && it.purchaseState == Purchase.PurchaseState.PURCHASED
+                        }
+                        Settings.isPro = index >= 0
+                    } else {
+                        Settings.isPro = false
+                    }
+                }
+                billingClient.endConnection()
+            }
+            override fun onBillingServiceDisconnected() {}
+        })
     }
 }
