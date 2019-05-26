@@ -21,6 +21,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.android.billingclient.api.*
 import com.google.android.material.appbar.AppBarLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,13 +31,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
-import onlymash.flexbooru.ap.common.QUERY_KEY
-import onlymash.flexbooru.ap.common.SETTINGS_NIGHT_MODE_KEY
-import onlymash.flexbooru.ap.common.Settings
-import onlymash.flexbooru.ap.common.USER_UID_KEY
+import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.fragment.*
@@ -123,6 +122,10 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 Toast.LENGTH_LONG
             ).show()
         }
+        remove_ads_button.setOnClickListener {
+            removeAds()
+        }
+        remove_ads_button.toVisibility(!Settings.isPro)
     }
 
     private fun loadUser() {
@@ -209,6 +212,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
         when (key) {
             SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
             USER_UID_KEY -> loadUser()
+            IS_PRO_KEY -> remove_ads_button.toVisibility(!Settings.isPro)
         }
     }
 
@@ -224,5 +228,54 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 putString(QUERY_KEY, query)
             }
         )
+    }
+
+    private fun removeAds() {
+        val billingClient = BillingClient
+            .newBuilder(this)
+            .enablePendingPurchases()
+            .setListener { _, purchases ->
+                val index = purchases?.indexOfFirst {
+                    it.sku == INAPP_SKU && it.purchaseState == Purchase.PurchaseState.PURCHASED
+                }
+                if (index !== null && index >= 0) {
+                    Settings.isPro = true
+                }
+            }
+            .build()
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult?) {
+                pay(billingClient)
+            }
+            override fun onBillingServiceDisconnected() {}
+        })
+    }
+
+    private fun pay(client: BillingClient) {
+        if (client.isReady) {
+            val params = SkuDetailsParams
+                .newBuilder()
+                .setSkusList(listOf(INAPP_SKU))
+                .setType(BillingClient.SkuType.INAPP)
+                .build()
+            client.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
+                    skuDetailsList != null) {
+                    val index = skuDetailsList.indexOfFirst {
+                        it.sku == INAPP_SKU
+                    }
+                    if (index >= 0) {
+                        val billingFlowParams = BillingFlowParams
+                            .newBuilder()
+                            .setSkuDetails(skuDetailsList[index])
+                            .build()
+                        val result = client.launchBillingFlow(this, billingFlowParams)
+                        if (result.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+                            Settings.isPro = true
+                        }
+                    }
+                }
+            }
+        }
     }
 }

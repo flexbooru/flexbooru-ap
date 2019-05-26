@@ -12,4 +12,6 @@ const val SEARCH_TYPE_KEY = "search_type"
 const val USER_ID_KEY = "user_id"
 const val COLOR_KEY = "color"
 
+const val INAPP_SKU = "flexbooru_ap_pro"
+
 const val REQUEST_CODE_OPEN_DIRECTORY = 100

@@ -71,6 +71,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="post_color">Color</string>
+    <string name="action_remove_ads">Remove Ads</string>
 
     <string name="user_votes">Votes</string>
     <string name="user_logout">Logout</string>
