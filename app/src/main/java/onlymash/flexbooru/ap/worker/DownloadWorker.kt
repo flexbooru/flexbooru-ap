@@ -102,8 +102,7 @@ class DownloadWorker(
         val os = applicationContext.contentResolver.openOutputStream(desUri)
         try {
             `is` = OkHttpDownloader(applicationContext)
-                .load(url)
-                .body()?.source()?.inputStream()
+                .load(url).body?.source()?.inputStream()
             copy(`is`, os)
         } catch (_: IOException) {
             notificationManager.notify(

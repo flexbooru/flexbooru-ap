@@ -1,6 +1,5 @@
 package onlymash.flexbooru.ap.data.repository.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

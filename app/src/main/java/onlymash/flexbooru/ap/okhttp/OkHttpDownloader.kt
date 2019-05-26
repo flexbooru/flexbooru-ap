@@ -70,7 +70,7 @@ class OkHttpDownloader : Downloader {
      */
     constructor(client: OkHttpClient) {
         this.client = client
-        this.cache = client.cache()
+        this.cache = client.cache
     }
 
     /** Create a new downloader that uses the specified [Call.Factory] instance.  */
