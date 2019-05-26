@@ -73,3 +73,5 @@
 -keep class * implements com.google.gson.JsonDeserializer
 
 -keepnames class onlymash.flexbooru.ap.data.SearchType
+
+-keep class com.android.vending.billing.**

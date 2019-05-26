@@ -109,6 +109,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     implementation 'com.google.android.gms:play-services-ads:17.2.1'
+    implementation 'com.android.billingclient:billing:2.0.0'
     testImplementation 'junit:junit:5.0-SNAPSHOT'
     androidTestImplementation "androidx.work:work-testing:$work_version"
     androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
