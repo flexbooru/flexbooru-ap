@@ -42,8 +42,10 @@ import onlymash.flexbooru.ap.ui.fragment.DetailFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
 import org.kodein.di.generic.instance
+import java.io.File
 import java.io.FileInputStream
-import java.lang.Exception
+import java.io.FileOutputStream
+import kotlin.Exception
 
 const val CURRENT_POSITION_KEY = "current_position"
 const val FROM_WHERE_KEY = "from_where"
@@ -95,8 +97,20 @@ class DetailActivity : BaseActivity() {
         detailAdapter = DetailAdapter(supportFragmentManager, lifecycle)
         posts_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         posts_pager.adapter = detailAdapter
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
+        toolbar.apply {
+            setNavigationOnClickListener {
+                onBackPressed()
+            }
+            inflateMenu(R.menu.detail)
+            setOnMenuItemClickListener {
+                when (it?.itemId) {
+                    R.id.action_set_as -> setAs()
+                    R.id.action_share_link -> shareLink()
+                    R.id.action_send_file -> sendFile()
+                    R.id.action_open_in_browser -> openInBrowser()
+                }
+                true
+            }
         }
         ViewCompat.setOnApplyWindowInsetsListener(posts_pager) { _, insets ->
             toolbar_container.minimumHeight = toolbar.height + insets.systemWindowInsetTop
@@ -210,6 +224,25 @@ class DetailActivity : BaseActivity() {
         }
     }
 
+    private fun shareLink() {
+        startActivity(Intent.createChooser(
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, getWebLink())
+            },
+            getString(R.string.share_via)
+        ))
+    }
+
+    private fun openInBrowser() {
+        launchUrl(getWebLink())
+    }
+
+    private fun getWebLink(): String {
+        return "${Settings.scheme}://${Settings.hostname}/pictures/view_post/$currentPostId?lang=en"
+    }
+
     private fun getCurrentDetail(postId: Int): Detail? {
         var detail: Detail? = null
         allDetails.forEach {
@@ -221,11 +254,42 @@ class DetailActivity : BaseActivity() {
         return detail
     }
 
+    private fun setAs() {
+        val url = getDetailUrl() ?: return
+        lifecycleScope.launch {
+            val shareFile = getFile(url)
+            if (shareFile != null) {
+                startActivity(Intent.createChooser(
+                    Intent(Intent.ACTION_ATTACH_DATA).apply {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        putExtra(Intent.EXTRA_MIME_TYPES, url.getMimeType())
+                        data = getUriForFile(shareFile)
+                    },
+                    getString(R.string.share_via)
+                ))
+            }
+        }
+    }
+
+    private fun sendFile() {
+        val url = getDetailUrl() ?: return
+        lifecycleScope.launch {
+            val shareFile = getFile(url)
+            if (shareFile != null) {
+                startActivity(Intent.createChooser(
+                    Intent(Intent.ACTION_SEND).apply {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        putExtra(Intent.EXTRA_STREAM, getUriForFile(shareFile))
+                        type = url.getMimeType()
+                    },
+                    getString(R.string.share_via)
+                ))
+            }
+        }
+    }
+
     private fun saveFile() {
-        val postId = currentPostId
-        if (postId <= 0) return
-        val detail = getCurrentDetail(postId) ?: return
-        val url = detail.getDetailUrl()
+        val url = getDetailUrl() ?: return
         val fileName = url.fileName()
         val uri = getSaveUri(fileName) ?: return
         lifecycleScope.launch {
@@ -233,19 +297,15 @@ class DetailActivity : BaseActivity() {
                 val os = contentResolver.openOutputStream(uri)
                 var `is`: FileInputStream? = null
                 try {
-                    val file = GlideApp.with(this@DetailActivity)
-                        .downloadOnly()
-                        .load(url)
-                        .submit()
-                        .get()
+                    val file = downloadFile(url)
                     `is` = FileInputStream(file)
-                    copy(`is`, os)
+                    `is`.copyToOS(os)
                     true
                 } catch (_: Exception) {
                     false
                 } finally {
-                    closeQuietly(`is`)
-                    closeQuietly(os)
+                    `is`?.safeCloseQuietly()
+                    os?.safeCloseQuietly()
                 }
             }
             if (success) {
@@ -253,6 +313,39 @@ class DetailActivity : BaseActivity() {
                 Toast.makeText(this@DetailActivity, docId, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun getDetailUrl(): String? {
+        val postId = currentPostId
+        if (postId <= 0) return null
+        return getCurrentDetail(postId)?.getDetailUrl()
+    }
+
+    private suspend fun getFile(url: String): File? {
+        return withContext(Dispatchers.IO) {
+            val desFile = File(externalCacheDir, url.fileName())
+            val os = FileOutputStream(desFile)
+            var `is`: FileInputStream? = null
+            try {
+                val file = downloadFile(url)
+                `is` = FileInputStream(file)
+                `is`.copyToOS(os)
+                desFile
+            } catch (_: Exception) {
+                null
+            } finally {
+                `is`?.safeCloseQuietly()
+                os.safeCloseQuietly()
+            }
+        }
+    }
+
+    private fun downloadFile(url: String): File {
+        return GlideApp.with(this)
+            .downloadOnly()
+            .load(url)
+            .submit()
+            .get()
     }
 
     private fun initVoteIcon() {

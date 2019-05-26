@@ -103,7 +103,7 @@ class DownloadWorker(
         try {
             `is` = OkHttpDownloader(applicationContext)
                 .load(url).body?.source()?.inputStream()
-            copy(`is`, os)
+            `is`?.copyToOS(os)
         } catch (_: IOException) {
             notificationManager.notify(
                 postId,
@@ -115,8 +115,8 @@ class DownloadWorker(
             return Result.failure()
         } finally {
             ProgressInterceptor.removeListener(url)
-            closeQuietly(`is`)
-            closeQuietly(os)
+            `is`?.safeCloseQuietly()
+            os?.safeCloseQuietly()
         }
         notificationManager.notify(
             postId,

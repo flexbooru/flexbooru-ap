@@ -72,6 +72,10 @@
     <string name="login_failed">"Login failed"</string>
     <string name="post_color">Color</string>
     <string name="action_remove_ads">Remove Ads</string>
+    <string name="action_set_as">Set as…</string>
+    <string name="action_share_link">Share link</string>
+    <string name="action_send_file">Send file</string>
+    <string name="action_open_in_browser">Open in browser</string>
 
     <string name="user_votes">Votes</string>
     <string name="user_logout">Logout</string>
