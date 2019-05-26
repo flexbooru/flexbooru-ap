@@ -8,7 +8,8 @@ data class Search(
     var limit: Int = 20,
     var type: SearchType = SearchType.NORMAL,
     var userId: Int = -1,
-    var token: String
+    var token: String,
+    var color: String = ""
 )
 
 enum class SearchType(type: Int) {

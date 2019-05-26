@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_container"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"
+            android:background="?selectableItemBackground">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="?listPreferredItemHeight"
+                android:layout_height="?listPreferredItemHeight"
+                android:padding="10dp"
+                android:src="@drawable/avatar_user"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/primary_text_dark"
+                app:layout_constraintStart_toEndOf="@+id/user_avatar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/user_id"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="@color/secondary_text_dark"
+                app:layout_constraintStart_toEndOf="@+id/user_avatar"
+                app:layout_constraintBottom_toBottomOf="@+id/user_avatar"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pub_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="@color/secondary_text_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/user_avatar"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/post_url_container"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"
+            android:background="?selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/post_size"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="@color/primary_text_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/post_url_download"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:src="@drawable/ic_file_download_24dp"
+                android:tint="@color/white"
+                android:background="?selectableItemBackground"
+                app:layout_constraintEnd_toStartOf="@+id/post_url_open"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/post_url_open"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:src="@drawable/ic_open_in_new_24dp"
+                android:tint="@color/white"
+                android:background="?selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/color_container"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"
+            android:background="?selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/post_color"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/post_color"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="@color/primary_text_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/post_color_value"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="@color/primary_text_dark"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="150dp"/>
+</LinearLayout>

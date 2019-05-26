@@ -60,10 +60,12 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
         var query = ""
         var searchType = SearchType.NORMAL
         var userId = -1
+        var color = ""
         arguments?.apply {
             query = getString(QUERY_KEY) ?: ""
             searchType = getSerializable(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
             userId = getInt(USER_ID_KEY)
+            color = getString(COLOR_KEY) ?: ""
         }
         search = Search(
             scheme = Settings.scheme,
@@ -72,7 +74,8 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
             limit = Settings.pageLimit,
             type = searchType,
             userId = userId,
-            token = Settings.userToken
+            token = Settings.userToken,
+            color = color
         )
         postViewModel = getViewModel(object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")

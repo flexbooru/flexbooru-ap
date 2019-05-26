@@ -15,7 +15,9 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("order_by", "date")
         .addQueryParameter("ldate", "0")
         .addQueryParameter("token", token)
-    if (query.isNotEmpty() && type == SearchType.NORMAL) {
+    if (color.isNotEmpty()) {
+        builder.addQueryParameter("color", color)
+    } else if (query.isNotEmpty() && type == SearchType.NORMAL) {
         builder.addQueryParameter("search_tag", query)
     }
     if (type == SearchType.FAVORITE) {

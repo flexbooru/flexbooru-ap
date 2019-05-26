@@ -20,6 +20,10 @@
         <argument android:name="user_id"
                   app:argType="integer"
                   android:defaultValue="-1"/>
+        <argument
+                android:name="color"
+                app:argType="string"
+                app:nullable="true"/>
     </fragment>
 
     <fragment
@@ -48,6 +52,10 @@
         <argument android:name="user_id"
                   app:argType="integer"
                   android:defaultValue="-1"/>
+        <argument
+                android:name="color"
+                app:argType="string"
+                app:nullable="true"/>
     </activity>
     <fragment
             android:id="@+id/nav_about"

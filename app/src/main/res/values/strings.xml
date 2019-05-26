@@ -56,6 +56,7 @@
     <string name="placeholder_post_id"># %01$d</string>
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
     <string name="placeholder_copy_text">` %01$s ` have been copied to clipboard.</string>
+    <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
 
     <string name="msg_path_denied">Save failed! No access to the current path.</string>
     <string name="msg_download_complete">Download complete</string>
@@ -69,6 +70,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="post_color">Color</string>
 
     <string name="user_votes">Votes</string>
     <string name="user_logout">Logout</string>

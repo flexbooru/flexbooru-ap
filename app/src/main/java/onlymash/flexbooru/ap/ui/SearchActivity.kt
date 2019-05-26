@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.COLOR_KEY
 import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.SEARCH_TYPE_KEY
 import onlymash.flexbooru.ap.common.USER_ID_KEY
@@ -25,7 +26,8 @@ class SearchActivity : KodeinActivity() {
             context: Context,
             query: String = "",
             searchType: SearchType = SearchType.NORMAL,
-            userId: Int = -1
+            userId: Int = -1,
+            color: String = ""
         ) {
             context.startActivity(
                 Intent(context, SearchActivity::class.java)
@@ -33,6 +35,7 @@ class SearchActivity : KodeinActivity() {
                     putExtra(QUERY_KEY, query)
                     putExtra(SEARCH_TYPE_KEY, searchType)
                     putExtra(USER_ID_KEY, userId)
+                    putExtra(COLOR_KEY, color)
                 }
             )
         }
@@ -41,6 +44,7 @@ class SearchActivity : KodeinActivity() {
     private var query = ""
     private var searchType = SearchType.NORMAL
     private var userId: Int = -1
+    private var color: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class SearchActivity : KodeinActivity() {
             query = getStringExtra(QUERY_KEY) ?: ""
             searchType = getSerializableExtra(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
             userId = getIntExtra(USER_ID_KEY, -1)
+            color = getStringExtra(COLOR_KEY) ?: ""
         }
 
         findNavController(R.id.search_nav_host_fragment).setGraph(
@@ -57,6 +62,7 @@ class SearchActivity : KodeinActivity() {
                 putString(QUERY_KEY, query)
                 putSerializable(SEARCH_TYPE_KEY, searchType)
                 putInt(USER_ID_KEY, userId)
+                putString(COLOR_KEY, color)
             }
         )
         fab.setOnClickListener {

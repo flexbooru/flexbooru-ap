@@ -15,6 +15,7 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.bottom_shortcut_bar.*
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,7 @@ import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
 import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.BaseActivity
+import onlymash.flexbooru.ap.ui.dialog.InfoDialog
 import onlymash.flexbooru.ap.ui.dialog.TagsDialog
 import onlymash.flexbooru.ap.ui.diffcallback.PostDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.DetailFragment
@@ -121,7 +123,7 @@ class DetailActivity : BaseActivity() {
             TagsDialog.newInstance(currentPostId).show(supportFragmentManager, "tags")
         }
         post_info.setOnClickListener {
-
+            InfoDialog.newInstance(currentPostId).show(supportFragmentManager, "info")
         }
         post_save.setOnClickListener {
             if (fromWhere == FROM_HISTORY && details.isNotEmpty()) {
@@ -138,6 +140,10 @@ class DetailActivity : BaseActivity() {
                 }
             }
         }
+        ad_view.visibility = View.VISIBLE
+        val adBuilder = AdRequest.Builder()
+            .addTestDevice("3ABFE34D41CFAFB2402160AC2B4B2DFE")
+        ad_view.loadAd(adBuilder.build())
     }
 
     private fun initViewModel() {

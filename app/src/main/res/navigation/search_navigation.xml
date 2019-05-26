@@ -20,6 +20,10 @@
         <argument android:name="user_id"
                   app:argType="integer"
                   android:defaultValue="-1"/>
+        <argument
+                android:name="color"
+                app:argType="string"
+                app:nullable="true"/>
     </fragment>
     <activity
             android:id="@+id/nav_search"
@@ -36,5 +40,9 @@
         <argument android:name="user_id"
                   app:argType="integer"
                   android:defaultValue="-1"/>
+        <argument
+                android:name="color"
+                app:argType="string"
+                app:nullable="true"/>
     </activity>
 </navigation>

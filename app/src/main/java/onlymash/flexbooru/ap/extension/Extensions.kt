@@ -119,3 +119,9 @@ fun Context.openAppInMarket(packageName: String) {
                 getString(R.string.share_via)))
     } catch (_: ActivityNotFoundException) { }
 }
+
+fun Context.safeOpenIntent(intent: Intent) {
+    try {
+        startActivity(intent)
+    } catch (_: ActivityNotFoundException) {}
+}
