@@ -24,7 +24,7 @@ interface Api {
             val logger = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { log ->
                 Log.d("Api", log)
             }).apply {
-                level = HttpLoggingInterceptor.Level.HEADERS
+                level = HttpLoggingInterceptor.Level.BASIC
             }
             val interceptor = Interceptor { chain ->
                 val builder =  chain.request().newBuilder()

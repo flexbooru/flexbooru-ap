@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -31,8 +32,8 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
-import onlymash.flexbooru.ap.extension.NetResult
-import onlymash.flexbooru.ap.extension.getViewModel
+import onlymash.flexbooru.ap.extension.*
+import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.dialog.InfoDialog
 import onlymash.flexbooru.ap.ui.dialog.TagsDialog
@@ -40,8 +41,9 @@ import onlymash.flexbooru.ap.ui.diffcallback.PostDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.DetailFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
-import onlymash.flexbooru.ap.worker.DownloadWorker
 import org.kodein.di.generic.instance
+import java.io.FileInputStream
+import java.lang.Exception
 
 const val CURRENT_POSITION_KEY = "current_position"
 const val FROM_WHERE_KEY = "from_where"
@@ -126,19 +128,7 @@ class DetailActivity : BaseActivity() {
             InfoDialog.newInstance(currentPostId).show(supportFragmentManager, "info")
         }
         post_save.setOnClickListener {
-            if (fromWhere == FROM_HISTORY && details.isNotEmpty()) {
-                if (details.isEmpty()) return@setOnClickListener
-                DownloadWorker.download(this, details[pos])
-            } else if (fromWhere == FROM_POSTS && posts.isNotEmpty()) {
-                lifecycleScope.launch {
-                    val detail = withContext(Dispatchers.IO) {
-                        detailDao.getDetailById(posts[pos].id)
-                    }
-                    if (detail != null) {
-                        DownloadWorker.download(this@DetailActivity, detail)
-                    }
-                }
-            }
+            saveFile()
         }
         ad_view.visibility = View.VISIBLE
         val adBuilder = AdRequest.Builder()
@@ -227,6 +217,40 @@ class DetailActivity : BaseActivity() {
             }
         }
         return detail
+    }
+
+    private fun saveFile() {
+        val postId = currentPostId
+        if (postId <= 0) return
+        val detail = getCurrentDetail(postId) ?: return
+        val url = detail.getDetailUrl()
+        val fileName = url.fileName()
+        val uri = getSaveUri(fileName) ?: return
+        lifecycleScope.launch {
+            val success = withContext(Dispatchers.IO) {
+                val os = contentResolver.openOutputStream(uri)
+                var `is`: FileInputStream? = null
+                try {
+                    val file = GlideApp.with(this@DetailActivity)
+                        .downloadOnly()
+                        .load(url)
+                        .submit()
+                        .get()
+                    `is` = FileInputStream(file)
+                    copy(`is`, os)
+                    true
+                } catch (_: Exception) {
+                    false
+                } finally {
+                    closeQuietly(`is`)
+                    closeQuietly(os)
+                }
+            }
+            if (success) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                Toast.makeText(this@DetailActivity, docId, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initVoteIcon() {
