@@ -18,6 +18,7 @@ import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
+import onlymash.flexbooru.ap.extension.getSanCount
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.adapter.PostAdapter
@@ -103,7 +104,7 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
             postViewModel.retry()
         }
         list.apply {
-            layoutManager = StaggeredGridLayoutManager(3, RecyclerView.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
             adapter = postAdapter
         }
         postViewModel.posts.observe(this, Observer {
@@ -124,6 +125,9 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
             postViewModel.refresh()
         }
     }
+
+    private val spanCount: Int
+        get() = activity?.getSanCount() ?: 3
 
     override fun onStart() {
         super.onStart()

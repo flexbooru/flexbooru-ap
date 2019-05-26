@@ -15,4 +15,8 @@
     <dimen name="corner_radius">6dp</dimen>
     <dimen name="card_elevation">1dp</dimen>
     <dimen name="card_content_padding">0dp</dimen>
+
+    <dimen name="grid_width_small">130dp</dimen>
+    <dimen name="grid_width_normal">190dp</dimen>
+    <dimen name="grid_width_big">260dp</dimen>
 </resources>

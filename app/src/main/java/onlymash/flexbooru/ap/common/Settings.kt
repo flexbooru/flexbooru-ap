@@ -31,6 +31,11 @@ const val USER_TOKEN_KEY = "token"
 
 const val IS_PRO_KEY = "pro"
 
+const val SETTINGS_GRID_WIDTH_KEY = "settings_grid_width"
+const val SETTINGS_GRID_WIDTH_SMALL = "small"
+const val SETTINGS_GRID_WIDTH_NORMAL = "normal"
+const val SETTINGS_GRID_WIDTH_BIG = "big"
+
 object Settings {
 
     private val sp by App.app.instance<SharedPreferences>()
@@ -87,4 +92,7 @@ object Settings {
     var isPro: Boolean
         get() = sp.getBoolean(IS_PRO_KEY, false)
         set(value) = sp.edit().putBoolean(IS_PRO_KEY, value).apply()
+
+    val gridWidthString: String
+        get() = sp.getString(SETTINGS_GRID_WIDTH_KEY, SETTINGS_GRID_WIDTH_NORMAL) ?: SETTINGS_GRID_WIDTH_NORMAL
 }

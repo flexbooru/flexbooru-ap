@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2019. by onlymash <im@fiepi.me>, All rights reserved
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package onlymash.flexbooru.ap.extension
 
 import android.app.Activity
@@ -23,10 +8,14 @@ import android.content.res.Resources
 import android.net.Uri
 import android.net.wifi.WifiConfiguration
 import android.text.StaticLayout
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.annotation.DimenRes
 import androidx.core.view.postDelayed
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_BIG
+import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_SMALL
+import onlymash.flexbooru.ap.common.Settings
 
 /**
  * An extension to `postponeEnterTransition` which will resume after a timeout.
@@ -125,3 +114,24 @@ fun Context.safeOpenIntent(intent: Intent) {
         startActivity(intent)
     } catch (_: ActivityNotFoundException) {}
 }
+
+
+private val gridWidthResId: Int
+    get() = when (Settings.gridWidthString) {
+        SETTINGS_GRID_WIDTH_SMALL -> R.dimen.grid_width_small
+        SETTINGS_GRID_WIDTH_BIG -> R.dimen.grid_width_big
+        else -> R.dimen.grid_width_normal
+    }
+
+fun Activity.getWindowWidth(): Int {
+    val outMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(outMetrics)
+    return outMetrics.widthPixels
+}
+
+fun Activity.getSanCount(): Int {
+    val itemWidth = resources.getDimensionPixelSize(gridWidthResId)
+    val count = Math.round(getWindowWidth().toFloat() / itemWidth.toFloat())
+    return if (count < 1) 1 else count
+}
+
