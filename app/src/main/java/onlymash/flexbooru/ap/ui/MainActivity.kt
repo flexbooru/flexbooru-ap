@@ -21,7 +21,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.android.billingclient.api.*
 import com.google.android.material.appbar.AppBarLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -115,7 +114,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             }
         }
         if (Settings.hostname == "fiepi.com") {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_settings)
+            navController.navigate(R.id.nav_settings)
             Toast.makeText(
                 this,
                 getString(R.string.msg_you_must_first_set_your_host),
@@ -123,7 +122,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             ).show()
         }
         remove_ads_button.setOnClickListener {
-            removeAds()
+            navController.navigate(R.id.nav_purchase)
         }
         remove_ads_button.toVisibility(!Settings.isPro)
     }
@@ -228,54 +227,5 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 putString(QUERY_KEY, query)
             }
         )
-    }
-
-    private fun removeAds() {
-        val billingClient = BillingClient
-            .newBuilder(this)
-            .enablePendingPurchases()
-            .setListener { _, purchases ->
-                val index = purchases?.indexOfFirst {
-                    it.sku == INAPP_SKU && it.purchaseState == Purchase.PurchaseState.PURCHASED
-                }
-                if (index !== null && index >= 0) {
-                    Settings.isPro = true
-                }
-            }
-            .build()
-        billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(billingResult: BillingResult?) {
-                pay(billingClient)
-            }
-            override fun onBillingServiceDisconnected() {}
-        })
-    }
-
-    private fun pay(client: BillingClient) {
-        if (client.isReady) {
-            val params = SkuDetailsParams
-                .newBuilder()
-                .setSkusList(listOf(INAPP_SKU))
-                .setType(BillingClient.SkuType.INAPP)
-                .build()
-            client.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-                    skuDetailsList != null) {
-                    val index = skuDetailsList.indexOfFirst {
-                        it.sku == INAPP_SKU
-                    }
-                    if (index >= 0) {
-                        val billingFlowParams = BillingFlowParams
-                            .newBuilder()
-                            .setSkuDetails(skuDetailsList[index])
-                            .build()
-                        val result = client.launchBillingFlow(this, billingFlowParams)
-                        if (result.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-                            Settings.isPro = true
-                        }
-                    }
-                }
-            }
-        }
     }
 }

@@ -61,12 +61,16 @@
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
     <string name="placeholder_copy_text">` %01$s ` have been copied to clipboard.</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
+    <string name="placeholder_action_pay_by_google_play">Google Play - %01$s</string>
 
     <string name="msg_path_denied">Save failed! No access to the current path.</string>
     <string name="msg_download_complete">Download complete</string>
     <string name="msg_download_failed">Download failed</string>
     <string name="msg_login_tip_empty">Username or Password can not be empty.</string>
     <string name="msg_you_must_first_set_your_host">You must first set your host.</string>
+    <string name="remove_ads_content">Support development &amp; Remove in-app ads</string>
+
+    <string name="action_pay_by_google_play">Google Play</string>
 
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>

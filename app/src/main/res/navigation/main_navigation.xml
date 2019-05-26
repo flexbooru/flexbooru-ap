@@ -61,4 +61,9 @@
             android:id="@+id/nav_about"
             android:name="onlymash.flexbooru.ap.ui.fragment.AboutFragment"
             android:label="@string/title_about"/>
+    <activity
+            android:id="@+id/nav_purchase"
+            android:name="onlymash.flexbooru.ap.ui.PurchaseActivity"
+            android:label="@string/action_remove_ads"
+            tools:layout="@layout/activity_purchase"/>
 </navigation>

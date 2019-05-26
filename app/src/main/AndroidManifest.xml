@@ -17,6 +17,8 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning"
             tools:targetApi="n">
+        <activity android:name=".ui.PurchaseActivity">
+        </activity>
         <activity android:name=".ui.CopyrightActivity"/>
         <activity android:name=".ui.UserActivity">
         </activity>
@@ -38,18 +40,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <receiver android:name=".receiver.DownloadNotificationClickReceiver"/>
+
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
                 android:value="ca-app-pub-1547571472841615~7732260687"/>
+
         <provider
-                android:authorities="onlymash.flexbooru.ap.fileprovider"
                 android:name="androidx.core.content.FileProvider"
+                android:authorities="onlymash.flexbooru.ap.fileprovider"
                 android:exported="false"
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/file_paths" />
+                    android:resource="@xml/file_paths"/>
         </provider>
     </application>
 
