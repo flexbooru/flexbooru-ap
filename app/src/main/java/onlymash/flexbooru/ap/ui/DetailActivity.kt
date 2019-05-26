@@ -130,10 +130,12 @@ class DetailActivity : BaseActivity() {
         post_save.setOnClickListener {
             saveFile()
         }
-        ad_view.visibility = View.VISIBLE
-        val adBuilder = AdRequest.Builder()
-            .addTestDevice("3ABFE34D41CFAFB2402160AC2B4B2DFE")
-        ad_view.loadAd(adBuilder.build())
+        if (!Settings.isPro) {
+            ad_view.toVisibility(true)
+            val adBuilder = AdRequest.Builder()
+                .addTestDevice("3ABFE34D41CFAFB2402160AC2B4B2DFE")
+            ad_view.loadAd(adBuilder.build())
+        }
     }
 
     private fun initViewModel() {
