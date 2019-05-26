@@ -11,10 +11,16 @@ import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.github.chrisbanes.photoview.PhotoView
 import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.POST_ID_KEY
@@ -27,6 +33,7 @@ import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
 import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getDetailUrl
 import onlymash.flexbooru.ap.extension.getViewModel
+import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.DetailActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
@@ -84,18 +91,7 @@ class DetailFragment : KodeinFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val subsamplingScaleImageView = view.findViewById<SubsamplingScaleImageView>(R.id.post_image)
-        subsamplingScaleImageView.apply {
-            setExecutor(ioExecutor)
-            setBitmapDecoderFactory{
-                CustomDecoder(picasso)
-            }
-            setRegionDecoderFactory {
-                CustomRegionDecoder()
-            }
-            setOnClickListener {
-                (activity as? DetailActivity)?.setVisibility()
-            }
-        }
+        val photoView = view.findViewById<PhotoView>(R.id.post_gif)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         detailViewModel.detail.observe(this, Observer {
             when (it) {
@@ -103,16 +99,65 @@ class DetailFragment : KodeinFragment() {
                     Log.w(TAG, it.errorMsg)
                 }
                 is NetResult.Success -> {
-                    GlideApp.with(requireContext())
-                        .downloadOnly()
-                        .load(it.data.getDetailUrl())
-                        .into(object : CustomTarget<File>() {
-                            override fun onLoadCleared(placeholder: Drawable?) {}
-                            override fun onResourceReady(resource: File, transition: Transition<in File>?) {
-                                subsamplingScaleImageView.setImage(ImageSource.uri(resource.toUri()))
-                                progressBar.visibility = View.GONE
+                    val url = it.data.getDetailUrl()
+                    if (it.data.ext == ".gif") {
+                        subsamplingScaleImageView.toVisibility(false)
+                        photoView.toVisibility(true)
+                        photoView.setOnClickListener {
+                            (activity as? DetailActivity)?.setVisibility()
+                        }
+                        GlideApp.with(requireContext())
+                            .asGif()
+                            .load(url)
+                            .fitCenter()
+                            .addListener(object : RequestListener<GifDrawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<GifDrawable>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    progressBar.toVisibility(false)
+                                    return false
+                                }
+                                override fun onResourceReady(
+                                    resource: GifDrawable?,
+                                    model: Any?,
+                                    target: Target<GifDrawable>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    progressBar.toVisibility(false)
+                                    return false
+                                }
+                            })
+                            .into(photoView)
+                    } else {
+                        photoView.toVisibility(false)
+                        subsamplingScaleImageView.toVisibility(true)
+                        subsamplingScaleImageView.apply {
+                            setExecutor(ioExecutor)
+                            setBitmapDecoderFactory{
+                                CustomDecoder(picasso)
                             }
-                        })
+                            setRegionDecoderFactory {
+                                CustomRegionDecoder()
+                            }
+                            setOnClickListener {
+                                (activity as? DetailActivity)?.setVisibility()
+                            }
+                        }
+                        GlideApp.with(requireContext())
+                            .downloadOnly()
+                            .load(url)
+                            .into(object : CustomTarget<File>() {
+                                override fun onLoadCleared(placeholder: Drawable?) {}
+                                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
+                                    subsamplingScaleImageView.setImage(ImageSource.uri(resource.toUri()))
+                                    progressBar.toVisibility(false)
+                                }
+                            })
+                    }
                 }
                 else -> {
                     Log.w(TAG, "unknown data")

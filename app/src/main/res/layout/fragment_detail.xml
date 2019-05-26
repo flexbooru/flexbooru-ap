@@ -3,6 +3,11 @@
              android:id="@+id/detail_container"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
+    <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/post_gif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
