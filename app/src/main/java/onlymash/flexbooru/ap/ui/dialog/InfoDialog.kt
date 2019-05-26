@@ -21,10 +21,7 @@ import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
-import onlymash.flexbooru.ap.extension.NetResult
-import onlymash.flexbooru.ap.extension.copyText
-import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.extension.safeOpenIntent
+import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.SearchActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
@@ -108,7 +105,7 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
         }
         view.findViewById<AppCompatTextView>(R.id.user_name).text = detail.userName
         view.findViewById<AppCompatTextView>(R.id.user_id).text = detail.userId.toString()
-        view.findViewById<AppCompatTextView>(R.id.pub_date).text = detail.pubtime
+        view.findViewById<AppCompatTextView>(R.id.pub_date).text = detail.pubtime.formatDate()
         view.findViewById<AppCompatTextView>(R.id.post_size).text =
             getString(
                 R.string.placeholder_post_size,
