@@ -16,6 +16,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning"
             tools:targetApi="n">
+        <activity android:name=".ui.CopyrightActivity"/>
         <activity android:name=".ui.UserActivity">
         </activity>
         <activity

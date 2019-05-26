@@ -65,7 +65,8 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             setOf(
                 R.id.nav_posts,
                 R.id.nav_history,
-                R.id.nav_settings
+                R.id.nav_settings,
+                R.id.nav_about
             ),
             drawer_layout
         )
@@ -160,7 +161,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 initSearchView(searchView)
             }
             R.id.nav_history -> menuInflater.inflate(R.menu.history, menu)
-            R.id.nav_settings -> menu?.clear()
+            else -> menu?.clear()
         }
         return true
     }

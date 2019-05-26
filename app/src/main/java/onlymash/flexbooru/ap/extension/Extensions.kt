@@ -16,12 +16,17 @@
 package onlymash.flexbooru.ap.extension
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.net.wifi.WifiConfiguration
 import android.text.StaticLayout
 import android.util.TypedValue
 import androidx.annotation.DimenRes
 import androidx.core.view.postDelayed
+import onlymash.flexbooru.ap.R
 
 /**
  * An extension to `postponeEnterTransition` which will resume after a timeout.
@@ -104,4 +109,13 @@ fun String.unwrapQuotes(): String {
         } else ""
     }
     return formattedConfigString
+}
+
+fun Context.openAppInMarket(packageName: String) {
+    try {
+        startActivity(
+            Intent.createChooser(
+                Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")),
+                getString(R.string.share_via)))
+    } catch (_: ActivityNotFoundException) { }
 }
