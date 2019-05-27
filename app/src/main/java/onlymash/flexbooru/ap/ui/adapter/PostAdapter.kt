@@ -21,6 +21,7 @@ const val MIN_ITEM_ASPECT_RATIO = 0.5625f
 
 class PostAdapter(
     private val glide: GlideRequests,
+    private val clickItemCallback: (String, View, String, Int) -> Unit,
     retryCallback: () -> Unit) : BaseAdapter<Post, RecyclerView.ViewHolder>(
         diffCallback = POST_COMPARATOR,
         retryCallback = retryCallback) {
@@ -36,21 +37,17 @@ class PostAdapter(
         (holder as PostViewHolder).bind(post)
         holder.itemView.setOnClickListener {
             val query = post?.query ?: return@setOnClickListener
-            DetailActivity.startDetailActivity(
-                context = holder.itemView.context,
-                fromWhere = FROM_POSTS,
-                query = query,
-                position = position
-            )
+            clickItemCallback(query, holder.preview, "post_${post.id}", position)
         }
     }
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val preview: AppCompatImageView = itemView.findViewById(R.id.preview)
+        val preview: AppCompatImageView = itemView.findViewById(R.id.preview)
 
         fun bind(post: Post?) {
             if (post == null) return
+            preview.transitionName = "post_${post.id}"
             val lp = preview.layoutParams as ConstraintLayout.LayoutParams
             val ratio = post.width.toFloat() / post.height.toFloat()
             when {

@@ -18,6 +18,14 @@ fun Post.getPreviewUrl(): String {
     }
 }
 
+fun Detail.getPreviewUrl(): String {
+    return when (Settings.previewSize) {
+        FILE_SIZE_SMALL -> smallPreview
+        FILE_SIZE_MEDIUM -> mediumPreview
+        else -> bigPreview
+    }
+}
+
 fun Detail.getDetailUrl(): String {
     return when (Settings.detailSize) {
         FILE_SIZE_MEDIUM -> mediumPreview

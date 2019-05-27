@@ -1,21 +1,23 @@
 package onlymash.flexbooru.ap.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.*
-import androidx.recyclerview.widget.DiffUtil
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.bottom_shortcut_bar.*
@@ -37,10 +39,13 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.dialog.InfoDialog
 import onlymash.flexbooru.ap.ui.dialog.TagsDialog
-import onlymash.flexbooru.ap.ui.diffcallback.PostDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.DetailFragment
+import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_POSITION_ACTION_FILTER_KEY
+import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_POSITION_KEY
+import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_POSITION_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
+import onlymash.flexbooru.ap.widget.DismissFrameLayout
 import org.kodein.di.generic.instance
 import java.io.File
 import java.io.FileInputStream
@@ -51,6 +56,9 @@ const val CURRENT_POSITION_KEY = "current_position"
 const val FROM_WHERE_KEY = "from_where"
 const val FROM_POSTS = 0
 const val FROM_HISTORY = 1
+
+private const val ALPHA_MAX = 0xFF
+private const val ALPHA_MIN = 0x00
 
 class DetailActivity : BaseActivity() {
 
@@ -63,6 +71,23 @@ class DetailActivity : BaseActivity() {
                 putExtra(CURRENT_POSITION_KEY, position)
             })
         }
+        fun startDetailActivityWithTransition(
+            activity: Activity,
+            fromWhere: Int,
+            query: String = "",
+            position: Int,
+            view: View,
+            transitionName: String
+        ) {
+            val intent = Intent(activity, DetailActivity::class.java).apply {
+                putExtra(FROM_WHERE_KEY, fromWhere)
+                putExtra(QUERY_KEY, query)
+                putExtra(CURRENT_POSITION_KEY, position)
+            }
+            val options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(activity, view, transitionName)
+            activity.startActivity(intent, options.toBundle())
+        }
     }
 
     private val api by instance<Api>()
@@ -72,6 +97,7 @@ class DetailActivity : BaseActivity() {
     private lateinit var localPostViewModel: LocalPostViewModel
     private lateinit var localDetailViewModel: DetailViewModel
     private lateinit var detailAdapter: DetailAdapter
+    private lateinit var colorDrawable: ColorDrawable
 
     private var fromWhere = FROM_POSTS
     private var pos = 0
@@ -80,6 +106,33 @@ class DetailActivity : BaseActivity() {
     private val details: MutableList<Detail> = mutableListOf()
     private var currentPostId = 0
     private val allDetails: MutableList<Detail> = mutableListOf()
+
+    val onDismissListener = object : DismissFrameLayout.OnDismissListener {
+        override fun onStart() {
+            colorDrawable.alpha = ALPHA_MIN
+        }
+
+        override fun onProgress(progress: Float) {
+
+        }
+
+        override fun onDismiss() {
+            finishAfterTransition()
+        }
+
+        override fun onCancel() {
+            colorDrawable.alpha = ALPHA_MAX
+        }
+    }
+
+    override fun finishAfterTransition() {
+        if (fromWhere == FROM_POSTS) {
+            toolbar_container.toVisibility(false)
+            bottom_bar_container.toVisibility(false)
+            colorDrawable.alpha = ALPHA_MIN
+        }
+        super.finishAfterTransition()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,12 +143,14 @@ class DetailActivity : BaseActivity() {
             query = getStringExtra(QUERY_KEY) ?: ""
             pos = getIntExtra(CURRENT_POSITION_KEY, 0)
         }
+        postponeEnterTransition()
         initView()
         initViewModel()
     }
     private fun initView() {
-        detailAdapter = DetailAdapter(supportFragmentManager, lifecycle)
-        posts_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.black))
+        detailAdapter = DetailAdapter(supportFragmentManager)
+        posts_pager.background = colorDrawable
         posts_pager.adapter = detailAdapter
         toolbar.apply {
             setNavigationOnClickListener {
@@ -122,9 +177,8 @@ class DetailActivity : BaseActivity() {
             space_nav_bar.minimumHeight = insets.systemWindowInsetBottom
             insets
         }
-        posts_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        posts_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
                 pos = position
                 when (fromWhere) {
                     FROM_POSTS -> currentPostId = posts[position].id
@@ -132,7 +186,14 @@ class DetailActivity : BaseActivity() {
                 }
                 toolbar.title = "Post $currentPostId"
                 initVoteIcon()
+                val intent = Intent(JUMP_TO_POSITION_ACTION_FILTER_KEY).apply {
+                    putExtra(JUMP_TO_POSITION_QUERY_KEY, query)
+                    putExtra(JUMP_TO_POSITION_KEY, position)
+                }
+                sendBroadcast(intent)
             }
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
         })
         post_tags.setOnClickListener {
             TagsDialog.newInstance(currentPostId).show(supportFragmentManager, "tags")
@@ -160,19 +221,13 @@ class DetailActivity : BaseActivity() {
                 }
             })
             localPostViewModel.posts.observe(this, Observer {
-                lifecycleScope.launch {
-                    val result = withContext(Dispatchers.IO) {
-                        val oldItems = mutableListOf<Post>()
-                        oldItems.addAll(posts)
-                        posts.clear()
-                        posts.addAll(it)
-                        DiffUtil.calculateDiff(PostDiffCallback(oldItems, posts))
-                    }
-                    result.dispatchUpdatesTo(detailAdapter)
-                    posts_pager.setCurrentItem(pos, false)
-                }
+                posts.clear()
+                posts.addAll(it)
+                detailAdapter.notifyDataSetChanged()
+                posts_pager.setCurrentItem(pos, false)
                 toolbar.title = "Post ${it[pos].id}"
                 localPostViewModel.posts.removeObservers(this)
+                startPostponedEnterTransition()
             })
             localPostViewModel.load(query)
         }
@@ -195,6 +250,7 @@ class DetailActivity : BaseActivity() {
                 details.addAll(it)
                 detailAdapter.notifyDataSetChanged()
                 posts_pager.setCurrentItem(pos, false)
+                startPostponedEnterTransition()
             }
             initVoteIcon()
         })
@@ -411,10 +467,7 @@ class DetailActivity : BaseActivity() {
         window.decorView.systemUiVisibility = uiFlags
     }
 
-    inner class DetailAdapter(
-        fm: FragmentManager,
-        lifecycle: Lifecycle
-    ) : FragmentStateAdapter(fm, lifecycle) {
+    inner class DetailAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
         override fun getItem(position: Int): Fragment =
             DetailFragment.newInstance(
@@ -424,7 +477,7 @@ class DetailActivity : BaseActivity() {
                     details[position].id
             )
 
-        override fun getItemCount(): Int =
+        override fun getCount(): Int =
             if (fromWhere == FROM_POSTS)
                 posts.size
             else

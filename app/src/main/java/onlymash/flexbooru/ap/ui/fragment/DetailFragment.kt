@@ -30,14 +30,12 @@ import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.decoder.CustomDecoder
 import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
-import onlymash.flexbooru.ap.extension.NetResult
-import onlymash.flexbooru.ap.extension.getDetailUrl
-import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.extension.toVisibility
+import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.DetailActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
+import onlymash.flexbooru.ap.widget.DismissFrameLayout
 import org.kodein.di.generic.instance
 import java.io.File
 import java.util.concurrent.Executor
@@ -90,6 +88,10 @@ class DetailFragment : KodeinFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? DetailActivity)?.let {
+            view.findViewById<DismissFrameLayout>(R.id.detail_container)
+                .setDismissListener(it.onDismissListener)
+        }
         val subsamplingScaleImageView = view.findViewById<SubsamplingScaleImageView>(R.id.post_image)
         val photoView = view.findViewById<PhotoView>(R.id.post_gif)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
@@ -106,6 +108,7 @@ class DetailFragment : KodeinFragment() {
                         photoView.setOnClickListener {
                             (activity as? DetailActivity)?.setVisibility()
                         }
+                        photoView.transitionName = "post_${it.data.id}"
                         GlideApp.with(requireContext())
                             .asGif()
                             .load(url)
@@ -146,6 +149,7 @@ class DetailFragment : KodeinFragment() {
                             setOnClickListener {
                                 (activity as? DetailActivity)?.setVisibility()
                             }
+                            transitionName = "post_${it.data.id}"
                         }
                         GlideApp.with(requireContext())
                             .downloadOnly()

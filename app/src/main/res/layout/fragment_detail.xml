@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/detail_container"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<onlymash.flexbooru.ap.widget.DismissFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/post_gif"
             android:layout_width="match_parent"
@@ -17,4 +18,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-</FrameLayout>
+</onlymash.flexbooru.ap.widget.DismissFrameLayout>

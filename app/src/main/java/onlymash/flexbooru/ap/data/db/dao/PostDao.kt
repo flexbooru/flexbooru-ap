@@ -11,13 +11,13 @@ import onlymash.flexbooru.ap.data.model.Post
 @Dao
 interface PostDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(posts: List<Post>)
 
-    @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `index_in_response` ASC")
+    @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `uid` ASC")
     fun getPosts(query: String) : DataSource.Factory<Int, Post>
 
-    @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `index_in_response` ASC")
+    @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `uid` ASC")
     fun getPostsList(query: String) : List<Post>
 
     @Query("DELETE FROM `posts` WHERE `query` = :query")
