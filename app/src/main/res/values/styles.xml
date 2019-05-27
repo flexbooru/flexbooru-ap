@@ -30,8 +30,12 @@
     </style>
 
     <style name="AppTheme.Detail">
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Detail</item>
-        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.Detail</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/background_launcher</item>
     </style>
 
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
@@ -81,11 +85,6 @@
 
     <style name="Widget.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="cornerRadius">@dimen/corner_radius</item>
-    </style>
-
-    <style name="OverflowMenuStyle.Detail" parent="Widget.MaterialComponents.PopupMenu.Overflow.Dark">
-        <item name="android:dropDownVerticalOffset">@dimen/popup_drop_down_offset</item>
-        <item name="android:popupElevation">@dimen/card_elevation</item>
     </style>
 
     <style name="OverflowMenuStyle.DayNight" parent="OverflowMenuStyle">
