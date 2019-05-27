@@ -19,12 +19,19 @@
         <item name="scrimBackground">@color/scrimBackground</item>
         <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialog.DayNight</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
+        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Detail">
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Detail</item>
+        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.Detail</item>
     </style>
 
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
@@ -76,4 +83,15 @@
         <item name="cornerRadius">@dimen/corner_radius</item>
     </style>
 
+    <style name="OverflowMenuStyle.Detail" parent="Widget.MaterialComponents.PopupMenu.Overflow.Dark">
+        <item name="android:dropDownVerticalOffset">@dimen/popup_drop_down_offset</item>
+        <item name="android:popupElevation">@dimen/card_elevation</item>
+    </style>
+
+    <style name="OverflowMenuStyle.DayNight" parent="OverflowMenuStyle">
+        <item name="android:dropDownVerticalOffset">@dimen/popup_drop_down_offset</item>
+        <item name="android:popupElevation">@dimen/card_elevation</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.MaterialComponents.PopupMenu.Overflow"/>
 </resources>

@@ -19,4 +19,6 @@
     <dimen name="grid_width_small">130dp</dimen>
     <dimen name="grid_width_normal">190dp</dimen>
     <dimen name="grid_width_big">260dp</dimen>
+
+    <dimen name="popup_drop_down_offset">36dp</dimen>
 </resources>

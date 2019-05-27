@@ -26,7 +26,9 @@
                 android:name=".ui.LoginActivity"
                 android:label="@string/title_login">
         </activity>
-        <activity android:name=".ui.DetailActivity">
+        <activity
+                android:name=".ui.DetailActivity"
+                android:theme="@style/AppTheme.Detail">
         </activity>
         <activity android:name=".ui.SearchActivity">
         </activity>

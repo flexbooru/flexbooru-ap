@@ -101,7 +101,6 @@ class DetailActivity : BaseActivity() {
             setNavigationOnClickListener {
                 onBackPressed()
             }
-            inflateMenu(R.menu.detail)
             setOnMenuItemClickListener {
                 when (it?.itemId) {
                     R.id.action_set_as -> setAs()

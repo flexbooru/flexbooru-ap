@@ -41,8 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="0dp"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
                 android:background="@android:color/transparent"
+                android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:menu="@menu/detail"
                 app:navigationIcon="?android:attr/homeAsUpIndicator"/>
 
     </FrameLayout>
