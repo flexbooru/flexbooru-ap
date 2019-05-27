@@ -1,5 +1,7 @@
 package onlymash.flexbooru.ap.ui
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,7 +17,25 @@ import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.glide.GlideApp
 
+private const val USER_ID_KEY = "user_id"
+private const val USERNAME_KEY = "username"
+private const val AVATAR_URL_KEY = "avatar_url"
+
 class UserActivity : AppCompatActivity() {
+
+    companion object {
+        fun startUserActivity(
+            context: Context,
+            userId: Int,
+            username: String,
+            avatarUrl: String?) {
+            context.startActivity(Intent(context, UserActivity::class.java).apply {
+                putExtra(USER_ID_KEY, userId)
+                putExtra(USERNAME_KEY, username)
+                putExtra(AVATAR_URL_KEY, avatarUrl)
+            })
+        }
+    }
 
     private var user: User? = null
 
@@ -27,23 +47,38 @@ class UserActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.title_account)
         }
-        user = UserManager.getUserByUid(Settings.userUid)
-        user?.let { user ->
+        var userId = -1
+        var name = ""
+        var avatarUrl: String? = null
+        intent?.let {
+            userId = it.getIntExtra(USER_ID_KEY, -1)
+            name = it.getStringExtra(USERNAME_KEY) ?: ""
+            avatarUrl = it.getStringExtra(AVATAR_URL_KEY) ?: ""
+        }
+        if (userId < 0) {
+            user = UserManager.getUserByUid(Settings.userUid)
+            user?.let {
+                userId = it.userId
+                name = it.username
+                avatarUrl = it.avatarUrl ?: ""
+            }
+        }
+        if (!avatarUrl.isNullOrEmpty()) {
             GlideApp.with(this)
-                .load(user.avatarUrl)
+                .load(avatarUrl)
                 .centerCrop()
                 .placeholder(ContextCompat.getDrawable(this, R.drawable.avatar_user))
                 .into(user_avatar)
-            user_id.text = user.userId.toString()
-            username.text = user.username
-            votes_button.setOnClickListener {
-                SearchActivity.startSearchActivity(
-                    context = this,
-                    query = "stars_by:${user.username}",
-                    userId = user.userId,
-                    searchType = SearchType.FAVORITE
-                )
-            }
+        }
+        user_id.text = userId.toString()
+        username.text = name
+        votes_button.setOnClickListener {
+            SearchActivity.startSearchActivity(
+                context = this,
+                query = "stars_by:$name",
+                userId = userId,
+                searchType = SearchType.FAVORITE
+            )
         }
     }
 
@@ -53,7 +88,9 @@ class UserActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.user, menu)
+        if (user != null) {
+            menuInflater.inflate(R.menu.user, menu)
+        }
         return true
     }
 

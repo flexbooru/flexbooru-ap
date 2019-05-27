@@ -24,6 +24,7 @@ import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.SearchActivity
+import onlymash.flexbooru.ap.ui.UserActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.worker.DownloadWorker
@@ -133,7 +134,11 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
             SearchActivity.startSearchActivity(context = context, query = color, color = color)
         }
         view.findViewById<ConstraintLayout>(R.id.user_container).setOnClickListener {
-
+            UserActivity.startUserActivity(
+                context = context,
+                userId = detail.userId,
+                username = detail.userName,
+                avatarUrl = detail.userAvatar)
         }
         view.findViewById<ConstraintLayout>(R.id.post_url_container).setOnLongClickListener {
             context.copyText(detail.fileUrl)
