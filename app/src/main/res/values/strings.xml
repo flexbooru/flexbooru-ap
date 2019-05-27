@@ -46,6 +46,10 @@
     <string name="settings_grid_width_normal">Normal</string>
     <string name="settings_grid_width_big">Big</string>
 
+    <string name="settings_server">Server</string>
+    <string name="settings_display">Display</string>
+    <string name="settings_options">Options</string>
+
     <string name="retry">Retry</string>
     <string name="save_file">Save file</string>
     <string name="tags">Tags</string>
