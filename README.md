@@ -1,5 +1,6 @@
-# flexbooru-ap
-An Imageboard client for Android.
+# Flex/AP
+
+An [anime-pictures](https://anime-pictures.net) client for Android.
 
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/flexbooru)
 [![Discord](https://img.shields.io/discord/555912761742458880.svg?label=discord)](https://discord.gg/zxAX5Jh)
@@ -8,5 +9,10 @@ An Imageboard client for Android.
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?label=donate)](https://www.paypal.me/fiepi)
 
+## Downlad
+
+<a href="https://play.google.com/store/apps/details?id=onlymash.flexbooru.ap"><img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="48">
+
 ## Screenshot
+
 <img src="art/screenshot_01.png" height="300" hspace="20"> <img src="art/screenshot_02.png" height="300" hspace="20"> <img src="art/screenshot_03.png" height="300" hspace="20"> <img src="art/screenshot_04.png" height="300" hspace="20">
