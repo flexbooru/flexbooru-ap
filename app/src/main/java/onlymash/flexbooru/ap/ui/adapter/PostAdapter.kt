@@ -12,12 +12,7 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.extension.getPreviewUrl
 import onlymash.flexbooru.ap.glide.GlideRequests
-import onlymash.flexbooru.ap.ui.DetailActivity
-import onlymash.flexbooru.ap.ui.FROM_POSTS
 import onlymash.flexbooru.ap.ui.base.BaseAdapter
-
-const val MAX_ITEM_ASPECT_RATIO = 1.3333f
-const val MIN_ITEM_ASPECT_RATIO = 0.5625f
 
 class PostAdapter(
     private val glide: GlideRequests,
@@ -49,18 +44,7 @@ class PostAdapter(
             if (post == null) return
             preview.transitionName = "post_${post.id}"
             val lp = preview.layoutParams as ConstraintLayout.LayoutParams
-            val ratio = post.width.toFloat() / post.height.toFloat()
-            when {
-                ratio > MAX_ITEM_ASPECT_RATIO -> {
-                    lp.dimensionRatio = "H, $MAX_ITEM_ASPECT_RATIO:1"
-                }
-                ratio < MIN_ITEM_ASPECT_RATIO -> {
-                    lp.dimensionRatio = "H, $MIN_ITEM_ASPECT_RATIO:1"
-                }
-                else -> {
-                    lp.dimensionRatio = "H, $ratio:1"
-                }
-            }
+            lp.dimensionRatio = "H, ${post.width}:${post.height}"
             preview.layoutParams = lp
             glide.load(post.getPreviewUrl())
                 .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.background_card))
