@@ -4,10 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.*
 import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
@@ -67,7 +64,19 @@ class App : Application(), KodeinAware {
                         val index = purchases.indexOfFirst {
                             it.sku == INAPP_SKU && it.purchaseState == Purchase.PurchaseState.PURCHASED
                         }
-                        Settings.isPro = index >= 0
+                        if (index >= 0) {
+                            val purchase = purchases[index]
+                            if (!purchase.isAcknowledged) {
+                                billingClient.acknowledgePurchase(
+                                    AcknowledgePurchaseParams.newBuilder()
+                                        .setPurchaseToken(purchase.purchaseToken)
+                                        .build()
+                                ) {
+
+                                }
+                            }
+                            Settings.isPro = true
+                        } else Settings.isPro = false
                     } else {
                         Settings.isPro = false
                     }

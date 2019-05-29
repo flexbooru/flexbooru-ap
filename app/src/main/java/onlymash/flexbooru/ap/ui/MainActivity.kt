@@ -76,8 +76,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             currentFragmentId = destination.id
             val lp = toolbar.layoutParams as AppBarLayout.LayoutParams
             when (currentFragmentId) {
-                R.id.nav_posts,
-                R.id.nav_history -> {
+                R.id.nav_posts -> {
                     lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
                     fab.visibility = View.VISIBLE
                 }

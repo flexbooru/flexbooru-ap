@@ -21,11 +21,13 @@ class PurchaseActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.action_remove_ads)
         }
+
         val params = SkuDetailsParams
             .newBuilder()
             .setSkusList(listOf(INAPP_SKU))
             .setType(BillingClient.SkuType.INAPP)
             .build()
+
         billingClient = BillingClient
             .newBuilder(this)
             .enablePendingPurchases()
@@ -34,8 +36,14 @@ class PurchaseActivity : AppCompatActivity() {
                     it.sku == INAPP_SKU && it.purchaseState == Purchase.PurchaseState.PURCHASED
                 }
                 if (index !== null && index >= 0) {
+                    billingClient.acknowledgePurchase(
+                        AcknowledgePurchaseParams.newBuilder()
+                            .setPurchaseToken(purchases[index].purchaseToken)
+                            .build()
+                    ) {
+
+                    }
                     Settings.isPro = true
-                    finish()
                 }
             }
             .build()
@@ -88,7 +96,6 @@ class PurchaseActivity : AppCompatActivity() {
                         val result = client.launchBillingFlow(this, billingFlowParams)
                         if (result.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
                             Settings.isPro = true
-                            finish()
                         }
                     }
                 }

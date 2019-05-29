@@ -3,12 +3,10 @@ package onlymash.flexbooru.ap.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -136,7 +134,7 @@ class DetailActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initWindow()
+        window.initFullTransparentBar()
         setContentView(R.layout.activity_detail)
         intent?.apply {
             fromWhere = getIntExtra(FROM_WHERE_KEY, FROM_POSTS)
@@ -426,14 +424,6 @@ class DetailActivity : BaseActivity() {
         return index > -1
     }
 
-    private fun initWindow() {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-        window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
-        showBar()
-    }
-
     internal fun setVisibility() {
         when (toolbar.visibility) {
             View.VISIBLE -> {
@@ -452,19 +442,11 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun showBar() {
-        val uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        window.decorView.systemUiVisibility = uiFlags
+        window.showBar()
     }
 
     private fun hideBar() {
-        val uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-        window.decorView.systemUiVisibility = uiFlags
+        window.hideBar()
     }
 
     inner class DetailAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

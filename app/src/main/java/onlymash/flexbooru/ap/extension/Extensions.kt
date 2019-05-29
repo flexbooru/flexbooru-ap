@@ -5,11 +5,15 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
 import android.net.wifi.WifiConfiguration
 import android.text.StaticLayout
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.annotation.DimenRes
 import androidx.core.view.postDelayed
 import onlymash.flexbooru.ap.R
@@ -135,3 +139,27 @@ fun Activity.getSanCount(): Int {
     return if (count < 1) 1 else count
 }
 
+fun Window.initFullTransparentBar() {
+    addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    statusBarColor = Color.TRANSPARENT
+    navigationBarColor = Color.TRANSPARENT
+    showBar()
+}
+
+fun Window.showBar() {
+    val uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    decorView.systemUiVisibility = uiFlags
+}
+
+fun Window.hideBar() {
+    val uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+            View.SYSTEM_UI_FLAG_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+            View.SYSTEM_UI_FLAG_IMMERSIVE
+    decorView.systemUiVisibility = uiFlags
+}
