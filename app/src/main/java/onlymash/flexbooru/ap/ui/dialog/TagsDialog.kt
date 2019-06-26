@@ -28,7 +28,7 @@ import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.SearchActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 
 class TagsDialog : BaseBottomSheetDialogFragment() {
 

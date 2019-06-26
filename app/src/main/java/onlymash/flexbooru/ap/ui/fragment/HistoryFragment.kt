@@ -35,7 +35,7 @@ import onlymash.flexbooru.ap.ui.FROM_HISTORY
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 
 
 const val HISTORY_JUMP_TO_TOP_KEY = "history_jump_to_top"

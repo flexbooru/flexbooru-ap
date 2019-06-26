@@ -12,7 +12,7 @@ private const val SOURCE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSSSSS"
 
 fun Context.copyText(text: String?) {
     val cm = getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return
-    cm.primaryClip = ClipData.newPlainText("text", text ?: "")
+    cm.setPrimaryClip(ClipData.newPlainText("text", text ?: ""))
 }
 
 fun Long.formatDate(): CharSequence {
@@ -22,6 +22,6 @@ fun Long.formatDate(): CharSequence {
 }
 
 fun String.formatDate(): CharSequence {
-    val date = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.ENGLISH).parse(this)
+    val date = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.ENGLISH).parse(this) ?: return ""
     return date.time.formatDate()
 }

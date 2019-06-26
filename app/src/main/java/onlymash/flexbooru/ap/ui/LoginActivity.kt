@@ -17,7 +17,7 @@ import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.viewmodel.LoginViewModel
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 
 class LoginActivity : KodeinActivity() {
 

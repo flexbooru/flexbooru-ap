@@ -38,7 +38,7 @@ import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.fragment.*
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 
 class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -183,8 +183,8 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
         })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_clear_all_history -> {
                 AlertDialog.Builder(this)
                     .setTitle(R.string.history_clear_all)

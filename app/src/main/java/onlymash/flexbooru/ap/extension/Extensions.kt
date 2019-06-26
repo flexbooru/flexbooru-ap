@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.net.Uri
-import android.net.wifi.WifiConfiguration
 import android.text.StaticLayout
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -47,61 +46,6 @@ fun StaticLayout.textWidth(): Int {
  */
 fun lerp(a: Float, b: Float, t: Float): Float {
     return a + (b - a) * t
-}
-
-/**
- * Alternative to Resources.getDimension() for values that are TYPE_FLOAT.
- */
-fun Resources.getFloat(@DimenRes resId: Int): Float {
-    val outValue = TypedValue()
-    getValue(resId, outValue, true)
-    return outValue.float
-}
-
-/**
- * Return the Wifi config wrapped in quotes.
- */
-fun WifiConfiguration.quoteSsidAndPassword(): WifiConfiguration {
-    return WifiConfiguration().apply {
-        SSID = this@quoteSsidAndPassword.SSID.wrapInQuotes()
-        preSharedKey = this@quoteSsidAndPassword.preSharedKey.wrapInQuotes()
-    }
-}
-
-/**
- * Return the Wifi config without quotes.
- */
-fun WifiConfiguration.unquoteSsidAndPassword(): WifiConfiguration {
-    return WifiConfiguration().apply {
-        SSID = this@unquoteSsidAndPassword.SSID.unwrapQuotes()
-        preSharedKey = this@unquoteSsidAndPassword.preSharedKey.unwrapQuotes()
-    }
-}
-
-fun String.wrapInQuotes(): String {
-    var formattedConfigString: String = this
-    if (!startsWith("\"")) {
-        formattedConfigString = "\"$formattedConfigString"
-    }
-    if (!endsWith("\"")) {
-        formattedConfigString = "$formattedConfigString\""
-    }
-    return formattedConfigString
-}
-
-fun String.unwrapQuotes(): String {
-    var formattedConfigString: String = this
-    if (formattedConfigString.startsWith("\"")) {
-        formattedConfigString = if (formattedConfigString.length > 1) {
-            formattedConfigString.substring(1)
-        } else ""
-    }
-    if (formattedConfigString.endsWith("\"")) {
-        formattedConfigString = if (formattedConfigString.length > 1) {
-            formattedConfigString.substring(0, formattedConfigString.length - 1)
-        } else ""
-    }
-    return formattedConfigString
 }
 
 fun Context.openAppInMarket(packageName: String) {

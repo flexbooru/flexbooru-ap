@@ -44,7 +44,7 @@ import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_POSITION_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
 import onlymash.flexbooru.ap.widget.DismissFrameLayout
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

@@ -2,7 +2,7 @@ package onlymash.flexbooru.ap.common
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 
 
 const val SETTINGS_SCHEME_KEY = "settings_scheme"

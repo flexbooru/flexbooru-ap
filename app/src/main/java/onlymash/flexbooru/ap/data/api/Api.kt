@@ -1,10 +1,8 @@
 package onlymash.flexbooru.ap.data.api
 
-import android.util.Log
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import onlymash.flexbooru.ap.common.USER_AGENT_KEY
 import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.PostResponse
@@ -21,11 +19,6 @@ interface Api {
 
     companion object {
         operator fun invoke(): Api {
-            val logger = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { log ->
-                Log.d("Api", log)
-            }).apply {
-                level = HttpLoggingInterceptor.Level.BASIC
-            }
             val interceptor = Interceptor { chain ->
                 val builder =  chain.request().newBuilder()
                     .removeHeader(USER_AGENT_KEY)
@@ -37,7 +30,6 @@ interface Api {
                 readTimeout(10, TimeUnit.SECONDS)
                 writeTimeout(15, TimeUnit.SECONDS)
                     .addInterceptor(interceptor)
-                    .addInterceptor(logger)
             }
                 .build()
             return Retrofit.Builder()

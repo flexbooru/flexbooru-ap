@@ -28,7 +28,7 @@ import onlymash.flexbooru.ap.ui.FROM_POSTS
 import onlymash.flexbooru.ap.ui.adapter.PostAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
-import org.kodein.di.generic.instance
+import org.kodein.di.erased.instance
 import java.util.concurrent.Executor
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
