@@ -25,7 +25,7 @@ class LoginRepositoryImpl(private val api: Api) : LoginRepository {
                     username = username,
                     password = password,
                     timeZone = TimeZone.getDefault().id
-                ).execute()
+                )
                 val user = response.body()
                 if (response.isSuccessful && user != null) {
                     if (user.success) {

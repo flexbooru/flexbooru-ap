@@ -9,7 +9,7 @@ import onlymash.flexbooru.ap.data.model.PostResponse
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.data.model.VoteResponse
 import onlymash.flexbooru.ap.extension.getUserAgent
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -42,22 +42,22 @@ interface Api {
     }
 
     @GET
-    fun getPosts(@Url url: HttpUrl): Call<PostResponse>
+    suspend fun getPosts(@Url url: HttpUrl): Response<PostResponse>
 
     @GET
-    fun getDetail(@Url url: HttpUrl): Call<Detail>
+    suspend fun getDetail(@Url url: HttpUrl): Response<Detail>
 
     @POST
     @FormUrlEncoded
-    fun login(@Url url: HttpUrl,
+    suspend fun login(@Url url: HttpUrl,
               @Field("login") username: String,
               @Field("password") password: String,
-              @Field("time_zone") timeZone: String): Call<User>
+              @Field("time_zone") timeZone: String): Response<User>
 
     @POST
     @FormUrlEncoded
-    fun vote(@Url url: HttpUrl,
+    suspend fun vote(@Url url: HttpUrl,
              @Field("post") postId: Int,
              @Field("vote") vote: Int = 9, // 9: vote 0: remove vote
-             @Field("token") token: String): Call<VoteResponse>
+             @Field("token") token: String): Response<VoteResponse>
 }

@@ -58,23 +58,15 @@ class PostRepositoryImpl(
         val refreshState = Transformations.switchMap(refreshTrigger) {
             refresh(search)
         }
-        val livePagedList = MediatorLiveData<PagedList<Post>>()
-        scope.launch {
-            val data = withContext(Dispatchers.IO) {
-                db.postDao()
-                    .getPosts(search.query)
-                    .toLiveData(
-                        config = Config(
-                            pageSize = search.limit,
-                            enablePlaceholders = true
-                        ),
-                        boundaryCallback = boundaryCallback
-                    )
-            }
-            livePagedList.addSource(data) {
-                livePagedList.value = it
-            }
-        }
+        val livePagedList = db.postDao()
+            .getPosts(search.query)
+            .toLiveData(
+                config = Config(
+                    pageSize = search.limit,
+                    enablePlaceholders = true
+                ),
+                boundaryCallback = boundaryCallback
+            )
         return Listing(
             pagedList = livePagedList,
             networkState = boundaryCallback!!.networkState,
@@ -96,7 +88,7 @@ class PostRepositoryImpl(
         scope.launch {
             when (val result = withContext(Dispatchers.IO) {
                 try {
-                    val response = api.getPosts(search.getPostsUrl(0)).execute()
+                    val response = api.getPosts(search.getPostsUrl(0))
                     if (response.isSuccessful) {
                         val posts = response.body()?.posts
                         if (posts != null) {

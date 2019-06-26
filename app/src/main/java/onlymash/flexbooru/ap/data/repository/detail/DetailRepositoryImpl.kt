@@ -34,7 +34,7 @@ class DetailRepositoryImpl(private val api: Api,
                             postId = postId,
                             token = token
                         )
-                    ).execute()
+                    )
                     if (response.isSuccessful) {
                         detail = response.body()
                         if (detail == null) {
@@ -77,7 +77,7 @@ class DetailRepositoryImpl(private val api: Api,
                     postId = detail.id,
                     vote = vote,
                     token = token
-                ).execute()
+                )
                 val data = response.body()
                 when {
                     response.isSuccessful && data != null-> {
