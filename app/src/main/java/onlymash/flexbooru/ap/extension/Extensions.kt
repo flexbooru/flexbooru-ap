@@ -4,16 +4,13 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Color
 import android.net.Uri
 import android.text.StaticLayout
 import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.annotation.DimenRes
 import androidx.core.view.postDelayed
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_BIG

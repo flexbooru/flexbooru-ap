@@ -103,7 +103,7 @@ class DownloadWorker(
         try {
             `is` = OkHttpDownloader(applicationContext)
                 .load(url).body?.source()?.inputStream()
-            `is`?.copyToOS(os)
+            `is`?.copyTo(os)
         } catch (_: IOException) {
             notificationManager.notify(
                 postId,

@@ -2,11 +2,9 @@ package onlymash.flexbooru.ap.data.repository.post
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
-import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

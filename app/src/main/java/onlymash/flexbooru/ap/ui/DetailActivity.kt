@@ -352,7 +352,7 @@ class DetailActivity : BaseActivity() {
                 try {
                     val file = downloadFile(url)
                     `is` = FileInputStream(file)
-                    `is`.copyToOS(os)
+                    `is`.copyTo(os)
                     true
                 } catch (_: Exception) {
                     false
@@ -382,7 +382,7 @@ class DetailActivity : BaseActivity() {
             try {
                 val file = downloadFile(url)
                 `is` = FileInputStream(file)
-                `is`.copyToOS(os)
+                `is`.copyTo(os)
                 desFile
             } catch (_: Exception) {
                 null
