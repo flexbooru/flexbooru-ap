@@ -22,6 +22,7 @@
     <color name="colorBackgroundDialog">@color/colorBackgroundCard</color>
     <color name="colorUserHeader">@color/grey_100</color>
     <color name="colorItemDrawer">@color/grey_300</color>
+    <color name="colorPlaceholder">@color/grey_100</color>
 
     <color name="grey">#2C2C2C</color>
     <color name="black">#000000</color>
@@ -51,7 +52,7 @@
     <color name="color_light_secondary_variant">#018786</color>
     <color name="color_light_surface">@color/white</color>
     <color name="color_light_on_primary">@color/white</color>
-    <color name="color_light_on_secondary">@color/black</color>
+    <color name="color_light_on_secondary">@color/white</color>
     <color name="color_light_on_background">@color/black</color>
     <color name="color_light_on_error">@color/white</color>
     <color name="color_light_on_surface">@color/black</color>
@@ -67,7 +68,7 @@
     <color name="color_dark_secondary_variant">#03DAC6</color>
     <color name="color_dark_surface">@color/dark</color>
     <color name="color_dark_on_primary">@color/black</color>
-    <color name="color_dark_on_secondary">@color/black</color>
+    <color name="color_dark_on_secondary">@color/white</color>
     <color name="color_dark_on_background">@color/white</color>
     <color name="color_dark_on_error">@color/black</color>
     <color name="color_dark_on_surface">@color/white</color>

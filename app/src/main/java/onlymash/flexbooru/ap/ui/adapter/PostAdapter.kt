@@ -47,7 +47,7 @@ class PostAdapter(
             lp.dimensionRatio = "H, ${post.width}:${post.height}"
             preview.layoutParams = lp
             glide.load(post.getPreviewUrl())
-                .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.background_card))
+                .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.background_placeholder))
                 .into(preview)
         }
     }

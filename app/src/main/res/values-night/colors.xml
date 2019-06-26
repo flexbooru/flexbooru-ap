@@ -21,5 +21,6 @@
     <color name="colorBackgroundCard">@color/grey_900</color>
     <color name="colorUserHeader">@color/grey_800</color>
     <color name="colorItemDrawer">@color/grey_800</color>
+    <color name="colorPlaceholder">@color/grey_800</color>
 
 </resources>
