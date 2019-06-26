@@ -13,7 +13,7 @@ class MyConverters {
 
     @TypeConverter
     fun fromJsonToIntList(json: String): List<Int> =
-        Gson().fromJson<List<Int>>(json, object : TypeToken<List<Int>>(){}.type)
+        Gson().fromJson(json, object : TypeToken<List<Int>>(){}.type)
 
     @TypeConverter
     fun fromStringListToJson(list: List<String>): String =
@@ -21,7 +21,7 @@ class MyConverters {
 
     @TypeConverter
     fun fromJsonToStringList(json: String): List<String> =
-        Gson().fromJson<List<String>>(json, object : TypeToken<List<String>>(){}.type)
+        Gson().fromJson(json, object : TypeToken<List<String>>(){}.type)
 
     @TypeConverter
     fun fromTagsFullListToJson(tagsFull: List<TagsFull>): String =
@@ -29,5 +29,5 @@ class MyConverters {
 
     @TypeConverter
     fun fromJsonToTagsFullList(json: String): List<TagsFull> =
-        Gson().fromJson<List<TagsFull>>(json, object : TypeToken<List<TagsFull>>(){}.type)
+        Gson().fromJson(json, object : TypeToken<List<TagsFull>>(){}.type)
 }
