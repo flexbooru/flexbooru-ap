@@ -166,14 +166,14 @@ class DetailActivity : BaseActivity() {
             setOnMenuItemClickListener {
                 when (it?.itemId) {
                     R.id.action_set_as -> setAs()
+                    R.id.action_copy_link -> copyText(getWebLink())
                     R.id.action_share_link -> shareLink()
                     R.id.action_send_file -> sendFile()
-                    R.id.action_open_in_browser -> openInBrowser()
                 }
                 true
             }
             if (fromWhere == FROM_URL) {
-                toolbar.title = "Post $currentPostId"
+                title = "Post $currentPostId"
             }
         }
         ViewCompat.setOnApplyWindowInsetsListener(posts_pager) { _, insets ->
@@ -300,10 +300,6 @@ class DetailActivity : BaseActivity() {
             },
             getString(R.string.share_via)
         ))
-    }
-
-    private fun openInBrowser() {
-        launchUrl(getWebLink())
     }
 
     private fun getWebLink(): String {
