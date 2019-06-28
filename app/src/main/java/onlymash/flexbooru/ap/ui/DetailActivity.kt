@@ -196,7 +196,7 @@ class DetailActivity : BaseActivity() {
                         }
                         sendBroadcast(intent)
                     }
-                    FROM_HISTORY, FROM_URL -> currentPostId = details[position].id
+                    FROM_HISTORY -> currentPostId = details[position].id
                 }
                 toolbar.title = "Post $currentPostId"
                 initVoteIcon()
