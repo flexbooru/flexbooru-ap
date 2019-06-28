@@ -172,6 +172,9 @@ class DetailActivity : BaseActivity() {
                 }
                 true
             }
+            if (fromWhere == FROM_URL) {
+                toolbar.title = "Post $currentPostId"
+            }
         }
         ViewCompat.setOnApplyWindowInsetsListener(posts_pager) { _, insets ->
             toolbar_container.minimumHeight = toolbar.height + insets.systemWindowInsetTop
