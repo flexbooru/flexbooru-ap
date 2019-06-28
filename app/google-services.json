@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "876395963504-178rm7trtivmso569fotb0ef80kcn42d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "onlymash.flexbooru.ap",
+            "certificate_hash": "4aedbc775b8d781a543f1fc51ab3cfc497bfe5cb"
+          }
+        },
+        {
           "client_id": "876395963504-5kf38umqgepurcd6qml2a0eck48qevpc.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -33,7 +41,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-1547571472841615~7732260687"
     }
   ],
   "configuration_version": "1"
