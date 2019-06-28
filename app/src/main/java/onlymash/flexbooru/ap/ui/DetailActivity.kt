@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
@@ -54,6 +55,7 @@ const val CURRENT_POSITION_KEY = "current_position"
 const val FROM_WHERE_KEY = "from_where"
 const val FROM_POSTS = 0
 const val FROM_HISTORY = 1
+const val FROM_URL = 2
 
 private const val ALPHA_MAX = 0xFF
 private const val ALPHA_MIN = 0x00
@@ -137,9 +139,16 @@ class DetailActivity : BaseActivity() {
         window.initFullTransparentBar()
         setContentView(R.layout.activity_detail)
         intent?.apply {
-            fromWhere = getIntExtra(FROM_WHERE_KEY, FROM_POSTS)
-            query = getStringExtra(QUERY_KEY) ?: ""
-            pos = getIntExtra(CURRENT_POSITION_KEY, 0)
+            val url = data
+            if (url is Uri && url.scheme == "https") {
+                fromWhere = FROM_URL
+                pos = 0
+                currentPostId = url.path?.replace("/pictures/view_post/", "")?.toInt() ?: 0
+            } else {
+                fromWhere = getIntExtra(FROM_WHERE_KEY, FROM_POSTS)
+                query = getStringExtra(QUERY_KEY) ?: ""
+                pos = getIntExtra(CURRENT_POSITION_KEY, 0)
+            }
         }
         postponeEnterTransition()
         initView()
@@ -179,16 +188,18 @@ class DetailActivity : BaseActivity() {
             override fun onPageSelected(position: Int) {
                 pos = position
                 when (fromWhere) {
-                    FROM_POSTS -> currentPostId = posts[position].id
-                    FROM_HISTORY -> currentPostId = details[position].id
+                    FROM_POSTS -> {
+                        currentPostId = posts[position].id
+                        val intent = Intent(JUMP_TO_POSITION_ACTION_FILTER_KEY).apply {
+                            putExtra(JUMP_TO_POSITION_QUERY_KEY, query)
+                            putExtra(JUMP_TO_POSITION_KEY, position)
+                        }
+                        sendBroadcast(intent)
+                    }
+                    FROM_HISTORY, FROM_URL -> currentPostId = details[position].id
                 }
                 toolbar.title = "Post $currentPostId"
                 initVoteIcon()
-                val intent = Intent(JUMP_TO_POSITION_ACTION_FILTER_KEY).apply {
-                    putExtra(JUMP_TO_POSITION_QUERY_KEY, query)
-                    putExtra(JUMP_TO_POSITION_KEY, position)
-                }
-                sendBroadcast(intent)
             }
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -402,7 +413,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun initVoteIcon() {
-        if (isVoted(currentPostId)) {
+        if (currentPostId.isVoted()) {
             post_vote.setImageDrawable(
                 ContextCompat.getDrawable(
                     this@DetailActivity,
@@ -419,8 +430,8 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private fun isVoted(postId: Int): Boolean {
-        val index = allDetails.indexOfFirst { it.id == postId && it.starIt }
+    private fun Int.isVoted(): Boolean {
+        val index = allDetails.indexOfFirst { it.id == this && it.starIt }
         return index > -1
     }
 
@@ -453,16 +464,18 @@ class DetailActivity : BaseActivity() {
 
         override fun getItem(position: Int): Fragment =
             DetailFragment.newInstance(
-                if (fromWhere == FROM_POSTS)
-                    posts[position].id
-                else
-                    details[position].id
+                when (fromWhere) {
+                    FROM_POSTS -> posts[position].id
+                    FROM_HISTORY -> details[position].id
+                    else -> currentPostId
+                }
             )
 
         override fun getCount(): Int =
-            if (fromWhere == FROM_POSTS)
-                posts.size
-            else
-                details.size
+            when (fromWhere) {
+                FROM_POSTS -> posts.size
+                FROM_HISTORY -> details.size
+                else -> 1
+            }
     }
 }
