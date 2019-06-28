@@ -12,7 +12,7 @@ data class Search(
     var color: String = ""
 )
 
-enum class SearchType(type: Int) {
-    NORMAL(0),
-    FAVORITE(1)
+enum class SearchType {
+    NORMAL,
+    FAVORITE
 }
