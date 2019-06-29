@@ -3,11 +3,9 @@ package onlymash.flexbooru.ap.data.api
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import onlymash.flexbooru.ap.common.USER_AGENT_KEY
-import onlymash.flexbooru.ap.data.model.Detail
-import onlymash.flexbooru.ap.data.model.PostResponse
-import onlymash.flexbooru.ap.data.model.User
-import onlymash.flexbooru.ap.data.model.VoteResponse
+import onlymash.flexbooru.ap.data.model.*
 import onlymash.flexbooru.ap.extension.getUserAgent
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -60,4 +58,10 @@ interface Api {
              @Field("post") postId: Int,
              @Field("vote") vote: Int = 9, // 9: vote 0: remove vote
              @Field("token") token: String): Response<VoteResponse>
+
+    @POST
+    @FormUrlEncoded
+    suspend fun getSuggestion(@Url url: HttpUrl,
+                              @Field("tag") tag: String,
+                              @Field("token") token: String): Response<Suggestion>
 }

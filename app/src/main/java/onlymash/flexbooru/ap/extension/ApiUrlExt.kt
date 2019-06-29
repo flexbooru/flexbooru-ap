@@ -57,3 +57,11 @@ fun getVoteUrl(scheme: String, host: String): HttpUrl {
         .addPathSegments("pictures/vote")
         .build()
 }
+
+fun getSuggestionUrl(scheme: String, host: String): HttpUrl {
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("pictures/autocomplete_tag")
+        .build()
+}

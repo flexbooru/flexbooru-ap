@@ -21,6 +21,7 @@
         <item name="alertDialogTheme">@style/AppTheme.AlertDialog.DayNight</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
         <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -93,4 +94,11 @@
     </style>
 
     <style name="OverflowMenuStyle" parent="Widget.MaterialComponents.PopupMenu.Overflow"/>
+
+    <style name="BaseDropDownListViewStyle" parent="Widget.AppCompat.Light.ListView.DropDown"/>
+
+    <style name="DropDownListViewStyle" parent="BaseDropDownListViewStyle">
+        <item name="android:background">@color/colorDropDownBackground</item>
+    </style>
+
 </resources>

@@ -1,23 +1,34 @@
 package onlymash.flexbooru.ap.ui
 
+import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.database.MatrixCursor
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.cursoradapter.widget.SimpleCursorAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import onlymash.flexbooru.ap.R
-import onlymash.flexbooru.ap.common.COLOR_KEY
-import onlymash.flexbooru.ap.common.QUERY_KEY
-import onlymash.flexbooru.ap.common.SEARCH_TYPE_KEY
-import onlymash.flexbooru.ap.common.USER_ID_KEY
+import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.SearchType
+import onlymash.flexbooru.ap.data.api.Api
+import onlymash.flexbooru.ap.data.model.Tag
+import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
+import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
+import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
+import org.kodein.di.erased.instance
 
 class SearchActivity : KodeinActivity() {
 
@@ -45,6 +56,11 @@ class SearchActivity : KodeinActivity() {
     private var searchType = SearchType.NORMAL
     private var userId: Int = -1
     private var color: String = ""
+
+    private val api by instance<Api>()
+    private lateinit var suggestionViewModel: SuggestionViewModel
+    private val suggestions: MutableList<String> = mutableListOf()
+    private var suggestionAdapter: CursorAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +93,15 @@ class SearchActivity : KodeinActivity() {
             setTitle(R.string.title_posts)
             subtitle = query
         }
+        suggestionViewModel = getViewModel(object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return SuggestionViewModel(SuggestionRepositoryImpl(api)) as T
+            }
+        })
+        suggestionViewModel.tags.observe(this, Observer {
+            handleSuggestions(it)
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -93,18 +118,72 @@ class SearchActivity : KodeinActivity() {
     }
 
     private fun initSearchView(searchView: SearchView) {
-        searchView.queryHint = getString(R.string.search_posts_hint)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) return false
-                return true
-            }
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query.isNullOrEmpty()) return false
-                search(query)
-                return true
-            }
+        suggestionAdapter = SimpleCursorAdapter(
+            this,
+            R.layout.item_suggestion,
+            null,
+            arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1),
+            intArrayOf(android.R.id.text1),
+            0)
+        searchView.apply {
+            queryHint = getString(R.string.search_posts_hint)
+            suggestionsAdapter = suggestionAdapter
+            setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+                override fun onSuggestionClick(position: Int): Boolean {
+                    searchView.setQuery(suggestions[position], false)
+                    return true
+                }
+                override fun onSuggestionSelect(position: Int): Boolean {
+                    return true
+                }
+            })
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrEmpty()) return false
+                    fetchSuggestions(newText)
+                    return true
+                }
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query.isNullOrEmpty()) return false
+                    search(query)
+                    return true
+                }
+            })
+        }
+    }
+
+
+    private fun fetchSuggestions(tag: String) {
+        val token = Settings.userToken
+        if (token.isEmpty()) return
+        suggestionViewModel.fetch(
+            scheme = Settings.scheme,
+            host = Settings.hostname,
+            tag = tag,
+            token = token
+        )
+    }
+
+    private fun handleSuggestions(tags: List<Tag>) {
+        suggestions.clear()
+        suggestions.addAll(tags.map {
+            it.t.replace("<b>", "")
+                .replace("</b>", "")
         })
+        val columns = arrayOf(
+            BaseColumns._ID,
+            SearchManager.SUGGEST_COLUMN_TEXT_1,
+            SearchManager.SUGGEST_COLUMN_INTENT_DATA)
+        val cursor = MatrixCursor(columns)
+        suggestions.forEachIndexed { index, suggestion ->
+            val tmp = arrayOf(
+                index.toString(),
+                suggestion,
+                suggestion
+            )
+            cursor.addRow(tmp)
+        }
+        suggestionAdapter?.swapCursor(cursor)
     }
 
     private fun search(query: String) {

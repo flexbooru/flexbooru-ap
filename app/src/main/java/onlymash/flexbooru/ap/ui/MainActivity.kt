@@ -1,10 +1,13 @@
 package onlymash.flexbooru.ap.ui
 
+import android.app.SearchManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.database.MatrixCursor
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +18,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.cursoradapter.widget.SimpleCursorAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -31,21 +39,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
+import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.model.Tag
 import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
+import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.BaseActivity
 import onlymash.flexbooru.ap.ui.fragment.*
+import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import org.kodein.di.erased.instance
 
 class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sp by instance<SharedPreferences>()
     private val detailDao by instance<DetailDao>()
+    private val api by instance<Api>()
+
+    private lateinit var suggestionViewModel: SuggestionViewModel
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private val suggestions: MutableList<String> = mutableListOf()
+
+    private var suggestionAdapter: CursorAdapter? = null
 
     @IdRes
     private var currentFragmentId = R.id.nav_posts
@@ -125,6 +145,15 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             navController.navigate(R.id.nav_purchase)
         }
         remove_ads_button.toVisibility(!Settings.isPro)
+        suggestionViewModel = getViewModel(object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return SuggestionViewModel(SuggestionRepositoryImpl(api)) as T
+            }
+        })
+        suggestionViewModel.tags.observe(this, Observer {
+            handleSuggestions(it)
+        })
     }
 
     private fun loadUser() {
@@ -169,18 +198,71 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private fun initSearchView(searchView: SearchView) {
-        searchView.queryHint = getString(R.string.search_posts_hint)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) return false
-                return true
-            }
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query.isNullOrEmpty()) return false
-                search(query)
-                return true
-            }
+        suggestionAdapter = SimpleCursorAdapter(
+            this,
+            R.layout.item_suggestion,
+            null,
+            arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1),
+            intArrayOf(android.R.id.text1),
+            0)
+        searchView.apply {
+            queryHint = getString(R.string.search_posts_hint)
+            suggestionsAdapter = suggestionAdapter
+            setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+                override fun onSuggestionClick(position: Int): Boolean {
+                    searchView.setQuery(suggestions[position], false)
+                    return true
+                }
+                override fun onSuggestionSelect(position: Int): Boolean {
+                    return true
+                }
+            })
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrEmpty()) return false
+                    fetchSuggestions(newText)
+                    return true
+                }
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query.isNullOrEmpty()) return false
+                    search(query)
+                    return true
+                }
+            })
+        }
+    }
+
+    private fun fetchSuggestions(tag: String) {
+        val token = Settings.userToken
+        if (token.isEmpty()) return
+        suggestionViewModel.fetch(
+            scheme = Settings.scheme,
+            host = Settings.hostname,
+            tag = tag,
+            token = token
+        )
+    }
+
+    private fun handleSuggestions(tags: List<Tag>) {
+        suggestions.clear()
+        suggestions.addAll(tags.map {
+            it.t.replace("<b>", "")
+                .replace("</b>", "")
         })
+        val columns = arrayOf(
+            BaseColumns._ID,
+            SearchManager.SUGGEST_COLUMN_TEXT_1,
+            SearchManager.SUGGEST_COLUMN_INTENT_DATA)
+        val cursor = MatrixCursor(columns)
+        suggestions.forEachIndexed { index, suggestion ->
+            val tmp = arrayOf(
+                index.toString(),
+                suggestion,
+                suggestion
+            )
+            cursor.addRow(tmp)
+        }
+        suggestionAdapter?.swapCursor(cursor)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
