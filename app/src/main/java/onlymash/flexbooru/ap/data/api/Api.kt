@@ -3,7 +3,6 @@ package onlymash.flexbooru.ap.data.api
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import onlymash.flexbooru.ap.common.USER_AGENT_KEY
 import onlymash.flexbooru.ap.data.model.*
 import onlymash.flexbooru.ap.extension.getUserAgent

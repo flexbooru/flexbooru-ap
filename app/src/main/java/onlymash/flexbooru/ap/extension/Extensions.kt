@@ -16,6 +16,7 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_BIG
 import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_SMALL
 import onlymash.flexbooru.ap.common.Settings
+import kotlin.math.roundToInt
 
 /**
  * An extension to `postponeEnterTransition` which will resume after a timeout.
@@ -76,7 +77,7 @@ fun Activity.getWindowWidth(): Int {
 
 fun Activity.getSanCount(): Int {
     val itemWidth = resources.getDimensionPixelSize(gridWidthResId)
-    val count = Math.round(getWindowWidth().toFloat() / itemWidth.toFloat())
+    val count = (getWindowWidth().toFloat() / itemWidth.toFloat()).roundToInt()
     return if (count < 1) 1 else count
 }
 

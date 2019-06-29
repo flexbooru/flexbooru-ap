@@ -25,6 +25,8 @@ import androidx.annotation.VisibleForTesting
 import okhttp3.*
 import onlymash.flexbooru.ap.common.USER_AGENT_KEY
 import onlymash.flexbooru.ap.extension.getUserAgent
+import kotlin.math.max
+import kotlin.math.min
 
 /** A [Downloader] which uses OkHttp to download images.  */
 class OkHttpDownloader : Downloader {
@@ -135,7 +137,7 @@ class OkHttpDownloader : Downloader {
             } catch (ignored: IllegalArgumentException) {
             }
             // Bound inside min/max size for disk cache.
-            return Math.max(Math.min(size, MAX_DISK_CACHE_SIZE.toLong()), MIN_DISK_CACHE_SIZE.toLong())
+            return max(min(size, MAX_DISK_CACHE_SIZE.toLong()), MIN_DISK_CACHE_SIZE.toLong())
         }
         private fun createOkHttpClient(cacheDir: File, maxSize: Long): OkHttpClient {
             val interceptor = Interceptor {
