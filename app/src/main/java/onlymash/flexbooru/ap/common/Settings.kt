@@ -29,8 +29,6 @@ const val FILE_SIZE_ORIGIN = "origin"
 const val USER_UID_KEY = "user_uid"
 const val USER_TOKEN_KEY = "token"
 
-const val IS_PRO_KEY = "pro"
-
 const val SETTINGS_GRID_WIDTH_KEY = "settings_grid_width"
 const val SETTINGS_GRID_WIDTH_SMALL = "small"
 const val SETTINGS_GRID_WIDTH_NORMAL = "normal"
@@ -88,10 +86,6 @@ object Settings {
     var userToken: String
         get() = sp.getString(USER_TOKEN_KEY, "") ?: ""
         set(value) = sp.edit().putString(USER_TOKEN_KEY, value).apply()
-
-    var isPro: Boolean
-        get() = sp.getBoolean(IS_PRO_KEY, false)
-        set(value) = sp.edit().putBoolean(IS_PRO_KEY, value).apply()
 
     val gridWidthString: String
         get() = sp.getString(SETTINGS_GRID_WIDTH_KEY, SETTINGS_GRID_WIDTH_NORMAL) ?: SETTINGS_GRID_WIDTH_NORMAL

@@ -46,7 +46,6 @@ import onlymash.flexbooru.ap.data.model.Tag
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.fragment.*
@@ -141,10 +140,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 Toast.LENGTH_LONG
             ).show()
         }
-        remove_ads_button.setOnClickListener {
-            navController.navigate(R.id.nav_purchase)
-        }
-        remove_ads_button.toVisibility(!Settings.isPro)
         suggestionViewModel = getViewModel(object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -192,6 +187,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 initSearchView(searchView)
             }
             R.id.nav_history -> menuInflater.inflate(R.menu.history, menu)
+            R.id.nav_about -> menuInflater.inflate(R.menu.about, menu)
             else -> menu?.clear()
         }
         return true
@@ -280,6 +276,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                     .create()
                     .show()
             }
+            R.id.action_donation -> findNavController(R.id.nav_host_fragment).navigate(R.id.nav_purchase)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -293,7 +290,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         when (key) {
             SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
             USER_UID_KEY -> loadUser()
-            IS_PRO_KEY -> remove_ads_button.toVisibility(!Settings.isPro)
         }
     }
 

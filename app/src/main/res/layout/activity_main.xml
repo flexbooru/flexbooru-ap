@@ -23,17 +23,6 @@
             android:background="@drawable/background_card"
             app:itemBackground="@drawable/background_item_drawer"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/main_drawer">
-
-        <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/remove_ads_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:text="@string/action_remove_ads"
-                android:background="?selectableItemBackground"
-                style="@style/Widget.Button.OutlinedButton"/>
-
-    </com.google.android.material.navigation.NavigationView>
+            app:menu="@menu/main_drawer"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

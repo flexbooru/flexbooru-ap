@@ -13,6 +13,7 @@ const val USER_ID_KEY = "user_id"
 const val COLOR_KEY = "color"
 
 const val INAPP_SKU = "flexbooru_ap_pro"
+const val SUBS_SKU = "flexbooru_ap_sub"
 
 const val REQUEST_CODE_OPEN_DIRECTORY = 100
 

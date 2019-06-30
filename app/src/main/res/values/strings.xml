@@ -8,6 +8,7 @@
     <string name="title_account">Account</string>
     <string name="title_about">About</string>
     <string name="title_copyright">Copyright</string>
+    <string name="title_donation">Donation</string>
 
     <string name="posts_search">Search</string>
     <string name="posts_order">Order</string>
@@ -116,4 +117,6 @@
     <string name="about_copyright">Copyright</string>
     <string name="about_licenses">Licenses</string>
     <string name="about_open_source_licenses">Open Source Licenses</string>
+
+    <string name="donation_description">Donate to support open source development.</string>
 </resources>

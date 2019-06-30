@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
-import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.bottom_shortcut_bar.*
 import kotlinx.coroutines.Dispatchers
@@ -215,12 +214,6 @@ class DetailActivity : BaseActivity() {
         }
         post_save.setOnClickListener {
             saveFile()
-        }
-        if (!Settings.isPro) {
-            ad_view.toVisibility(true)
-            val adBuilder = AdRequest.Builder()
-                .addTestDevice("3ABFE34D41CFAFB2402160AC2B4B2DFE")
-            ad_view.loadAd(adBuilder.build())
         }
     }
 
