@@ -37,7 +37,7 @@ fun Detail.getDetailUrl(): String {
 
 private fun getCustomTabsIntent(context: Context): CustomTabsIntent {
     return CustomTabsIntent.Builder()
-        .setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary))
+        .setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         .build()
 }
 
