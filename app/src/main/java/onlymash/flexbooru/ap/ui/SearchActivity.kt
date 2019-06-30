@@ -23,14 +23,14 @@ import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.model.Tag
 import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import org.kodein.di.erased.instance
 
-class SearchActivity : KodeinActivity() {
+class SearchActivity : PostActivity() {
 
     companion object {
         fun startSearchActivity(

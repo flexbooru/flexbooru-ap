@@ -20,9 +20,9 @@ class PostViewModel(
         ioExecutor = ioExecutor
     )
 
-    private val searchData = MutableLiveData<Search>()
+    private val _search = MutableLiveData<Search>()
 
-    private val _result = Transformations.map(searchData) {
+    private val _result = Transformations.map(_search) {
         repo.getPosts(it)
     }
 
@@ -33,10 +33,9 @@ class PostViewModel(
     val refreshState = Transformations.switchMap(_result) { it.refreshState }
 
     fun load(search: Search) {
-        if (searchData.value == search) {
-            return
+        if (_search.value != search) {
+            _search.value = search
         }
-        searchData.value = search
     }
 
     fun refresh() {

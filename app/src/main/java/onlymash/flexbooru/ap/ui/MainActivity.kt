@@ -48,12 +48,12 @@ import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
-import onlymash.flexbooru.ap.ui.base.BaseActivity
+import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.fragment.*
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import org.kodein.di.erased.instance
 
-class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sp by instance<SharedPreferences>()
     private val detailDao by instance<DetailDao>()

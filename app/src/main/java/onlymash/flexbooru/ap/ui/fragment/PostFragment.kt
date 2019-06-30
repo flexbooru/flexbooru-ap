@@ -25,8 +25,10 @@ import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.DetailActivity
 import onlymash.flexbooru.ap.ui.FROM_POSTS
+import onlymash.flexbooru.ap.ui.base.QueryListener
 import onlymash.flexbooru.ap.ui.adapter.PostAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
+import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import org.kodein.di.erased.instance
 import java.util.concurrent.Executor
@@ -39,7 +41,8 @@ const val JUMP_TO_POSITION_KEY = "jump_to_position"
 const val JUMP_TO_POSITION_QUERY_KEY = "jump_to_position_query"
 const val JUMP_TO_POSITION_ACTION_FILTER_KEY = "jump_to_position_action_filter"
 
-class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PostFragment : KodeinFragment(),
+    SharedPreferences.OnSharedPreferenceChangeListener, QueryListener {
 
     private lateinit var postViewModel: PostViewModel
 
@@ -179,6 +182,19 @@ class PostFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChang
         })
         refresh.setOnRefreshListener {
             postViewModel.refresh()
+        }
+    }
+
+    override fun onOrderChange(order: String) {
+        search.order = order
+        postViewModel.load(search)
+        postViewModel.refresh()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is PostActivity) {
+            context.setQueryListener(this)
         }
     }
 

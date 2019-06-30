@@ -1,10 +1,12 @@
 package onlymash.flexbooru.ap.data
 
+import onlymash.flexbooru.ap.common.ORDER_DATE
+
 data class Search(
     var scheme: String,
     var host: String,
     var query: String = "",
-    var order: String = "date",
+    var order: String = ORDER_DATE,
     var limit: Int = 20,
     var type: SearchType = SearchType.NORMAL,
     var userId: Int = -1,

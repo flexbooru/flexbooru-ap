@@ -15,3 +15,10 @@ const val COLOR_KEY = "color"
 const val INAPP_SKU = "flexbooru_ap_pro"
 
 const val REQUEST_CODE_OPEN_DIRECTORY = 100
+
+const val ORDER_DATE = "date"
+const val ORDER_DATE_REVERS = "date_r"
+const val ORDER_RATING = "rating"
+const val ORDER_DOWNLOADS = "views"
+const val ORDER_SIZE = "size"
+const val ORDER_TAGS_COUNT = "tag_num"

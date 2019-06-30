@@ -10,6 +10,14 @@
     <string name="title_copyright">Copyright</string>
 
     <string name="posts_search">Search</string>
+    <string name="posts_order">Order</string>
+    <string name="posts_order_date">Date</string>
+    <string name="posts_order_date_revers">Date(revers)</string>
+    <string name="posts_order_rating">Rating</string>
+    <string name="posts_order_downloads">Downloads</string>
+    <string name="posts_order_size">Size</string>
+    <string name="posts_order_tags_count">Tags count</string>
+
     <string name="history_clear_all">Clear all</string>
     <string name="history_clear_all_content">All history will be clear.</string>
 
