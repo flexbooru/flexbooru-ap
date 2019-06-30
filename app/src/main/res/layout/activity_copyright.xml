@@ -30,6 +30,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textIsSelectable="true"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+                android:textAppearance="?textAppearanceBody2"/>
     </ScrollView>
 </LinearLayout>

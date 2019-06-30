@@ -41,12 +41,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="?textAppearanceHeadline6"/>
             <TextView
                     android:id="@+id/user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textAppearance="?textAppearanceBody1"
                     android:textColor="?android:attr/textColorSecondary"/>
             <View
                     android:layout_width="0dp"
@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="@string/user_votes"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+                        android:textAppearance="?textAppearanceBody2" />
 
             </LinearLayout>
         </LinearLayout>
