@@ -191,6 +191,12 @@ class PostFragment : KodeinFragment(),
         postViewModel.refresh()
     }
 
+    override fun onDateRangeChange(dateRange: Int) {
+        search.dateRange = dateRange
+        postViewModel.load(search)
+        postViewModel.refresh()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is PostActivity) {

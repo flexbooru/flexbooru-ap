@@ -10,32 +10,65 @@
           app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/action_order"
-        android:title="@string/posts_order"
-        android:icon="@drawable/ic_sort_24dp"
+        android:id="@+id/action_more"
+        android:title="@string/posts_more_options"
+        android:icon="@drawable/ic_more_vert_24dp"
         android:orderInCategory="101"
         app:showAsAction="ifRoom">
 
         <menu>
 
             <item
-                android:id="@+id/action_order_date"
-                android:title="@string/posts_order_date" />
+                android:id="@+id/action_order"
+                android:title="@string/posts_order"
+                android:icon="@drawable/ic_sort_24dp"
+                app:showAsAction="ifRoom">
+
+                <menu>
+
+                    <item
+                        android:id="@+id/action_order_date"
+                        android:title="@string/posts_order_date" />
+                    <item
+                        android:id="@+id/action_order_date_revers"
+                        android:title="@string/posts_order_date_revers" />
+                    <item
+                        android:id="@+id/action_order_rating"
+                        android:title="@string/posts_order_rating" />
+                    <item
+                        android:id="@+id/action_order_downloads"
+                        android:title="@string/posts_order_downloads" />
+                    <item
+                        android:id="@+id/action_order_size"
+                        android:title="@string/posts_order_size" />
+                    <item
+                        android:id="@+id/action_order_tags_count"
+                        android:title="@string/posts_order_tags_count" />
+                </menu>
+            </item>
+
             <item
-                android:id="@+id/action_order_date_revers"
-                android:title="@string/posts_order_date_revers" />
-            <item
-                android:id="@+id/action_order_rating"
-                android:title="@string/posts_order_rating" />
-            <item
-                android:id="@+id/action_order_downloads"
-                android:title="@string/posts_order_downloads" />
-            <item
-                android:id="@+id/action_order_size"
-                android:title="@string/posts_order_size" />
-            <item
-                android:id="@+id/action_order_tags_count"
-                android:title="@string/posts_order_tags_count" />
+                android:id="@+id/action_date_range"
+                android:title="@string/posts_date_range"
+                android:icon="@drawable/ic_date_range_24dp"
+                app:showAsAction="ifRoom">
+
+                <menu>
+
+                    <item
+                        android:id="@+id/action_date_range_anytime"
+                        android:title="@string/posts_date_range_anytime" />
+                    <item
+                        android:id="@+id/action_date_range_past_day"
+                        android:title="@string/posts_date_range_past_day" />
+                    <item
+                        android:id="@+id/action_date_range_past_week"
+                        android:title="@string/posts_date_range_past_week" />
+                    <item
+                        android:id="@+id/action_date_range_past_month"
+                        android:title="@string/posts_date_range_past_month" />
+                </menu>
+            </item>
         </menu>
     </item>
 

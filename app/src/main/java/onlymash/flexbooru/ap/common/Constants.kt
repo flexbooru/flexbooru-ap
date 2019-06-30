@@ -23,3 +23,8 @@ const val ORDER_RATING = "rating"
 const val ORDER_DOWNLOADS = "views"
 const val ORDER_SIZE = "size"
 const val ORDER_TAGS_COUNT = "tag_num"
+
+const val DATE_RANGE_ANYTIME = 0
+const val DATE_RANGE_PAST_DAY = 3
+const val DATE_RANGE_PAST_WEEK = 1
+const val DATE_RANGE_PAST_MONTH = 2

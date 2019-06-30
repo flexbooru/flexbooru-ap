@@ -13,7 +13,7 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("type", "json")
         .addQueryParameter("posts_per_page", limit.toString())
         .addQueryParameter("order_by", order)
-        .addQueryParameter("ldate", "0")
+        .addQueryParameter("ldate", dateRange.toString())
         .addQueryParameter("token", token)
     if (color.isNotEmpty()) {
         builder.addQueryParameter("color", color)

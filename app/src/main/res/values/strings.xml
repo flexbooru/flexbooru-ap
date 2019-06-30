@@ -11,6 +11,7 @@
     <string name="title_donation">Donation</string>
 
     <string name="posts_search">Search</string>
+    <string name="posts_more_options">More options</string>
     <string name="posts_order">Order</string>
     <string name="posts_order_date">Date</string>
     <string name="posts_order_date_revers">Date(revers)</string>
@@ -18,6 +19,11 @@
     <string name="posts_order_downloads">Downloads</string>
     <string name="posts_order_size">Size</string>
     <string name="posts_order_tags_count">Tags count</string>
+    <string name="posts_date_range">Date range</string>
+    <string name="posts_date_range_anytime">Anytime</string>
+    <string name="posts_date_range_past_day">Past day</string>
+    <string name="posts_date_range_past_week">Past week</string>
+    <string name="posts_date_range_past_month">Past month</string>
 
     <string name="history_clear_all">Clear all</string>
     <string name="history_clear_all_content">All history will be clear.</string>
