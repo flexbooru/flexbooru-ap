@@ -1,6 +1,5 @@
 package onlymash.flexbooru.ap.ui.base
 
-import android.content.DialogInterface
 import android.text.InputType
 import android.view.MenuItem
 import android.widget.EditText
