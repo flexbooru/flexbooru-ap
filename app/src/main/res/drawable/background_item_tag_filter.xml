@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/colorIconTint" />
         </shape>
     </item>
     <item>
@@ -10,7 +10,7 @@
             android:exitFadeDuration="@android:integer/config_mediumAnimTime">
             <item android:state_selected="true">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/colorAccent" />
+                    <solid android:color="@color/color_light_primary" />
                 </shape>
             </item>
         </selector>
