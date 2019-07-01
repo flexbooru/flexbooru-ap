@@ -12,8 +12,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,16 +82,13 @@ class HistoryFragment : KodeinFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        detailViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailViewModel(
-                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                    scheme = scheme,
-                    host = host
-                ) as T
-            }
-        })
+        detailViewModel = getViewModel(
+            DetailViewModel(
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
+                scheme = scheme,
+                host = host
+            )
+        )
         return inflater.inflate(R.layout.fragment_history, container, false)
     }
 

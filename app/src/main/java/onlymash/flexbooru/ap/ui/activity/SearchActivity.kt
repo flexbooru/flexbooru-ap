@@ -11,8 +11,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.floating_action_button.*
@@ -93,12 +91,7 @@ class SearchActivity : PostActivity() {
             setTitle(R.string.title_posts)
             subtitle = query
         }
-        suggestionViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return SuggestionViewModel(SuggestionRepositoryImpl(api)) as T
-            }
-        })
+        suggestionViewModel = getViewModel(SuggestionViewModel(SuggestionRepositoryImpl(api)))
         suggestionViewModel.tags.observe(this, Observer {
             handleSuggestions(it)
         })

@@ -11,8 +11,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.POST_ID_KEY
@@ -61,16 +59,11 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         val view = View.inflate(requireContext(), R.layout.dialog_info, null)
-        detailViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailViewModel(
-                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                    scheme = scheme,
-                    host = host
-                ) as T
-            }
-        })
+        detailViewModel = getViewModel(DetailViewModel(
+            repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
+            scheme = scheme,
+            host = host
+        ))
         detailViewModel.detail.observe(this, Observer {
             if (it is NetResult.Success) {
                 initView(view, it.data)

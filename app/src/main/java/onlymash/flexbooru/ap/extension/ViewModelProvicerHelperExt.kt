@@ -14,6 +14,24 @@ inline fun <reified M : ViewModel> AppCompatActivity.getViewModel(viewModelFacto
     return ViewModelProvider(this, viewModelFactory).get(M::class.java)
 }
 
+inline fun <reified M : ViewModel> Fragment.getViewModel(viewModel: ViewModel): M {
+    return getViewModel(object : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return viewModel as T
+        }
+    })
+}
+
+inline fun <reified M : ViewModel> AppCompatActivity.getViewModel(viewModel: ViewModel): M {
+    return getViewModel(object : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return viewModel as T
+        }
+    })
+}
+
 inline fun <reified M : ViewModel> Fragment.getViewModel(): M {
     return ViewModelProviders.of(this).get(M::class.java)
 }

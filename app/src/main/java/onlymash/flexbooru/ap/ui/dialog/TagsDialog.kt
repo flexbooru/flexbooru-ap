@@ -9,17 +9,20 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.db.dao.TagFilterDao
 import onlymash.flexbooru.ap.data.model.Detail
+import onlymash.flexbooru.ap.data.model.TagFilter
 import onlymash.flexbooru.ap.data.model.TagsFull
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.NetResult
@@ -44,6 +47,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
 
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
+    private val tagFilterDao by instance<TagFilterDao>()
 
     private var postId = -1
     private var detail: Detail? = null
@@ -69,16 +73,13 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = tagAdapter
         }
-        detailViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailViewModel(
-                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                    scheme = scheme,
-                    host = host
-                ) as T
-            }
-        })
+        detailViewModel = getViewModel(
+            DetailViewModel(
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
+                scheme = scheme,
+                host = host
+            )
+        )
         detailViewModel.detail.observe(this, Observer {
             if (it is NetResult.Success) {
                 detail = it.data
@@ -127,6 +128,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
             private val tagDot: AppCompatImageView = itemView.findViewById(R.id.tag_dot)
             private val tagName: AppCompatTextView = itemView.findViewById(R.id.tag_name)
             private val tagCount: AppCompatTextView = itemView.findViewById(R.id.tag_count)
+            private val tagAddToFilter: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_filter)
 
             var tagFull: TagsFull? = null
 
@@ -138,6 +140,13 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
                 itemView.setOnLongClickListener {
                     itemView.context.copyText(tagFull?.name)
                     true
+                }
+                tagAddToFilter.setOnClickListener {
+                    tagFull?.name?.let { name ->
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            tagFilterDao.insert(TagFilter(name = name))
+                        }
+                    }
                 }
             }
 

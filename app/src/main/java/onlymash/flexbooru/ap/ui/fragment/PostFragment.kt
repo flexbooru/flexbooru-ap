@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.app.SharedElementCallback
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_post.*
@@ -121,16 +119,13 @@ class PostFragment : KodeinFragment(),
             token = Settings.userToken,
             color = color
         )
-        postViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return PostViewModel(
-                    db = db,
-                    api = api,
-                    ioExecutor = ioExecutor
-                ) as T
-            }
-        })
+        postViewModel = getViewModel(
+            PostViewModel(
+                db = db,
+                api = api,
+                ioExecutor = ioExecutor
+            )
+        )
         sp.registerOnSharedPreferenceChangeListener(this)
     }
 

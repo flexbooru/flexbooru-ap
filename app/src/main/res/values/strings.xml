@@ -72,9 +72,11 @@
     <string name="vote">Vote</string>
     <string name="share_via">Via</string>
 
-    <string name="action_download">Download</string>
-
     <string name="search_posts_hint">Search posts…</string>
+    <string name="add_tag_filter_hint">Add tag…</string>
+
+    <string name="tags_filter_clear_all">Clear all</string>
+    <string name="tags_filter_clear_all_content">All tags will be clear.</string>
 
     <string name="placeholder_post_id"># %01$d</string>
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
@@ -103,6 +105,11 @@
     <string name="action_copy_link">Copy link</string>
     <string name="action_share_link">Share link</string>
     <string name="action_send_file">Send file</string>
+    <string name="action_download">Download</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_add_tag_filter">Add tag</string>
+    <string name="action_clear_all">Add tag</string>
 
     <string name="user_votes">Votes</string>
     <string name="user_logout">Logout</string>

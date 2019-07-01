@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
@@ -73,16 +71,13 @@ class DetailFragment : KodeinFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_detail, container, false)
-        detailViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailViewModel(
-                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                    scheme = scheme,
-                    host = host
-                ) as T
-            }
-        })
+        detailViewModel = getViewModel(
+            DetailViewModel(
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
+                scheme = scheme,
+                host = host
+            )
+        )
         return root
     }
 

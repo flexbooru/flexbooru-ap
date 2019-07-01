@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_add_tag_filter"
+        android:icon="@drawable/ic_add_24dp"
+        android:title="@string/action_add_tag_filter"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_clear_all"
+        android:title="@string/tags_filter_clear_all"
+        android:icon="@drawable/ic_clear_all_24dp"
+        app:showAsAction="ifRoom"/>
+</menu>

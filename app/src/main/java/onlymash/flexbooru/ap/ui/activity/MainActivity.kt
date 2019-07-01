@@ -8,31 +8,37 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.drawer_tags.*
 import kotlinx.android.synthetic.main.floating_action_button.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,29 +48,45 @@ import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.db.dao.TagFilterDao
 import onlymash.flexbooru.ap.data.model.Tag
+import onlymash.flexbooru.ap.data.model.TagFilter
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
+import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.PostActivity
+import onlymash.flexbooru.ap.ui.diffcallback.TagFilterDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.*
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
+import onlymash.flexbooru.ap.ui.viewmodel.TagFilterViewModel
 import org.kodein.di.erased.instance
+
+private const val SUGGESTION_FOR_NORMAL = 0
+private const val SUGGESTION_FOR_FILTER = 1
 
 class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sp by instance<SharedPreferences>()
     private val detailDao by instance<DetailDao>()
+    private val tagFilterDao by instance<TagFilterDao>()
     private val api by instance<Api>()
 
-    private lateinit var suggestionViewModel: SuggestionViewModel
-
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var suggestionViewModel: SuggestionViewModel
+    private lateinit var tagFilterViewModel: TagFilterViewModel
 
     private val suggestions: MutableList<String> = mutableListOf()
+    private val tagsFilter: MutableList<TagFilter> = mutableListOf()
+
+    private val tagsSearch: MutableList<String> = mutableListOf()
+
+    private var suggestionFor = SUGGESTION_FOR_NORMAL
 
     private var suggestionAdapter: CursorAdapter? = null
+    private var tagFilterSuggestionAdapter: CursorAdapter? = null
+    private lateinit var tagFilterAdapter: TagFilterAdapter
 
     @IdRes
     private var currentFragmentId = R.id.nav_posts
@@ -140,15 +162,70 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 Toast.LENGTH_LONG
             ).show()
         }
-        suggestionViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return SuggestionViewModel(SuggestionRepositoryImpl(api)) as T
-            }
-        })
+        suggestionViewModel = getViewModel(SuggestionViewModel(SuggestionRepositoryImpl(api)))
         suggestionViewModel.tags.observe(this, Observer {
             handleSuggestions(it)
         })
+        initTagFilter()
+    }
+
+    private fun initTagFilter() {
+        ViewCompat.setOnApplyWindowInsetsListener(nav_view_tags) { _, insets ->
+            (nav_view_tags.layoutParams as DrawerLayout.LayoutParams).topMargin = insets.systemWindowInsetTop
+            insets
+        }
+        toolbar_drawer.apply {
+            setNavigationOnClickListener {
+                drawer_layout.closeDrawer(GravityCompat.END)
+            }
+            menu?.findItem(R.id.action_add_tag_filter)?.let {
+                val searchView = it.actionView as SearchView
+                initTagFilterSearchView(searchView)
+            }
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_clear_all -> {
+                        if (tagsFilter.isNotEmpty()) {
+                            AlertDialog.Builder(this@MainActivity)
+                                .setTitle(R.string.tags_filter_clear_all)
+                                .setMessage(R.string.tags_filter_clear_all_content)
+                                .setPositiveButton(R.string.dialog_ok) { _, _ ->
+                                    tagFilterViewModel.deleteAll()
+                                    tagsSearch.clear()
+                                }
+                                .setNegativeButton(R.string.dialog_cancel, null)
+                                .create()
+                                .show()
+                        }
+                    }
+                }
+                true
+            }
+        }
+        tagFilterAdapter = TagFilterAdapter()
+        tags_filter_list.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+            adapter = tagFilterAdapter
+            addItemDecoration(DividerItemDecoration(this@MainActivity, RecyclerView.VERTICAL))
+        }
+        tagFilterViewModel = getViewModel(TagFilterViewModel(tagFilterDao))
+        tagFilterViewModel.tags.observe(this, Observer {
+            handleTagFilter(it)
+        })
+        tagFilterViewModel.loadAll()
+        fab_search.setOnClickListener {
+            if (tagsSearch.isEmpty()) {
+                return@setOnClickListener
+            }
+            var query = ""
+            tagsSearch.forEach {
+                query = "$query $it"
+            }
+            query = query.trim()
+            if (query.isNotEmpty()) {
+                search(query)
+            }
+        }
     }
 
     private fun loadUser() {
@@ -193,6 +270,44 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         return true
     }
 
+    private fun initTagFilterSearchView(searchView: SearchView) {
+        tagFilterSuggestionAdapter = SimpleCursorAdapter(
+            this,
+            R.layout.item_suggestion_tag_filter,
+            null,
+            arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1),
+            intArrayOf(android.R.id.text1),
+            0
+        )
+        searchView.apply {
+            queryHint = getString(R.string.add_tag_filter_hint)
+            findViewById<ImageView>(androidx.appcompat.R.id.search_button).setImageResource(R.drawable.ic_add_24dp)
+            suggestionsAdapter = tagFilterSuggestionAdapter
+            setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+                override fun onSuggestionClick(position: Int): Boolean {
+                    tagFilterViewModel.create(suggestions[position])
+                    return true
+                }
+                override fun onSuggestionSelect(position: Int): Boolean {
+                    return true
+                }
+            })
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrEmpty()) return false
+                    suggestionFor = SUGGESTION_FOR_FILTER
+                    fetchSuggestions(newText)
+                    return true
+                }
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query.isNullOrEmpty()) return false
+                    tagFilterViewModel.create(query)
+                    return true
+                }
+            })
+        }
+    }
+
     private fun initSearchView(searchView: SearchView) {
         suggestionAdapter = SimpleCursorAdapter(
             this,
@@ -216,6 +331,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String?): Boolean {
                     if (newText.isNullOrEmpty()) return false
+                    suggestionFor = SUGGESTION_FOR_NORMAL
                     fetchSuggestions(newText)
                     return true
                 }
@@ -258,7 +374,19 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             )
             cursor.addRow(tmp)
         }
-        suggestionAdapter?.swapCursor(cursor)
+        when (suggestionFor) {
+            SUGGESTION_FOR_NORMAL -> suggestionAdapter?.swapCursor(cursor)
+            SUGGESTION_FOR_FILTER -> tagFilterSuggestionAdapter?.swapCursor(cursor)
+        }
+    }
+
+    private fun handleTagFilter(tags: List<TagFilter>) {
+        val oldItems = mutableListOf<TagFilter>()
+        oldItems.addAll(tagsFilter)
+        tagsFilter.clear()
+        tagsFilter.addAll(tags)
+        val result = DiffUtil.calculateDiff(TagFilterDiffCallback(oldItems, tagsFilter))
+        result.dispatchUpdatesTo(tagFilterAdapter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -286,6 +414,14 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun onBackPressed() {
+        when {
+            drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
+            drawer_layout.isDrawerOpen(GravityCompat.END) -> drawer_layout.closeDrawer(GravityCompat.END)
+            else -> super.onBackPressed()
+        }
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
@@ -305,5 +441,62 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 putString(QUERY_KEY, query)
             }
         )
+    }
+
+    inner class TagFilterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+        override fun getItemCount(): Int = tagsFilter.size
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            (holder as TagFilterViewHolder).bind(tagsFilter[position])
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+            TagFilterViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_tag_filter, parent, false))
+
+        inner class TagFilterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+            private val name: AppCompatTextView = itemView.findViewById(R.id.name)
+            private val actionMenuView: ActionMenuView = itemView.findViewById(R.id.menu_view)
+
+            private var tagFilter: TagFilter? = null
+
+            init {
+                MenuInflater(itemView.context).inflate(R.menu.tag_filter_item, actionMenuView.menu)
+                actionMenuView.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.action_copy -> tagFilter?.let {
+                            copyText(it.name)
+                        }
+                        R.id.action_delete -> tagFilter?.let {
+                            if (itemView.isSelected) {
+                                tagsSearch.remove(it.name)
+                            }
+                            tagFilterViewModel.delete(it)
+                        }
+                    }
+                    true
+                }
+                itemView.setOnClickListener {
+                    tagFilter?.let { tag ->
+                        val isSelected = itemView.isSelected
+                        if (isSelected) {
+                            tagsSearch.remove(tag.name)
+                        } else {
+                            tagsSearch.add(tag.name)
+                        }
+                        itemView.isSelected = !isSelected
+                    }
+                }
+            }
+
+            fun bind(tag: TagFilter) {
+                tagFilter = tag
+                name.text = tag.name
+                itemView.isSelected = tag.name in tagsSearch
+            }
+        }
     }
 }

@@ -23,4 +23,6 @@
     <dimen name="popup_drop_down_offset">36dp</dimen>
 
     <dimen name="drawable_padding">5dp</dimen>
+
+    <dimen name="padding_horizontal_item_text">20dp</dimen>
 </resources>

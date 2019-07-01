@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import onlymash.flexbooru.ap.R
@@ -31,12 +29,7 @@ class LoginActivity : KodeinActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        loginViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return LoginViewModel(LoginRepositoryImpl(api)) as T
-            }
-        })
+        loginViewModel = getViewModel(LoginViewModel(LoginRepositoryImpl(api)))
         loginViewModel.loginResult.observe(this, Observer {
             handleResult(it)
         })

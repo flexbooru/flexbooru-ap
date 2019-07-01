@@ -39,4 +39,13 @@
             android:textAppearance="?textAppearanceCaption"
             android:textColor="@color/secondary_text_dark"/>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/tag_add_to_filter"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="?attr/listPreferredItemPaddingStart"
+        android:src="@drawable/ic_playlist_add_24dp"
+        android:background="?selectableItemBackgroundBorderless"/>
+
 </LinearLayout>

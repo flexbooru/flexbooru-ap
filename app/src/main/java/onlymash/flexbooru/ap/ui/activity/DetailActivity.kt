@@ -228,12 +228,7 @@ class DetailActivity : BaseActivity() {
 
     private fun initViewModel() {
         if (fromWhere == FROM_POSTS) {
-            localPostViewModel = getViewModel(object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return LocalPostViewModel(LocalRepositoryImpl(postDao)) as T
-                }
-            })
+            localPostViewModel = getViewModel(LocalPostViewModel(LocalRepositoryImpl(postDao)))
             localPostViewModel.posts.observe(this, Observer { data ->
                 posts.clear()
                 posts.addAll(data)
@@ -247,16 +242,13 @@ class DetailActivity : BaseActivity() {
             localPostViewModel.load(query)
         }
 
-        localDetailViewModel = getViewModel(object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailViewModel(
-                    repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                    scheme = Settings.scheme,
-                    host = Settings.hostname
-                ) as T
-            }
-        })
+        localDetailViewModel = getViewModel(
+            DetailViewModel(
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
+                scheme = Settings.scheme,
+                host = Settings.hostname
+            )
+        )
         localDetailViewModel.details.observe(this, Observer {
             allDetails.clear()
             allDetails.addAll(it)

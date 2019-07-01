@@ -22,6 +22,7 @@
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
         <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
