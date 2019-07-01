@@ -1,6 +1,7 @@
 package onlymash.flexbooru.ap.ui.base
 
 import android.text.InputType
+import android.view.Gravity
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -43,13 +44,16 @@ abstract class PostActivity : BaseActivity() {
         val editText = EditText(this)
         layout.addView(editText)
         val margin = resources.getDimensionPixelSize(R.dimen.margin_horizontal_edit_text_dialog)
-        editText.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT).apply {
-            marginStart = margin
-            marginEnd = margin
+        editText.apply {
+            setText(currentAspectRatio)
+            layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT).apply {
+                marginStart = margin
+                marginEnd = margin
+            }
+            maxLines = 1
+            inputType = InputType.TYPE_CLASS_TEXT
+            gravity = Gravity.CENTER_HORIZONTAL
         }
-        editText.maxLines = 1
-        editText.setText(currentAspectRatio)
-        editText.inputType = InputType.TYPE_CLASS_TEXT
         AlertDialog.Builder(this)
             .setTitle(R.string.posts_aspect_ratio)
             .setView(layout)
