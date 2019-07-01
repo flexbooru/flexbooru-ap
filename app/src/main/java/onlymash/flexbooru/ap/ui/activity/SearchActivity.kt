@@ -36,6 +36,7 @@ class SearchActivity : PostActivity() {
             query: String = "",
             searchType: SearchType = SearchType.NORMAL,
             userId: Int = -1,
+            uploaderId: Int = -1,
             color: String = ""
         ) {
             context.startActivity(
@@ -44,6 +45,7 @@ class SearchActivity : PostActivity() {
                     putExtra(QUERY_KEY, query)
                     putExtra(SEARCH_TYPE_KEY, searchType)
                     putExtra(USER_ID_KEY, userId)
+                    putExtra(UPLOADER_ID_KEY, uploaderId)
                     putExtra(COLOR_KEY, color)
                 }
             )
@@ -53,6 +55,7 @@ class SearchActivity : PostActivity() {
     private var query = ""
     private var searchType = SearchType.NORMAL
     private var userId: Int = -1
+    private var uploaderId: Int = -1
     private var color: String = ""
 
     private val api by instance<Api>()
@@ -67,6 +70,7 @@ class SearchActivity : PostActivity() {
             query = getStringExtra(QUERY_KEY) ?: ""
             searchType = getSerializableExtra(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
             userId = getIntExtra(USER_ID_KEY, -1)
+            uploaderId = getIntExtra(UPLOADER_ID_KEY, -1)
             color = getStringExtra(COLOR_KEY) ?: ""
         }
 
@@ -76,6 +80,7 @@ class SearchActivity : PostActivity() {
                 putString(QUERY_KEY, query)
                 putSerializable(SEARCH_TYPE_KEY, searchType)
                 putInt(USER_ID_KEY, userId)
+                putInt(UPLOADER_ID_KEY, uploaderId)
                 putString(COLOR_KEY, color)
             }
         )

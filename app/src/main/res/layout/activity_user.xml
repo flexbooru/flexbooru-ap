@@ -53,13 +53,18 @@
                     android:layout_height="20dp" />
 
             <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:minWidth="100dp"
                     android:orientation="vertical">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/votes_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -67,13 +72,36 @@
                         app:srcCompat="@drawable/ic_star_24dp"
                         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 
-                <TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="@string/user_votes"
                         android:textAppearance="?textAppearanceBody2" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="100dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/posts_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:tint="@android:color/white"
+                        app:srcCompat="@drawable/ic_photo_24dp"
+                        style="@style/Widget.MaterialComponents.FloatingActionButton"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/user_posts"
+                        android:textAppearance="?textAppearanceBody2" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

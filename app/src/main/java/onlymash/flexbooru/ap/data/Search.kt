@@ -12,6 +12,7 @@ data class Search(
     var limit: Int = 20,
     var type: SearchType = SearchType.NORMAL,
     var userId: Int = -1,
+    var uploaderId: Int = -1,
     var token: String,
     var color: String = "",
     var aspect: String = "",
@@ -22,5 +23,6 @@ data class Search(
 
 enum class SearchType {
     NORMAL,
-    FAVORITE
+    FAVORITE,
+    UPLOADED
 }

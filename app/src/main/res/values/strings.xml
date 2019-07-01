@@ -117,6 +117,7 @@
     <string name="action_clear_all">Add tag</string>
 
     <string name="user_votes">Votes</string>
+    <string name="user_posts">Posts</string>
     <string name="user_logout">Logout</string>
     <string name="user_logout_content">Are you sure to logout?</string>
 

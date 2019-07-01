@@ -21,8 +21,10 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
     } else if (query.isNotEmpty() && type == SearchType.NORMAL) {
         builder.addQueryParameter("search_tag", query)
     }
-    if (type == SearchType.FAVORITE) {
-        builder.addQueryParameter("stars_by", userId.toString())
+    when (type) {
+        SearchType.FAVORITE -> builder.addQueryParameter("stars_by", userId.toString())
+        SearchType.UPLOADED -> builder.addQueryParameter("user", uploaderId.toString())
+        else -> {}
     }
     if (extJpg) {
         builder.addQueryParameter("ext_jpg", "jpg")

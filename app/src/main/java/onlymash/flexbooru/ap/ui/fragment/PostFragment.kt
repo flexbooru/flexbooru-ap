@@ -102,11 +102,13 @@ class PostFragment : KodeinFragment(),
         var query = ""
         var searchType = SearchType.NORMAL
         var userId = -1
+        var uploaderId = -1
         var color = ""
         arguments?.apply {
             query = getString(QUERY_KEY) ?: ""
             searchType = getSerializable(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
-            userId = getInt(USER_ID_KEY)
+            userId = getInt(USER_ID_KEY, -1)
+            uploaderId = getInt(UPLOADER_ID_KEY, -1)
             color = getString(COLOR_KEY) ?: ""
         }
         search = Search(
@@ -116,6 +118,7 @@ class PostFragment : KodeinFragment(),
             limit = Settings.pageLimit,
             type = searchType,
             userId = userId,
+            uploaderId = uploaderId,
             token = Settings.userToken,
             color = color
         )

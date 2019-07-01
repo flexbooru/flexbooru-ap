@@ -80,6 +80,14 @@ class UserActivity : AppCompatActivity() {
                 searchType = SearchType.FAVORITE
             )
         }
+        posts_button.setOnClickListener {
+            SearchActivity.startSearchActivity(
+                context = this,
+                query = "user:$name",
+                uploaderId = userId,
+                searchType = SearchType.UPLOADED
+            )
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
