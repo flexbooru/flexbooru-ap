@@ -5,4 +5,6 @@ interface QueryListener {
     fun onOrderChange(order: String)
 
     fun onDateRangeChange(dateRange: Int)
+
+    fun onAspectRatioChange(aspect: String)
 }

@@ -25,4 +25,6 @@
     <dimen name="drawable_padding">5dp</dimen>
 
     <dimen name="padding_horizontal_item_text">20dp</dimen>
+
+    <dimen name="margin_horizontal_edit_text_dialog">20dp</dimen>
 </resources>

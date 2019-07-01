@@ -192,6 +192,12 @@ class PostFragment : KodeinFragment(),
         postViewModel.refresh()
     }
 
+    override fun onAspectRatioChange(aspect: String) {
+        search.aspect = aspect
+        postViewModel.load(search)
+        postViewModel.refresh()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is PostActivity) {

@@ -69,6 +69,12 @@
                         android:title="@string/posts_date_range_past_month" />
                 </menu>
             </item>
+
+            <item
+                android:id="@+id/action_input_aspect_ratio"
+                android:title="@string/posts_aspect_ratio"
+                android:icon="@drawable/ic_image_aspect_ratio_24dp"
+                app:showAsAction="ifRoom"/>
         </menu>
     </item>
 

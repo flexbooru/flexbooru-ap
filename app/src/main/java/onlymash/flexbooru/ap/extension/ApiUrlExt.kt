@@ -14,6 +14,7 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("posts_per_page", limit.toString())
         .addQueryParameter("order_by", order)
         .addQueryParameter("ldate", dateRange.toString())
+        .addQueryParameter("aspect", aspect)
         .addQueryParameter("token", token)
     if (color.isNotEmpty()) {
         builder.addQueryParameter("color", color)
