@@ -30,8 +30,8 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
-import onlymash.flexbooru.ap.ui.DetailActivity
-import onlymash.flexbooru.ap.ui.FROM_HISTORY
+import onlymash.flexbooru.ap.ui.activity.DetailActivity
+import onlymash.flexbooru.ap.ui.activity.FROM_HISTORY
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel

@@ -9,7 +9,7 @@ import onlymash.flexbooru.ap.BuildConfig
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.launchUrl
 import onlymash.flexbooru.ap.extension.openAppInMarket
-import onlymash.flexbooru.ap.ui.CopyrightActivity
+import onlymash.flexbooru.ap.ui.activity.CopyrightActivity
 
 class AboutFragment : PreferenceFragmentCompat() {
 

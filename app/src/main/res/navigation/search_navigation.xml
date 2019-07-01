@@ -27,7 +27,7 @@
     </fragment>
     <activity
             android:id="@+id/nav_search"
-            android:name="onlymash.flexbooru.ap.ui.SearchActivity"
+            android:name="onlymash.flexbooru.ap.ui.activity.SearchActivity"
             android:label="activity_search"
             tools:layout="@layout/activity_search">
         <argument

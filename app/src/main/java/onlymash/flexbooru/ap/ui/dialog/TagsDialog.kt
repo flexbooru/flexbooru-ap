@@ -25,7 +25,7 @@ import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.ui.SearchActivity
+import onlymash.flexbooru.ap.ui.activity.SearchActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import org.kodein.di.erased.instance

@@ -1,4 +1,4 @@
-package onlymash.flexbooru.ap.ui
+package onlymash.flexbooru.ap.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

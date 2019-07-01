@@ -23,8 +23,8 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
-import onlymash.flexbooru.ap.ui.SearchActivity
-import onlymash.flexbooru.ap.ui.UserActivity
+import onlymash.flexbooru.ap.ui.activity.SearchActivity
+import onlymash.flexbooru.ap.ui.activity.UserActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.worker.DownloadWorker

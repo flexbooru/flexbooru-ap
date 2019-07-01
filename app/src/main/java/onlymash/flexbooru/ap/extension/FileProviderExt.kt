@@ -5,8 +5,8 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import java.io.File
 
-private const val AUTHORITY = "onlymash.flexbooru.ap.fileprovider"
+private const val AUTHORITY_SUFFIX = ".fileprovider"
 
 fun Context.getUriForFile(file: File): Uri {
-    return FileProvider.getUriForFile(this, AUTHORITY, file)
+    return FileProvider.getUriForFile(this, applicationContext.packageName + AUTHORITY_SUFFIX, file)
 }

@@ -32,7 +32,7 @@ import onlymash.flexbooru.ap.decoder.CustomDecoder
 import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
-import onlymash.flexbooru.ap.ui.DetailActivity
+import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.widget.DismissFrameLayout

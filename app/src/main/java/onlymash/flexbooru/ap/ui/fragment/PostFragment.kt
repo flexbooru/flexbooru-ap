@@ -23,8 +23,8 @@ import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.extension.getSanCount
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
-import onlymash.flexbooru.ap.ui.DetailActivity
-import onlymash.flexbooru.ap.ui.FROM_POSTS
+import onlymash.flexbooru.ap.ui.activity.DetailActivity
+import onlymash.flexbooru.ap.ui.activity.FROM_POSTS
 import onlymash.flexbooru.ap.ui.base.QueryListener
 import onlymash.flexbooru.ap.ui.adapter.PostAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment

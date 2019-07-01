@@ -17,14 +17,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".ui.PurchaseActivity" />
-        <activity android:name=".ui.CopyrightActivity" />
-        <activity android:name=".ui.UserActivity" />
+        <activity android:name=".ui.activity.PurchaseActivity" />
+        <activity android:name=".ui.activity.CopyrightActivity" />
+        <activity android:name=".ui.activity.UserActivity" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:label="@string/title_login" />
         <activity
-            android:name=".ui.DetailActivity"
+            android:name=".ui.activity.DetailActivity"
             android:theme="@style/AppTheme.Detail">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -38,9 +38,9 @@
                     android:pathPattern="/pictures/view_post/.*" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.activity.SearchActivity" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -54,7 +54,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="onlymash.flexbooru.ap.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

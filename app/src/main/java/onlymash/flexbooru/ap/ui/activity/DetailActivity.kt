@@ -1,4 +1,4 @@
-package onlymash.flexbooru.ap.ui
+package onlymash.flexbooru.ap.ui.activity
 
 import android.app.Activity
 import android.content.Context
@@ -103,7 +103,7 @@ class DetailActivity : BaseActivity() {
     private var query = ""
     private val posts: MutableList<Post> = mutableListOf()
     private val details: MutableList<Detail> = mutableListOf()
-    private var currentPostId = 0
+    private var currentPostId = -1
     private val allDetails: MutableList<Detail> = mutableListOf()
 
     val onDismissListener = object : DismissFrameLayout.OnDismissListener {
@@ -144,12 +144,17 @@ class DetailActivity : BaseActivity() {
                 pos = 0
                 currentPostId = url.path?.replace("/pictures/view_post/", "")?.toInt() ?: 0
             } else {
-                fromWhere = getIntExtra(FROM_WHERE_KEY, FROM_POSTS)
+                fromWhere = getIntExtra(
+                    FROM_WHERE_KEY,
+                    FROM_POSTS
+                )
                 query = getStringExtra(QUERY_KEY) ?: ""
                 pos = getIntExtra(CURRENT_POSITION_KEY, 0)
             }
         }
-        postponeEnterTransition()
+        if (fromWhere == FROM_POSTS) {
+            postponeEnterTransition()
+        }
         initView()
         initViewModel()
     }
@@ -207,10 +212,14 @@ class DetailActivity : BaseActivity() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
         })
         post_tags.setOnClickListener {
-            TagsDialog.newInstance(currentPostId).show(supportFragmentManager, "tags")
+            if (currentPostId > 0) {
+                TagsDialog.newInstance(currentPostId).show(supportFragmentManager, "tags")
+            }
         }
         post_info.setOnClickListener {
-            InfoDialog.newInstance(currentPostId).show(supportFragmentManager, "info")
+            if (currentPostId > 0) {
+                InfoDialog.newInstance(currentPostId).show(supportFragmentManager, "info")
+            }
         }
         post_save.setOnClickListener {
             saveFile()
@@ -225,12 +234,13 @@ class DetailActivity : BaseActivity() {
                     return LocalPostViewModel(LocalRepositoryImpl(postDao)) as T
                 }
             })
-            localPostViewModel.posts.observe(this, Observer {
+            localPostViewModel.posts.observe(this, Observer { data ->
                 posts.clear()
-                posts.addAll(it)
+                posts.addAll(data)
                 detailAdapter.notifyDataSetChanged()
                 posts_pager.setCurrentItem(pos, false)
-                toolbar.title = "Post ${it[pos].id}"
+                currentPostId = data[pos].id
+                toolbar.title = "Post $currentPostId"
                 localPostViewModel.posts.removeObservers(this)
                 startPostponedEnterTransition()
             })
@@ -251,11 +261,11 @@ class DetailActivity : BaseActivity() {
             allDetails.clear()
             allDetails.addAll(it)
             if (fromWhere == FROM_HISTORY && details.isEmpty()) {
-                toolbar.title = "Post ${it[pos].id}"
+                currentPostId = it[pos].id
+                toolbar.title = "Post $currentPostId"
                 details.addAll(it)
                 detailAdapter.notifyDataSetChanged()
                 posts_pager.setCurrentItem(pos, false)
-                startPostponedEnterTransition()
             }
             initVoteIcon()
         })

@@ -1,4 +1,4 @@
-package onlymash.flexbooru.ap.ui
+package onlymash.flexbooru.ap.ui.activity
 
 import android.content.Context
 import android.content.Intent

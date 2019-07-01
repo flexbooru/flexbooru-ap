@@ -39,7 +39,7 @@
 
     <activity
             android:id="@+id/nav_search"
-            android:name="onlymash.flexbooru.ap.ui.SearchActivity"
+            android:name="onlymash.flexbooru.ap.ui.activity.SearchActivity"
             android:label="activity_search"
             tools:layout="@layout/activity_search">
         <argument
@@ -63,7 +63,7 @@
             android:label="@string/title_about"/>
     <activity
             android:id="@+id/nav_purchase"
-            android:name="onlymash.flexbooru.ap.ui.PurchaseActivity"
+            android:name="onlymash.flexbooru.ap.ui.activity.PurchaseActivity"
             android:label="@string/action_remove_ads"
             tools:layout="@layout/activity_purchase"/>
 </navigation>
