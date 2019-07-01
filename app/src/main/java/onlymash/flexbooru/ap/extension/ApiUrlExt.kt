@@ -24,6 +24,15 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
     if (type == SearchType.FAVORITE) {
         builder.addQueryParameter("stars_by", userId.toString())
     }
+    if (extJpg) {
+        builder.addQueryParameter("ext_jpg", "jpg")
+    }
+    if (extPng) {
+        builder.addQueryParameter("ext_png", "png")
+    }
+    if (extGif) {
+        builder.addQueryParameter("ext_gif", "gif")
+    }
     return builder.build()
 }
 

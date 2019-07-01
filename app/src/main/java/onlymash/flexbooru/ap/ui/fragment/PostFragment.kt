@@ -198,6 +198,20 @@ class PostFragment : KodeinFragment(),
         postViewModel.refresh()
     }
 
+    override fun onExtensionChange(
+        isCheckedJpg: Boolean,
+        isCheckedPng: Boolean,
+        isCheckedGif: Boolean
+    ) {
+        search.apply {
+            extJpg = isCheckedJpg
+            extPng = isCheckedPng
+            extGif = isCheckedGif
+        }
+        postViewModel.load(search)
+        postViewModel.refresh()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is PostActivity) {

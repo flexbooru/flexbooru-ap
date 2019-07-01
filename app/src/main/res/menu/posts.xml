@@ -75,6 +75,36 @@
                 android:title="@string/posts_aspect_ratio"
                 android:icon="@drawable/ic_image_aspect_ratio_24dp"
                 app:showAsAction="ifRoom"/>
+
+            <item
+                android:id="@+id/action_extension"
+                android:title="@string/posts_extension"
+                android:icon="@drawable/ic_extension_outline_24dp"
+                app:showAsAction="ifRoom">
+
+                <menu>
+
+                    <group
+                        android:id="@+id/group_extension"
+                        android:checkableBehavior="all">
+                        <item
+                            android:id="@+id/action_extension_jpg"
+                            android:title="@string/posts_extension_jpg"
+                            android:checkable="true"
+                            android:checked="true"/>
+                        <item
+                            android:id="@+id/action_extension_png"
+                            android:title="@string/posts_extension_png"
+                            android:checkable="true"
+                            android:checked="true"/>
+                        <item
+                            android:id="@+id/action_extension_gif"
+                            android:title="@string/posts_extension_gif"
+                            android:checkable="true"
+                            android:checked="true"/>
+                    </group>
+                </menu>
+            </item>
         </menu>
     </item>
 

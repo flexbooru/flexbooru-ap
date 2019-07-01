@@ -14,7 +14,10 @@ data class Search(
     var userId: Int = -1,
     var token: String,
     var color: String = "",
-    var aspect: String = ""
+    var aspect: String = "",
+    var extJpg: Boolean = true,
+    var extPng: Boolean = true,
+    var extGif: Boolean = true
 )
 
 enum class SearchType {

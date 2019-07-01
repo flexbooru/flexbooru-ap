@@ -7,4 +7,6 @@ interface QueryListener {
     fun onDateRangeChange(dateRange: Int)
 
     fun onAspectRatioChange(aspect: String)
+
+    fun onExtensionChange(isCheckedJpg: Boolean, isCheckedPng: Boolean, isCheckedGif: Boolean)
 }

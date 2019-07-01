@@ -25,6 +25,10 @@
     <string name="posts_date_range_past_week">Past week</string>
     <string name="posts_date_range_past_month">Past month</string>
     <string name="posts_aspect_ratio">Aspect ratio</string>
+    <string name="posts_extension">Extension</string>
+    <string name="posts_extension_jpg">jpeg/jpg</string>
+    <string name="posts_extension_png">png</string>
+    <string name="posts_extension_gif">gif</string>
 
     <string name="history_clear_all">Clear all</string>
     <string name="history_clear_all_content">All history will be clear.</string>

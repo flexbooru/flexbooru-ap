@@ -12,6 +12,9 @@ import onlymash.flexbooru.ap.common.*
 abstract class PostActivity : BaseActivity() {
 
     private var currentAspectRatio: String = ""
+    private var isCheckedJpg = true
+    private var isCheckedPng = true
+    private var isCheckedGif = true
 
     private var queryListener: QueryListener? = null
 
@@ -35,6 +38,22 @@ abstract class PostActivity : BaseActivity() {
             R.id.action_date_range_past_month -> queryListener?.onDateRangeChange(DATE_RANGE_PAST_MONTH)
 
             R.id.action_input_aspect_ratio -> changeAspectRatio()
+
+            R.id.action_extension_jpg -> {
+                isCheckedJpg = !item.isChecked
+                item.isChecked = isCheckedJpg
+                queryListener?.onExtensionChange(isCheckedJpg, isCheckedPng, isCheckedGif)
+            }
+            R.id.action_extension_png -> {
+                isCheckedPng = !item.isChecked
+                item.isChecked = isCheckedPng
+                queryListener?.onExtensionChange(isCheckedJpg, isCheckedPng, isCheckedGif)
+            }
+            R.id.action_extension_gif -> {
+                isCheckedGif = !item.isChecked
+                item.isChecked = isCheckedGif
+                queryListener?.onExtensionChange(isCheckedJpg, isCheckedPng, isCheckedGif)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
