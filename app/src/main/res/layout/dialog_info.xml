@@ -57,6 +57,37 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/color_container"
+        android:layout_width="match_parent"
+        android:layout_height="?listPreferredItemHeight"
+        android:background="?selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/post_color"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/post_color"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/primary_text_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/post_color_value"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/primary_text_dark"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/post_url_container"
             android:layout_width="match_parent"
             android:layout_height="?listPreferredItemHeight"
@@ -78,7 +109,7 @@
                 android:id="@+id/post_url_download"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="15dp"
+                android:padding="@dimen/padding_horizontal_item_text"
                 android:src="@drawable/ic_file_download_24dp"
                 android:tint="@color/white"
                 android:background="?selectableItemBackground"
@@ -88,41 +119,11 @@
                 android:id="@+id/post_url_open"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="15dp"
+                android:padding="@dimen/padding_horizontal_item_text"
+                android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_open_in_new_24dp"
                 android:tint="@color/white"
                 android:background="?selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/color_container"
-            android:layout_width="match_parent"
-            android:layout_height="?listPreferredItemHeight"
-            android:background="?selectableItemBackground">
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/post_color"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/post_color"
-                android:textAppearance="?textAppearanceBody1"
-                android:textColor="@color/primary_text_dark"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/post_color_value"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:textAppearance="?textAppearanceBody1"
-                android:textColor="@color/primary_text_dark"
                 app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
