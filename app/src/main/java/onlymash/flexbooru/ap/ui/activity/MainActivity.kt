@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -281,7 +282,9 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         )
         searchView.apply {
             queryHint = getString(R.string.add_tag_filter_hint)
-            findViewById<ImageView>(androidx.appcompat.R.id.search_button).setImageResource(R.drawable.ic_add_24dp)
+            val icon = findViewById<ImageView>(androidx.appcompat.R.id.search_button)
+            icon.setImageResource(R.drawable.ic_playlist_add_24dp)
+            TooltipCompat.setTooltipText(icon, getString(R.string.action_add_tag_filter))
             suggestionsAdapter = tagFilterSuggestionAdapter
             setOnSuggestionListener(object : SearchView.OnSuggestionListener {
                 override fun onSuggestionClick(position: Int): Boolean {
