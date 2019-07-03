@@ -10,7 +10,6 @@
           app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/action_more"
         android:title="@string/posts_more_options"
         android:icon="@drawable/ic_more_vert_24dp"
         android:orderInCategory="101"
@@ -19,7 +18,6 @@
         <menu>
 
             <item
-                android:id="@+id/action_order"
                 android:title="@string/posts_order"
                 android:icon="@drawable/ic_sort_24dp"
                 app:showAsAction="ifRoom">
@@ -48,7 +46,6 @@
             </item>
 
             <item
-                android:id="@+id/action_date_range"
                 android:title="@string/posts_date_range"
                 android:icon="@drawable/ic_date_range_24dp"
                 app:showAsAction="ifRoom">
@@ -77,16 +74,13 @@
                 app:showAsAction="ifRoom"/>
 
             <item
-                android:id="@+id/action_extension"
                 android:title="@string/posts_extension"
                 android:icon="@drawable/ic_extension_outline_24dp"
                 app:showAsAction="ifRoom">
 
                 <menu>
 
-                    <group
-                        android:id="@+id/group_extension"
-                        android:checkableBehavior="all">
+                    <group android:checkableBehavior="all">
                         <item
                             android:id="@+id/action_extension_jpg"
                             android:title="@string/posts_extension_jpg"

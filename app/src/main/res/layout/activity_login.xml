@@ -17,8 +17,7 @@
                 android:layout_width="0dp"
                 android:layout_height="20dp" />
         <TextView
-                android:id="@+id/login_title"
-                android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
@@ -71,8 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_password"
-                        android:id="@+id/password_edit_container"
-                        app:counterEnabled="true"
+                    app:counterEnabled="true"
                         app:passwordToggleEnabled="true"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
