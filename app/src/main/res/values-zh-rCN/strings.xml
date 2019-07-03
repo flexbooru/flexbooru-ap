@@ -35,8 +35,6 @@
     <string name="dialog_cancel">取消</string>
     <string name="dialog_yes">是</string>
     <string name="dialog_no">否</string>
-    <string name="navigation_drawer_open">开启导航抽屉</string>
-    <string name="navigation_drawer_close">关闭导航抽屉</string>
     <string name="nav_header_user_avatar_desc">用户头像</string>
     <string name="nav_header_login">登录</string>
     <string name="settings_night_mode">夜间模式</string>
@@ -76,7 +74,6 @@
     <string name="tags_filter_clear_all_content">所有历史记录将被清除。</string>
     <string name="placeholder_post_id"># %01$d</string>
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
-    <string name="placeholder_copy_text">` %01$s ` 已复制到剪贴板。</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
     <string name="placeholder_action_pay_by_google_play">Google Play - %01$s</string>
     <string name="msg_path_denied">保存失败！ 没有权限访问当前路径。</string>
@@ -84,14 +81,10 @@
     <string name="msg_download_failed">下载失败</string>
     <string name="msg_login_tip_empty">用户名或密码不能为空。</string>
     <string name="msg_you_must_first_set_your_host">您必须先设置您的主机。</string>
-    <string name="remove_ads_content">支持开发 &amp; 删除应用内广告</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">用户名</string>
     <string name="prompt_password">密码</string>
     <string name="action_sign_in_short">登录</string>
-    <string name="invalid_username">不是一个有效的用户名</string>
-    <string name="invalid_password">密码必须至少 6 个字符</string>
-    <string name="login_failed">"登录失败"</string>
     <string name="post_color">颜色</string>
     <string name="action_remove_ads">删除广告</string>
     <string name="action_set_as">设置为…</string>
@@ -102,15 +95,12 @@
     <string name="action_copy">复制</string>
     <string name="action_delete">删除</string>
     <string name="action_add_tag_filter">添加标签</string>
-    <string name="action_clear_all">添加标签</string>
     <string name="user_votes">投票</string>
     <string name="user_posts">帖子</string>
     <string name="user_logout">登出</string>
     <string name="user_logout_content">确定要登出？</string>
     <string name="about_app_version">版本</string>
     <string name="about_app_rate">给此应用评分</string>
-    <string name="about_app_translation">翻译</string>
-    <string name="about_app_translation_summary">翻译此应用</string>
     <string name="about_author">作者</string>
     <string name="about_author_email">电子邮箱</string>
     <string name="about_author_website">网站</string>
