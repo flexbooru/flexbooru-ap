@@ -35,8 +35,6 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_user_avatar_desc">User avatar</string>
     <string name="nav_header_login">Login</string>
     <string name="settings_night_mode">Night mode</string>
@@ -76,7 +74,6 @@
     <string name="tags_filter_clear_all_content">All tags will be clear.</string>
     <string name="placeholder_post_id"># %01$d</string>
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
-    <string name="placeholder_copy_text">` %01$s ` have been copied to clipboard.</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
     <string name="placeholder_action_pay_by_google_play">Google Play - %01$s</string>
     <string name="msg_path_denied">Save failed! No access to the current path.</string>
@@ -84,14 +81,10 @@
     <string name="msg_download_failed">Download failed</string>
     <string name="msg_login_tip_empty">Username or Password can not be empty.</string>
     <string name="msg_you_must_first_set_your_host">You must first set your host.</string>
-    <string name="remove_ads_content">Support development &amp; Remove in-app ads</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be &gt;5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="post_color">Color</string>
     <string name="action_remove_ads">Remove Ads</string>
     <string name="action_set_as">Set as…</string>
@@ -102,15 +95,12 @@
     <string name="action_copy">Copy</string>
     <string name="action_delete">Delete</string>
     <string name="action_add_tag_filter">Add tag</string>
-    <string name="action_clear_all">Add tag</string>
     <string name="user_votes">Votes</string>
     <string name="user_posts">Posts</string>
     <string name="user_logout">Logout</string>
     <string name="user_logout_content">Are you sure to logout?</string>
     <string name="about_app_version">Version</string>
     <string name="about_app_rate">Rate this app</string>
-    <string name="about_app_translation">Translation</string>
-    <string name="about_app_translation_summary">Translate this app</string>
     <string name="about_author">Author</string>
     <string name="about_author_email">Email</string>
     <string name="about_author_website">Website</string>
