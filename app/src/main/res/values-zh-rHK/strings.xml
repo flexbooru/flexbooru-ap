@@ -10,6 +10,7 @@
     <string name="title_about">About</string>
     <string name="title_copyright">Copyright</string>
     <string name="title_donation">Donation</string>
+    <string name="title_tags_blacklist">Tags blacklist</string>
     <string name="posts_search">Search</string>
     <string name="posts_more_options">More options</string>
     <string name="posts_order">Order</string>
@@ -71,7 +72,9 @@
     <string name="search_posts_hint">Search posts…</string>
     <string name="add_tag_filter_hint">Add tag…</string>
     <string name="tags_filter_clear_all">Clear all</string>
-    <string name="tags_filter_clear_all_content">All tags will be clear.</string>
+    <string name="tags_filter_clear_all_content">All tags will be cleared.</string>
+    <string name="tags_blacklist_add">Add tag</string>
+    <string name="tags_blacklist_add_hint">Add tag…</string>
     <string name="placeholder_post_id"># %01$d</string>
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
