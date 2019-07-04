@@ -10,6 +10,7 @@
     <string name="title_about">关于</string>
     <string name="title_copyright">版权</string>
     <string name="title_donation">捐赠</string>
+    <string name="title_tags_blacklist">标签黑名单</string>
     <string name="posts_search">搜索</string>
     <string name="posts_more_options">更多选项</string>
     <string name="posts_order">排序</string>
@@ -71,7 +72,9 @@
     <string name="search_posts_hint">搜索帖子…</string>
     <string name="add_tag_filter_hint">添加标签…</string>
     <string name="tags_filter_clear_all">清除所有</string>
-    <string name="tags_filter_clear_all_content">所有历史记录将被清除。</string>
+    <string name="tags_filter_clear_all_content">所有标签都将被清除。</string>
+    <string name="tags_blacklist_add">添加标签</string>
+    <string name="tags_blacklist_add_hint">添加标签…</string>
     <string name="placeholder_post_id"># %01$d</string>
     <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
