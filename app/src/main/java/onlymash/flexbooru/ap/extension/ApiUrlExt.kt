@@ -16,6 +16,9 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
         .addQueryParameter("ldate", dateRange.toString())
         .addQueryParameter("aspect", aspect)
         .addQueryParameter("token", token)
+    if (deniedTags.isNotEmpty()) {
+        builder.addQueryParameter("denied_tags", deniedTags)
+    }
     if (color.isNotEmpty()) {
         builder.addQueryParameter("color", color)
     } else if (query.isNotEmpty() && type == SearchType.NORMAL) {

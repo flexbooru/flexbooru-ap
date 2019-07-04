@@ -128,7 +128,7 @@ class SearchActivity : PostActivity() {
             suggestionsAdapter = suggestionAdapter
             setOnSuggestionListener(object : SearchView.OnSuggestionListener {
                 override fun onSuggestionClick(position: Int): Boolean {
-                    searchView.setQuery(suggestions[position], false)
+                    search(suggestions[position])
                     return true
                 }
                 override fun onSuggestionSelect(position: Int): Boolean {

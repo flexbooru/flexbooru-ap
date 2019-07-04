@@ -18,6 +18,7 @@ import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
+import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
 import onlymash.flexbooru.ap.extension.getSanCount
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
@@ -28,6 +29,7 @@ import onlymash.flexbooru.ap.ui.adapter.PostAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
+import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import org.kodein.di.erased.instance
 import java.util.concurrent.Executor
 
@@ -43,10 +45,12 @@ class PostFragment : KodeinFragment(),
     SharedPreferences.OnSharedPreferenceChangeListener, QueryListener {
 
     private lateinit var postViewModel: PostViewModel
+    private lateinit var tagBlacklistViewModel: TagBlacklistViewModel
 
     private val sp by instance<SharedPreferences>()
 
     private val db by instance<MyDatabase>()
+    private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
     private val ioExecutor by instance<Executor>()
     private lateinit var search: Search
@@ -129,6 +133,7 @@ class PostFragment : KodeinFragment(),
                 ioExecutor = ioExecutor
             )
         )
+        tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
         sp.registerOnSharedPreferenceChangeListener(this)
     }
 
@@ -164,6 +169,19 @@ class PostFragment : KodeinFragment(),
             layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
             adapter = postAdapter
         }
+        tagBlacklistViewModel.tags.observe(this, Observer { tagsBlacklist ->
+            var tagsString = ""
+            tagsBlacklist.forEach { tag ->
+                tagsString = if (tagsString.isEmpty()) {
+                    tag.name
+                } else {
+                    tagsString + "||" + tag.name
+                }
+            }
+            search.deniedTags = tagsString
+            postViewModel.load(search)
+        })
+        tagBlacklistViewModel.loadAll()
         postViewModel.posts.observe(this, Observer {
             postAdapter.submitList(it)
         })

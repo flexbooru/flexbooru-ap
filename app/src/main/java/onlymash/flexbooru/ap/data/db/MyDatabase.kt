@@ -7,23 +7,18 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import onlymash.flexbooru.ap.data.db.dao.DetailDao
-import onlymash.flexbooru.ap.data.db.dao.PostDao
-import onlymash.flexbooru.ap.data.db.dao.TagFilterDao
-import onlymash.flexbooru.ap.data.db.dao.UserDao
-import onlymash.flexbooru.ap.data.model.Detail
-import onlymash.flexbooru.ap.data.model.Post
-import onlymash.flexbooru.ap.data.model.TagFilter
-import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.data.db.dao.*
+import onlymash.flexbooru.ap.data.model.*
 
 @Database(
     entities = [
         Post::class,
         Detail::class,
         User::class,
-        TagFilter::class
+        TagFilter::class,
+        TagBlacklist::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(MyConverters::class)
@@ -38,6 +33,14 @@ abstract class MyDatabase : RoomDatabase() {
                 }
             }
         }
+        private val MIGRATION_2_3 by lazy {
+            object : Migration(2,3) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("CREATE TABLE IF NOT EXISTS `tags_blacklist` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)")
+                    database.execSQL("CREATE UNIQUE INDEX `index_tags_blacklist_name` ON `tags_blacklist` (`name`)")
+                }
+            }
+        }
         private var instance: MyDatabase? = null
         private val LOCK = Any()
         operator fun invoke(context: Context): MyDatabase = instance ?: synchronized(LOCK) {
@@ -47,7 +50,10 @@ abstract class MyDatabase : RoomDatabase() {
                 Room.databaseBuilder(context, MyDatabase::class.java, "database.db")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(
+                        MIGRATION_1_2,
+                        MIGRATION_2_3
+                    )
                     .build()
     }
 
@@ -58,4 +64,6 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     abstract fun tagFilterDao(): TagFilterDao
+
+    abstract fun tagBlacklistDao(): TagBlacklistDao
 }

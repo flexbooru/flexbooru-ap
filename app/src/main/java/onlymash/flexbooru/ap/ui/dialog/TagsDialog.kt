@@ -20,8 +20,10 @@ import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
 import onlymash.flexbooru.ap.data.db.dao.TagFilterDao
 import onlymash.flexbooru.ap.data.model.Detail
+import onlymash.flexbooru.ap.data.model.TagBlacklist
 import onlymash.flexbooru.ap.data.model.TagFilter
 import onlymash.flexbooru.ap.data.model.TagsFull
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
@@ -48,6 +50,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
     private val tagFilterDao by instance<TagFilterDao>()
+    private val tagBlacklistDao by instance<TagBlacklistDao>()
 
     private var postId = -1
     private var detail: Detail? = null
@@ -129,6 +132,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
             private val tagName: AppCompatTextView = itemView.findViewById(R.id.tag_name)
             private val tagCount: AppCompatTextView = itemView.findViewById(R.id.tag_count)
             private val tagAddToFilter: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_filter)
+            private val tagAddToBlacklist: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_blacklist)
 
             var tagFull: TagsFull? = null
 
@@ -145,6 +149,13 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
                     tagFull?.name?.let { name ->
                         lifecycleScope.launch(Dispatchers.IO) {
                             tagFilterDao.insert(TagFilter(name = name))
+                        }
+                    }
+                }
+                tagAddToBlacklist.setOnClickListener {
+                    tagFull?.name?.let { name ->
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            tagBlacklistDao.insert(TagBlacklist(name = name))
                         }
                     }
                 }

@@ -49,8 +49,10 @@ import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
 import onlymash.flexbooru.ap.data.db.dao.TagFilterDao
 import onlymash.flexbooru.ap.data.model.Tag
+import onlymash.flexbooru.ap.data.model.TagBlacklist
 import onlymash.flexbooru.ap.data.model.TagFilter
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
@@ -72,6 +74,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private val sp by instance<SharedPreferences>()
     private val detailDao by instance<DetailDao>()
     private val tagFilterDao by instance<TagFilterDao>()
+    private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -106,6 +109,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             setOf(
                 R.id.nav_posts,
                 R.id.nav_history,
+                R.id.nav_tags_blacklist,
                 R.id.nav_settings,
                 R.id.nav_about
             ),
@@ -220,7 +224,11 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             }
             var query = ""
             tagsSearch.forEach {
-                query = "$query $it"
+                query = if (query.isEmpty()) {
+                    it
+                } else {
+                    "$query&&$it"
+                }
             }
             query = query.trim()
             if (query.isNotEmpty()) {
@@ -265,6 +273,12 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 initSearchView(searchView)
             }
             R.id.nav_history -> menuInflater.inflate(R.menu.history, menu)
+            R.id.nav_tags_blacklist -> {
+                menuInflater.inflate(R.menu.tag_blacklist, menu)
+                val item = menu?.findItem(R.id.action_search) ?: return true
+                val searchView = item.actionView as SearchView
+                initSearchView(searchView)
+            }
             R.id.nav_about -> menuInflater.inflate(R.menu.about, menu)
             else -> menu?.clear()
         }
@@ -320,11 +334,24 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             intArrayOf(android.R.id.text1),
             0)
         searchView.apply {
-            queryHint = getString(R.string.search_posts_hint)
+            if (currentFragmentId == R.id.nav_tags_blacklist) {
+                queryHint = getString(R.string.tags_blacklist_add_hint)
+                val icon = findViewById<ImageView>(androidx.appcompat.R.id.search_button)
+                icon.setImageResource(R.drawable.ic_playlist_add_24dp)
+                TooltipCompat.setTooltipText(icon, getString(R.string.tags_blacklist_add))
+            } else {
+                queryHint = getString(R.string.search_posts_hint)
+            }
             suggestionsAdapter = suggestionAdapter
             setOnSuggestionListener(object : SearchView.OnSuggestionListener {
                 override fun onSuggestionClick(position: Int): Boolean {
-                    searchView.setQuery(suggestions[position], false)
+                    val tag = suggestions[position]
+                    when (currentFragmentId) {
+                        R.id.nav_posts -> search(tag)
+                        R.id.nav_tags_blacklist -> lifecycleScope.launch(Dispatchers.IO) {
+                            tagBlacklistDao.insert(TagBlacklist(name = tag))
+                        }
+                    }
                     return true
                 }
                 override fun onSuggestionSelect(position: Int): Boolean {
@@ -340,7 +367,12 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 }
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query.isNullOrEmpty()) return false
-                    search(query)
+                    when (currentFragmentId) {
+                        R.id.nav_posts -> search(query)
+                        R.id.nav_tags_blacklist -> lifecycleScope.launch(Dispatchers.IO) {
+                            tagBlacklistDao.insert(TagBlacklist(name = query))
+                        }
+                    }
                     return true
                 }
             })

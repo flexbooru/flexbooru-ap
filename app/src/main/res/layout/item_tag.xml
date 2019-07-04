@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:minHeight="?android:attr/listPreferredItemHeightSmall"
-              android:background="?attr/selectableItemBackground">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tag_dot"
@@ -16,27 +16,37 @@
             android:contentDescription="@null"
             app:srcCompat="@drawable/tag_dot"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall">
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tag_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:maxLines="2"
             android:ellipsize="end"
             android:textAppearance="?textAppearanceBody1"
             android:textStyle="bold"
-            android:textColor="@color/primary_text_dark"/>
+            android:textColor="@color/primary_text_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tag_count"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tag_count"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="?attr/listPreferredItemPaddingStart"
             android:textAppearance="?textAppearanceCaption"
-            android:textColor="@color/secondary_text_dark"/>
+            android:textColor="@color/secondary_text_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/tag_add_to_filter"
@@ -45,6 +55,17 @@
         android:layout_height="wrap_content"
         android:padding="?attr/listPreferredItemPaddingStart"
         android:src="@drawable/ic_playlist_add_24dp"
+        android:tint="@color/white"
+        android:background="?selectableItemBackgroundBorderless"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/tag_add_to_blacklist"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="?attr/listPreferredItemPaddingStart"
+        android:src="@drawable/ic_visibility_off_outline_24dp"
+        android:tint="@color/white"
         android:background="?selectableItemBackgroundBorderless"/>
 
 </LinearLayout>

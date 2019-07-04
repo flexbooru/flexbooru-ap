@@ -18,7 +18,8 @@ data class Search(
     var aspect: String = "",
     var extJpg: Boolean = true,
     var extPng: Boolean = true,
-    var extGif: Boolean = true
+    var extGif: Boolean = true,
+    var deniedTags: String = ""
 )
 
 enum class SearchType {
