@@ -11,7 +11,7 @@
     <string name="title_copyright">版权</string>
     <string name="title_donation">捐赠</string>
     <string name="title_tags_blacklist">标签黑名单</string>
-    <string name="title_setup_wizard">Setup Wizard</string>
+    <string name="title_setup_wizard">设置向导</string>
     <string name="posts_search">搜索</string>
     <string name="posts_more_options">更多选项</string>
     <string name="posts_order">排序</string>
@@ -72,9 +72,9 @@
     <string name="share_via">Via</string>
     <string name="search_posts_hint">搜索帖子…</string>
     <string name="add_tag_filter_hint">添加标签…</string>
-    <string name="set_up_server">Set up server</string>
-    <string name="set_up_server_scheme">Scheme:</string>
-    <string name="set_up_server_host">Host:</string>
+    <string name="set_up_server">设置服务器</string>
+    <string name="set_up_server_scheme">协议：</string>
+    <string name="set_up_server_host">主机：</string>
     <string name="tags_filter_clear_all">清除所有</string>
     <string name="tags_filter_clear_all_content">所有标签都将被清除。</string>
     <string name="tags_blacklist_add">添加标签</string>
@@ -87,8 +87,8 @@
     <string name="msg_download_complete">下载完毕</string>
     <string name="msg_download_failed">下载失败</string>
     <string name="msg_login_tip_empty">用户名或密码不能为空。</string>
-    <string name="msg_host_cannot_be_empty">Host cannot be empty.</string>
-    <string name="msg_unsupported_host">Unsupported host.</string>
+    <string name="msg_host_cannot_be_empty">主机不能为空。</string>
+    <string name="msg_unsupported_host">不支持的主机。</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">用户名</string>
     <string name="prompt_password">密码</string>
