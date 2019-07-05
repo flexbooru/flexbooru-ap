@@ -28,7 +28,7 @@ android {
         versionCode verCode
         versionName "0.6.0"
         versionNameSuffix '.c' + verCode
-        resConfigs 'en', 'zh-rCN'
+        resConfigs 'en', 'zh-rCN', 'ru-rRU'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     applicationVariants.all { variant ->
