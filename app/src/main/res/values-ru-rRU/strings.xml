@@ -51,16 +51,16 @@
     <string name="settings_detail_size">Детальный просмотр</string>
     <string name="settings_detail_size_medium">Средний</string>
     <string name="settings_detail_size_big">Большой</string>
-    <string name="settings_detail_size_origin">Origin</string>
-    <string name="settings_download_path">Download path</string>
-    <string name="settings_unset">Not set</string>
-    <string name="settings_scheme">Scheme</string>
-    <string name="settings_host">Host</string>
-    <string name="settings_grid_width">Grid width</string>
-    <string name="settings_grid_width_small">Small</string>
-    <string name="settings_grid_width_normal">Normal</string>
-    <string name="settings_grid_width_big">Big</string>
-    <string name="settings_server">Server</string>
+    <string name="settings_detail_size_origin">Оригинал</string>
+    <string name="settings_download_path">Путь скачивания</string>
+    <string name="settings_unset">Не задано</string>
+    <string name="settings_scheme">Протокол</string>
+    <string name="settings_host">Сервер</string>
+    <string name="settings_grid_width">Ширина сетки</string>
+    <string name="settings_grid_width_small">Маленькая</string>
+    <string name="settings_grid_width_normal">Нормальная</string>
+    <string name="settings_grid_width_big">Большая</string>
+    <string name="settings_server">Сервер</string>
     <string name="settings_display">Display</string>
     <string name="settings_options">Options</string>
     <string name="retry">Retry</string>
@@ -114,5 +114,5 @@
     <string name="about_copyright">Авторские права</string>
     <string name="about_licenses">Лицензии</string>
     <string name="about_open_source_licenses">Лицензии открытого ПО</string>
-    <string name="donation_description">Donate to support open source development.</string>
+    <string name="donation_description">Пожертвовать на разработку открытого исходного кода.</string>
 </resources>
