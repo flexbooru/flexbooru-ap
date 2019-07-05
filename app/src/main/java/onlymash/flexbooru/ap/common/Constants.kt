@@ -4,6 +4,9 @@ const val REFERER_KEY = "referer"
 const val USER_AGENT_KEY = "user-agent"
 const val COOKIE_KEY = "cookie"
 
+const val SCHEME_HTTP = "http"
+const val SCHEME_HTTPS = "https"
+
 const val PREFERENCE_NAME = "settings"
 
 const val QUERY_KEY = "query"

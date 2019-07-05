@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.*
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -100,7 +99,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private lateinit var headerView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sp.registerOnSharedPreferenceChangeListener(this)
@@ -158,14 +156,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             } else {
                 startActivity(Intent(this, UserActivity::class.java))
             }
-        }
-        if (Settings.hostname == "fiepi.com") {
-            navController.navigate(R.id.nav_settings)
-            Toast.makeText(
-                this,
-                getString(R.string.msg_you_must_first_set_your_host),
-                Toast.LENGTH_LONG
-            ).show()
         }
         suggestionViewModel = getViewModel(SuggestionViewModel(SuggestionRepositoryImpl(api)))
         suggestionViewModel.tags.observe(this, Observer {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.setupwizardlib.SetupWizardLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.SetupWizardActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/scheme_text"
+            android:text="@string/set_up_server_scheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:listPreferredItemHeight"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textAppearance="?textAppearanceListItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/scheme_group"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/scheme_text"
+            app:layout_constraintStart_toEndOf="@+id/scheme_text"
+            app:layout_constraintBottom_toBottomOf="@+id/scheme_text"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <RadioButton
+                android:id="@+id/scheme_https"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_up_server_scheme_https" />
+
+            <RadioButton
+                android:id="@+id/scheme_http"
+                android:checked="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_up_server_scheme_http" />
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/host_text"
+            android:text="@string/set_up_server_host"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:listPreferredItemHeight"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textAppearance="?textAppearanceListItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scheme_text" />
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/host_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text|textAutoComplete|textWebEditText"
+            android:hint="@string/set_up_server_host_example"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:singleLine="true"
+            app:layout_constraintStart_toEndOf="@+id/host_text"
+            app:layout_constraintTop_toTopOf="@+id/host_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/host_text"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.android.setupwizardlib.SetupWizardLayout>

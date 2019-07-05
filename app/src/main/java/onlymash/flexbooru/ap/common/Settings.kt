@@ -34,12 +34,14 @@ const val SETTINGS_GRID_WIDTH_SMALL = "small"
 const val SETTINGS_GRID_WIDTH_NORMAL = "normal"
 const val SETTINGS_GRID_WIDTH_BIG = "big"
 
+private const val OPEN_SETUP_WIZARD_KEY = "open_setup_wizard"
+
 object Settings {
 
     private val sp by App.app.instance<SharedPreferences>()
 
     var scheme: String
-        get() = sp.getString(SETTINGS_SCHEME_KEY, "https") ?: "https"
+        get() = sp.getString(SETTINGS_SCHEME_KEY, SCHEME_HTTPS) ?: SCHEME_HTTPS
         set(value) = sp.edit().putString(SETTINGS_SCHEME_KEY, value).apply()
 
     var hostname: String
@@ -89,4 +91,8 @@ object Settings {
 
     val gridWidthString: String
         get() = sp.getString(SETTINGS_GRID_WIDTH_KEY, SETTINGS_GRID_WIDTH_NORMAL) ?: SETTINGS_GRID_WIDTH_NORMAL
+
+    var isOpenSetupWizard: Boolean
+        get() = sp.getBoolean(OPEN_SETUP_WIZARD_KEY, true)
+        set(value) = sp.edit().putBoolean(OPEN_SETUP_WIZARD_KEY, value).apply()
 }

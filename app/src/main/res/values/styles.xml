@@ -40,6 +40,12 @@
         <item name="android:windowBackground">@drawable/background_launcher</item>
     </style>
 
+    <style name="AppTheme.SetupWizard.DayNight" parent="AppTheme.SetupWizard">
+        <item name="android:statusBarColor">@color/suw_link_color_light</item>
+    </style>
+
+    <style name="AppTheme.SetupWizard" parent="SuwThemeMaterial.Light"/>
+
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">@dimen/card_elevation</item>
         <item name="cardCornerRadius">@dimen/corner_radius</item>

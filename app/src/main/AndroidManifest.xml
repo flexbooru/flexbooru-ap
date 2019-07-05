@@ -17,6 +17,18 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:theme="@style/AppTheme.Launcher" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.SetupWizardActivity"
+            android:theme="@style/AppTheme.SetupWizard.DayNight" />
         <activity android:name=".ui.activity.PurchaseActivity" />
         <activity android:name=".ui.activity.CopyrightActivity" />
         <activity android:name=".ui.activity.UserActivity" />
@@ -33,22 +45,15 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="anime-pictures.net"
-                    android:pathPattern="/pictures/view_post/.*" />
+                    android:pathPattern="/pictures/view_post/.*"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.SearchActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.Launcher">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <receiver android:name=".receiver.DownloadNotificationClickReceiver" />
 

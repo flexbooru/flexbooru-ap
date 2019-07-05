@@ -80,6 +80,7 @@ dependencies {
     implementation 'androidx.drawerlayout:drawerlayout:1.1.0-alpha02'
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
@@ -96,7 +97,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 //    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha06'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    implementation 'com.github.onlymash:subsampling-scale-image-view:3.10.1'
+    implementation 'com.github.onlymash:subsampling-scale-image-view:3.10.2'
+    implementation 'com.github.onlymash:SetupWizardLayout:0.2'
     implementation 'com.takisoft.preferencex:preferencex-simplemenu:1.1.0-alpha05'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

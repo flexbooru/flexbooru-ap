@@ -10,6 +10,7 @@
     <string name="title_copyright">Copyright</string>
     <string name="title_donation">Donation</string>
     <string name="title_tags_blacklist">Tags blacklist</string>
+    <string name="title_setup_wizard">Setup Wizard</string>
 
     <string name="posts_search">Search</string>
     <string name="posts_more_options">More options</string>
@@ -79,6 +80,13 @@
     <string name="search_posts_hint">Search posts…</string>
     <string name="add_tag_filter_hint">Add tag…</string>
 
+    <string name="set_up_server">Set up server</string>
+    <string name="set_up_server_scheme">Scheme:</string>
+    <string name="set_up_server_scheme_http" translatable="false">HTTP</string>
+    <string name="set_up_server_scheme_https" translatable="false">HTTPS</string>
+    <string name="set_up_server_host">Host:</string>
+    <string name="set_up_server_host_example" translatable="false">example.com</string>
+
     <string name="tags_filter_clear_all">Clear all</string>
     <string name="tags_filter_clear_all_content">All tags will be cleared.</string>
     <string name="tags_blacklist_add">Add tag</string>
@@ -93,7 +101,8 @@
     <string name="msg_download_complete">Download complete</string>
     <string name="msg_download_failed">Download failed</string>
     <string name="msg_login_tip_empty">Username or Password can not be empty.</string>
-    <string name="msg_you_must_first_set_your_host">You must first set your host.</string>
+    <string name="msg_host_cannot_be_empty">Host cannot be empty.</string>
+    <string name="msg_unsupported_host">Unsupported host.</string>
 
     <string name="action_pay_by_google_play">Google Play</string>
 
