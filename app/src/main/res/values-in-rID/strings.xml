@@ -80,7 +80,6 @@
     <string name="msg_download_complete">Download complete</string>
     <string name="msg_download_failed">Download failed</string>
     <string name="msg_login_tip_empty">Username or Password can not be empty.</string>
-    <string name="msg_you_must_first_set_your_host">You must first set your host.</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>

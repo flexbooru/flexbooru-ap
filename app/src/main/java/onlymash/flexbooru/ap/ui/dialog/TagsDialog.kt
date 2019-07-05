@@ -134,7 +134,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
             private val tagAddToFilter: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_filter)
             private val tagAddToBlacklist: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_blacklist)
 
-            var tagFull: TagsFull? = null
+            private var tagFull: TagsFull? = null
 
             init {
                 itemView.setOnClickListener {
