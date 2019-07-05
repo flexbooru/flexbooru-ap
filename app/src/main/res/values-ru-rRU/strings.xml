@@ -11,6 +11,7 @@
     <string name="title_copyright">Авторские права</string>
     <string name="title_donation">Пожертвование</string>
     <string name="title_tags_blacklist">Запрещённые теги</string>
+    <string name="title_setup_wizard">Setup Wizard</string>
     <string name="posts_search">Поиск</string>
     <string name="posts_more_options">Ещё опции</string>
     <string name="posts_order">Порядок</string>
@@ -71,6 +72,9 @@
     <string name="share_via">Через</string>
     <string name="search_posts_hint">Поиск постов…</string>
     <string name="add_tag_filter_hint">Добавить тег…</string>
+    <string name="set_up_server">Set up server</string>
+    <string name="set_up_server_scheme">Scheme:</string>
+    <string name="set_up_server_host">Host:</string>
     <string name="tags_filter_clear_all">Очистить всё</string>
     <string name="tags_filter_clear_all_content">Все теги будут очищены.</string>
     <string name="tags_blacklist_add">Добавить тег</string>
@@ -83,7 +87,8 @@
     <string name="msg_download_complete">Загрузка завершена</string>
     <string name="msg_download_failed">Ошибка при загрузке</string>
     <string name="msg_login_tip_empty">Имя пользователя и Пароль не могут быть пустым.</string>
-    <string name="msg_you_must_first_set_your_host">Сначала вы должны указать сервер.</string>
+    <string name="msg_host_cannot_be_empty">Host cannot be empty.</string>
+    <string name="msg_unsupported_host">Unsupported host.</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">Имя пользователя</string>
     <string name="prompt_password">Пароль</string>
