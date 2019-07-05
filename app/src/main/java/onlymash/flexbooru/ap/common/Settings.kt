@@ -76,7 +76,7 @@ object Settings {
         set(value) = sp.edit().putString(SETTINGS_PATH_AUTHORITY_KEY, value).apply()
 
     val previewSize: String
-        get() = sp.getString(SETTINGS_PREVIEW_SIZE_KEY, FILE_SIZE_SMALL) ?: FILE_SIZE_SMALL
+        get() = sp.getString(SETTINGS_PREVIEW_SIZE_KEY, FILE_SIZE_MEDIUM) ?: FILE_SIZE_MEDIUM
 
     val detailSize: String
         get() = sp.getString(SETTINGS_DETAIL_SIZE_KEY, FILE_SIZE_BIG) ?: FILE_SIZE_BIG

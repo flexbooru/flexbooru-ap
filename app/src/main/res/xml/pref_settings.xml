@@ -59,7 +59,7 @@
         <com.takisoft.preferencex.SimpleMenuPreference
                 app:entries="@array/settings_preview_size_entries"
                 app:entryValues="@array/settings_preview_size_entries_values"
-                app:defaultValue="small"
+                app:defaultValue="medium"
                 app:title="@string/settings_preview_size"
                 app:key="settings_preview_size"
                 app:useSimpleSummaryProvider="true"/>
