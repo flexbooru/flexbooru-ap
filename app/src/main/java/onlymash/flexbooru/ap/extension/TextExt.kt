@@ -22,6 +22,6 @@ fun Long.formatDate(): CharSequence {
 }
 
 fun String.formatDate(): CharSequence {
-    val date = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.ENGLISH).parse(this) ?: return ""
+    val date = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.ENGLISH).parse(this.replace('T', ' ')) ?: return ""
     return date.time.formatDate()
 }

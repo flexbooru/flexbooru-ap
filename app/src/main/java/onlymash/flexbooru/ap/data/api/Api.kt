@@ -63,4 +63,7 @@ interface Api {
     suspend fun getSuggestion(@Url url: HttpUrl,
                               @Field("tag") tag: String,
                               @Field("token") token: String): Response<Suggestion>
+
+    @GET
+    suspend fun getComments(@Url url: HttpUrl): Response<CommentResponse>
 }

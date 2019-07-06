@@ -80,3 +80,18 @@ fun getSuggestionUrl(scheme: String, host: String): HttpUrl {
         .addPathSegments("pictures/autocomplete_tag")
         .build()
 }
+
+fun getCommentsUrl(
+    scheme: String,
+    host: String,
+    postId: Int,
+    token: String): HttpUrl {
+
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("api/v1/post/$postId/comments")
+        .addQueryParameter("lang", "en")
+        .addQueryParameter("token", token)
+        .build()
+}

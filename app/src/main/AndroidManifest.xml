@@ -17,9 +17,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".ui.activity.CommentActivity"/>
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:theme="@style/AppTheme.Launcher" >
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +54,7 @@
         <activity android:name=".ui.activity.SearchActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".receiver.DownloadNotificationClickReceiver" />
 

@@ -169,6 +169,11 @@ class DetailActivity : BaseActivity() {
             }
             setOnMenuItemClickListener {
                 when (it?.itemId) {
+                    R.id.action_comments -> {
+                        if (currentPostId > 0) {
+                            CommentActivity.startActivity(this@DetailActivity, currentPostId)
+                        }
+                    }
                     R.id.action_set_as -> setAs()
                     R.id.action_copy_link -> copyText(getWebLink())
                     R.id.action_share_link -> shareLink()

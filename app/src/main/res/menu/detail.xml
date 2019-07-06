@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_comments"
+        android:icon="@drawable/ic_mode_comment_outline_24dp"
+        android:title="@string/title_comments"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/action_set_as"
         android:title="@string/action_set_as"
         app:showAsAction="never"/>
