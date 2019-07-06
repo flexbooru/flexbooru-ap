@@ -12,6 +12,7 @@
     <string name="title_donation">捐赠</string>
     <string name="title_tags_blacklist">标签黑名单</string>
     <string name="title_setup_wizard">设置向导</string>
+    <string name="title_comments">Comments</string>
     <string name="posts_search">搜索</string>
     <string name="posts_more_options">更多选项</string>
     <string name="posts_order">排序</string>
