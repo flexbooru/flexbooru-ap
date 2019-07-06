@@ -12,6 +12,7 @@
     <string name="title_donation">Пожертвование</string>
     <string name="title_tags_blacklist">Запрещённые теги</string>
     <string name="title_setup_wizard">Мастер установки</string>
+    <string name="title_comments">Comments</string>
     <string name="posts_search">Поиск</string>
     <string name="posts_more_options">Ещё опции</string>
     <string name="posts_order">Порядок</string>
