@@ -7,4 +7,6 @@ import onlymash.flexbooru.ap.extension.NetResult
 interface CommentRepository {
 
     suspend fun getComments(url: HttpUrl): NetResult<List<Comment>>
+
+    suspend fun createComment(url: HttpUrl, text: String, token: String): NetResult<Boolean>
 }

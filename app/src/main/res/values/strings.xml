@@ -121,6 +121,9 @@
     <string name="action_delete">Delete</string>
     <string name="action_add_tag_filter">Add tag</string>
 
+    <string name="action_comment_send">Send</string>
+    <string name="action_comment_hint">Comment</string>
+
     <string name="user_votes">Votes</string>
     <string name="user_posts">Posts</string>
     <string name="user_logout">Logout</string>

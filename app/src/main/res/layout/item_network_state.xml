@@ -11,7 +11,8 @@
             android:id="@+id/error_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
     <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"

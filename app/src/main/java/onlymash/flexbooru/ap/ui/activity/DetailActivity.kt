@@ -170,7 +170,9 @@ class DetailActivity : BaseActivity() {
             setOnMenuItemClickListener {
                 when (it?.itemId) {
                     R.id.action_comments -> {
-                        if (currentPostId > 0) {
+                        if (Settings.userToken.isEmpty()) {
+                            startActivity(Intent(this@DetailActivity, LoginActivity::class.java))
+                        } else if (currentPostId > 0) {
                             CommentActivity.startActivity(this@DetailActivity, currentPostId)
                         }
                     }

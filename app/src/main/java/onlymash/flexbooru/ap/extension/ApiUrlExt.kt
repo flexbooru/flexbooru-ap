@@ -95,3 +95,16 @@ fun getCommentsUrl(
         .addQueryParameter("token", token)
         .build()
 }
+
+fun getCreateCommentUrl(
+    scheme: String,
+    host: String,
+    postId: Int): HttpUrl {
+
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("pictures/add_comment/$postId")
+        .addQueryParameter("lang", "en")
+        .build()
+}

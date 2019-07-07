@@ -66,4 +66,10 @@ interface Api {
 
     @GET
     suspend fun getComments(@Url url: HttpUrl): Response<CommentResponse>
+
+    @POST
+    @FormUrlEncoded
+    suspend fun createComment(@Url url: HttpUrl,
+                              @Field("text") text: String,
+                              @Field("token") token: String): Response<CreateCommentResponse>
 }
