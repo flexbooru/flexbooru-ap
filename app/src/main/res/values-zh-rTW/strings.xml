@@ -12,6 +12,7 @@
     <string name="title_donation">Donation</string>
     <string name="title_tags_blacklist">Tags blacklist</string>
     <string name="title_setup_wizard">Setup Wizard</string>
+    <string name="title_comments">Comments</string>
     <string name="posts_search">Search</string>
     <string name="posts_more_options">More options</string>
     <string name="posts_order">Order</string>
@@ -103,6 +104,8 @@
     <string name="action_copy">Copy</string>
     <string name="action_delete">Delete</string>
     <string name="action_add_tag_filter">Add tag</string>
+    <string name="action_comment_send">Send</string>
+    <string name="action_comment_hint">Comment</string>
     <string name="user_votes">Votes</string>
     <string name="user_posts">Posts</string>
     <string name="user_logout">Logout</string>

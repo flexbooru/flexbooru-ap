@@ -12,6 +12,7 @@
     <string name="title_donation">Пожертвование</string>
     <string name="title_tags_blacklist">Запрещённые теги</string>
     <string name="title_setup_wizard">Мастер установки</string>
+    <string name="title_comments">Комментарии</string>
     <string name="posts_search">Поиск</string>
     <string name="posts_more_options">Ещё опции</string>
     <string name="posts_order">Порядок</string>
@@ -103,6 +104,8 @@
     <string name="action_copy">Копировать</string>
     <string name="action_delete">Удалить</string>
     <string name="action_add_tag_filter">Добавить тег</string>
+    <string name="action_comment_send">Send</string>
+    <string name="action_comment_hint">Comment</string>
     <string name="user_votes">Голоса</string>
     <string name="user_posts">Посты</string>
     <string name="user_logout">Выход</string>

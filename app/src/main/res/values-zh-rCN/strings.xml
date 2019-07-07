@@ -12,6 +12,7 @@
     <string name="title_donation">捐赠</string>
     <string name="title_tags_blacklist">标签黑名单</string>
     <string name="title_setup_wizard">设置向导</string>
+    <string name="title_comments">评论</string>
     <string name="posts_search">搜索</string>
     <string name="posts_more_options">更多选项</string>
     <string name="posts_order">排序</string>
@@ -103,6 +104,8 @@
     <string name="action_copy">复制</string>
     <string name="action_delete">删除</string>
     <string name="action_add_tag_filter">添加标签</string>
+    <string name="action_comment_send">发送</string>
+    <string name="action_comment_hint">评论</string>
     <string name="user_votes">投票</string>
     <string name="user_posts">帖子</string>
     <string name="user_logout">登出</string>
