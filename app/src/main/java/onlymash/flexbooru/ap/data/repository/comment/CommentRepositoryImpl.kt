@@ -6,6 +6,7 @@ import okhttp3.HttpUrl
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.model.Comment
 import onlymash.flexbooru.ap.extension.NetResult
+import retrofit2.HttpException
 
 class CommentRepositoryImpl(private val api: Api) : CommentRepository {
 
@@ -13,14 +14,18 @@ class CommentRepositoryImpl(private val api: Api) : CommentRepository {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.getComments(url)
-                if (response.isSuccessful) {
-                    val comments = response.body()?.comments ?: emptyList()
-                    NetResult.Success(comments)
+                val data  = response.body()
+                if (data != null) {
+                    NetResult.Success(data.comments)
                 } else {
                     NetResult.Error("code: ${response.code()}")
                 }
             } catch (e: Exception) {
-                NetResult.Error(e.message.toString())
+                if (e is HttpException) {
+                    NetResult.Error("code: ${e.code()}")
+                } else {
+                    NetResult.Error(e.message.toString())
+                }
             }
         }
     }

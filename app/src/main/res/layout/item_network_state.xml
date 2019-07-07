@@ -8,23 +8,28 @@
     android:padding="8dp">
 
     <TextView
-            android:id="@+id/error_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"/>
+        android:id="@+id/error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:visibility="gone"/>
+
     <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            style="@style/Widget.AppCompat.ProgressBar"/>
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        style="@style/Widget.AppCompat.ProgressBar"/>
+
     <Button
-            android:id="@+id/retry_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/retry"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+        android:id="@+id/retry_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/retry"
+        android:visibility="gone"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.squareup.picasso.Picasso
+import onlymash.flexbooru.ap.crash.CrashHandler
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import org.kodein.di.Kodein
@@ -40,6 +41,7 @@ class App : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         app = this
+        CrashHandler.getInstance().init(this)
         AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
     }
 }

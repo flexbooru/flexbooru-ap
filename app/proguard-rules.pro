@@ -33,21 +33,18 @@
   public *;
 }
 
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+-dontwarn io.fabric.sdk.android.**
+
 ### Kotlin Coroutine
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
 }
 
 -dontwarn androidx.room.paging.LimitOffsetDataSource
-
--assumenosideeffects class android.util.Log {
-    public static boolean isLoggable(java.lang.String, int);
-    public static int v(...);
-    public static int i(...);
-    public static int w(...);
-    public static int d(...);
-    public static int e(...);
-}
 
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
@@ -65,12 +62,23 @@
 # Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
 -dontwarn org.codehaus.mojo.animal_sniffer.*
 
--keep class sun.misc.Unsafe { *; }
--dontnote sun.misc.Unsafe
--keep class com.google.gson.stream.** { *; }
+# Gson specific classes
+-dontwarn sun.misc.**
+#-keep class com.google.gson.stream.** { *; }
+
+# Application classes that will be serialized/deserialized over Gson
+-keep class onlymash.flexbooru.ap.model.** { <fields>; }
+
+# Prevent proguard from stripping interface information from TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
+
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
 
 -keepnames class onlymash.flexbooru.ap.data.SearchType
 

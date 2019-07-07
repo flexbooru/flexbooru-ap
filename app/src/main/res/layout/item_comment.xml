@@ -27,10 +27,10 @@
         android:textAppearance="?textAppearanceHeadline6"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/date"/>
+        app:layout_constraintBottom_toTopOf="@+id/date_text"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/date"
+        android:id="@+id/date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?textAppearanceBody2"

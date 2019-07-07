@@ -1,47 +1,35 @@
 package onlymash.flexbooru.ap.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
-import onlymash.flexbooru.ap.data.repository.comment.CommentPagingRepository
+import kotlinx.coroutines.launch
+import onlymash.flexbooru.ap.data.NetworkState
+import onlymash.flexbooru.ap.data.model.Comment
+import onlymash.flexbooru.ap.data.repository.comment.CommentRepository
+import onlymash.flexbooru.ap.extension.NetResult
+import onlymash.flexbooru.ap.extension.getCommentsUrl
 
 class CommentViewModel(
-    private val repo: CommentPagingRepository,
+    private val repo: CommentRepository,
     private val scheme: String,
     private val host: String,
-    private val token: String = "") : ScopeViewModel() {
+    private val token: String) : ScopeViewModel() {
 
-    private val _postId = MutableLiveData(-1)
+    val comments = MutableLiveData<List<Comment>>()
+    val status = MutableLiveData<NetworkState>()
 
-    private val _result = Transformations.map(_postId) {
-        repo.getComments(
-            scope = viewModelScope,
-            scheme = scheme,
-            host = host,
-            postId = it,
-            token = token
-        )
-    }
-
-    val comments = Transformations.switchMap(_result) { it.pagedList }
-
-    val networkState = Transformations.switchMap(_result) { it.networkState }
-
-    val refreshState = Transformations.switchMap(_result) { it.refreshState }
-
-    fun loadComments(postId: Int): Boolean {
-        if (_postId.value == postId) {
-            return false
+    fun loadComments(postId: Int) {
+        status.postValue(NetworkState.LOADING)
+        viewModelScope.launch {
+            when (val result = repo.getComments(getCommentsUrl(scheme, host, postId, token))) {
+                is NetResult.Success -> {
+                    comments.postValue(result.data)
+                    status.postValue(NetworkState.LOADED)
+                }
+                is NetResult.Error -> {
+                    status.postValue(NetworkState.error(result.errorMsg))
+                }
+            }
         }
-        _postId.value = postId
-        return true
-    }
-
-    fun refresh() {
-        _result.value?.refresh?.invoke()
-    }
-
-    fun retry() {
-        _result.value?.retry?.invoke()
     }
 }
