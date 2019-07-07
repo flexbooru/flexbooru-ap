@@ -104,6 +104,8 @@
     <string name="action_copy">Копировать</string>
     <string name="action_delete">Удалить</string>
     <string name="action_add_tag_filter">Добавить тег</string>
+    <string name="action_comment_send">Send</string>
+    <string name="action_comment_hint">Comment</string>
     <string name="user_votes">Голоса</string>
     <string name="user_posts">Посты</string>
     <string name="user_logout">Выход</string>
