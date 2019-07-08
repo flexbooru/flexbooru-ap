@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -231,6 +232,10 @@ class DetailActivity : BaseActivity() {
         post_save.setOnClickListener {
             saveFile()
         }
+        TooltipCompat.setTooltipText(post_tags, post_tags.contentDescription)
+        TooltipCompat.setTooltipText(post_info, post_info.contentDescription)
+        TooltipCompat.setTooltipText(post_save, post_save.contentDescription)
+        TooltipCompat.setTooltipText(post_vote, post_vote.contentDescription)
     }
 
     private fun initViewModel() {
