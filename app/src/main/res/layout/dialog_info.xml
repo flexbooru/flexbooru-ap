@@ -83,6 +83,8 @@
             android:paddingEnd="20dp"
             android:textAppearance="?textAppearanceBody1"
             android:textColor="@color/primary_text_dark"
+            android:drawableEnd="@drawable/tag_dot"
+            android:drawablePadding="@dimen/drawable_padding"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,6 +2,8 @@ package onlymash.flexbooru.ap.ui.dialog
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.Formatter
@@ -10,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import onlymash.flexbooru.ap.R
@@ -118,13 +121,17 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
             }
             context.safeOpenIntent(intent)
         }
-        view.findViewById<AppCompatTextView>(R.id.post_color_value).text =
-                getString(
-                    R.string.placeholder_post_color,
-                    detail.color[0], detail.color[1], detail.color[2])
+        val red = detail.color[0]
+        val green = detail.color[1]
+        val blue = detail.color[2]
+        val color = Color.rgb(red, green, blue)
+        view.findViewById<AppCompatTextView>(R.id.post_color_value).apply {
+            text = getString(R.string.placeholder_post_color, red, green, blue)
+            TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(color))
+        }
         view.findViewById<ConstraintLayout>(R.id.color_container).setOnClickListener {
-            val color = "${detail.color[0]}_${detail.color[1]}_${detail.color[2]}_30"
-            SearchActivity.startSearchActivity(context = context, query = color, color = color)
+            val colorQuery = "${red}_${green}_${blue}_30"
+            SearchActivity.startSearchActivity(context = context, query = colorQuery, color = colorQuery)
         }
         view.findViewById<ConstraintLayout>(R.id.user_container).setOnClickListener {
             UserActivity.startUserActivity(
