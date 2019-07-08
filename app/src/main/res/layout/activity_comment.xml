@@ -11,8 +11,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="-3dp">
+        android:layout_weight="1">
 
         <include layout="@layout/app_bar"/>
 
@@ -59,63 +58,59 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
         </LinearLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
+            android:layout_gravity="bottom"
             android:background="@drawable/top_shadow_gradient"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
+        android:background="@color/colorBackgroundCard">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_avatar"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/avatar_user"
+            android:background="?selectableItemBackgroundBorderless"
+            app:civ_border_color="@color/grey_300"
+            app:civ_border_width="2dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:background="@color/colorBackgroundCard">
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:hint="@string/action_comment_hint"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_avatar"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/avatar_user"
-                android:background="?selectableItemBackgroundBorderless"
-                app:civ_border_color="@color/grey_300"
-                app:civ_border_width="2dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/comment_edit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:hint="@string/action_comment_hint"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:maxLength="2000"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/comment_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:singleLine="false"
-                    android:maxLength="2000"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/comment_send"
-                android:layout_gravity="bottom"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_send_24dp"
-                android:tint="@color/color_light_primary"
-                android:padding="16dp"
-                android:layout_marginBottom="4dp"
-                android:background="?selectableItemBackgroundBorderless"/>
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/comment_send"
+            android:layout_gravity="bottom"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_send_24dp"
+            android:tint="@color/color_light_primary"
+            android:padding="16dp"
+            android:layout_marginBottom="3dp"
+            android:background="?selectableItemBackgroundBorderless"/>
     </LinearLayout>
 </LinearLayout>

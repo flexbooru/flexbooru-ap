@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -81,6 +82,8 @@ class CommentActivity : KodeinActivity() {
             adapter = commentAdapter
             addItemDecoration(DividerItemDecoration(this@CommentActivity, RecyclerView.VERTICAL))
         }
+        TooltipCompat.setTooltipText(comment_send, getText(R.string.action_comment_send))
+        TooltipCompat.setTooltipText(user_avatar, getText(R.string.title_account))
         val scheme = Settings.scheme
         val host = Settings.hostname
         UserManager.getUserByUid(Settings.userUid)?.let { user ->
