@@ -32,6 +32,7 @@ import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.FROM_HISTORY
+import onlymash.flexbooru.ap.ui.activity.UserActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
@@ -142,6 +143,18 @@ class HistoryFragment : KodeinFragment() {
             private val postSize: AppCompatTextView = itemView.findViewById(R.id.post_size)
             private val userAvatar: CircleImageView = itemView.findViewById(R.id.user_avatar)
             private var detail: Detail? = null
+
+            init {
+                userAvatar.setOnClickListener {
+                    detail?.let {
+                        UserActivity.startUserActivity(
+                            context = itemView.context,
+                            userId = it.userId,
+                            username = it.userName,
+                            avatarUrl = it.userAvatar)
+                    }
+                }
+            }
 
             fun bind(data: Detail?) {
                 detail = data ?: return
