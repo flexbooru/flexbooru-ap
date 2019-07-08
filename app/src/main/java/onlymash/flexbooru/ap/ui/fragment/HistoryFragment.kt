@@ -11,11 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -136,22 +138,29 @@ class HistoryFragment : KodeinFragment() {
         inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val postPreview: AppCompatImageView = itemView.findViewById(R.id.post_preview)
             private val postId: AppCompatTextView = itemView.findViewById(R.id.post_id)
+            private val postRes: AppCompatTextView = itemView.findViewById(R.id.post_res)
             private val postSize: AppCompatTextView = itemView.findViewById(R.id.post_size)
+            private val userAvatar: CircleImageView = itemView.findViewById(R.id.user_avatar)
             private var detail: Detail? = null
 
             fun bind(data: Detail?) {
                 detail = data ?: return
                 postId.text = getString(R.string.placeholder_post_id, data.id)
-                postSize.text = getString(
-                    R.string.placeholder_post_size,
-                    Formatter.formatFileSize(itemView.context, data.size.toLong()),
-                    data.width,
-                    data.height
-                )
-                GlideApp.with(itemView.context)
-                    .load(data.mediumPreview)
+                postSize.text = getString(R.string.placeholder_post_size, Formatter.formatFileSize(itemView.context, data.size.toLong()))
+                postRes.text = getString(R.string.placeholder_post_res, data.width, data.height)
+                val context = itemView.context
+                GlideApp.with(context)
+                    .load(data.smallPreview)
+                    .placeholder(ContextCompat.getDrawable(context, R.drawable.background_placeholder))
                     .centerCrop()
                     .into(postPreview)
+                data.userAvatar?.let {
+                    GlideApp.with(context)
+                        .load(it)
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.avatar_user))
+                        .centerCrop()
+                        .into(userAvatar)
+                }
             }
         }
     }

@@ -34,7 +34,7 @@
     <string name="posts_extension_gif">gif</string>
 
     <string name="history_clear_all">Clear all</string>
-    <string name="history_clear_all_content">All history will be clear.</string>
+    <string name="history_clear_all_content">All history will be cleared.</string>
 
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
@@ -94,9 +94,10 @@
     <string name="tags_blacklist_add_hint">Add tag…</string>
 
     <string name="placeholder_post_id"># %01$d</string>
-    <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
+    <string name="placeholder_post_size" translatable="false">%01$s</string>
+    <string name="placeholder_post_res" translatable="false">%01$d x %02$d</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
-    <string name="placeholder_action_pay_by_google_play">Google Play - %01$s</string>
+    <string name="placeholder_action_pay_by_google_play" translatable="false">Google Play - %01$s</string>
 
     <string name="msg_path_denied">Save failed! No access to the current path.</string>
     <string name="msg_download_complete">Download complete</string>
