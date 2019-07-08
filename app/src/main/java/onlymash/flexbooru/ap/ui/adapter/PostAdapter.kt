@@ -31,8 +31,9 @@ class PostAdapter(
         val post = getItem(position)
         (holder as PostViewHolder).bind(post)
         holder.itemView.setOnClickListener {
-            val query = post?.query ?: return@setOnClickListener
-            clickItemCallback(query, holder.preview, "post_${post.id}", position)
+            post?.let {
+                clickItemCallback(it.query, holder.preview, "post_${it.id}", position)
+            }
         }
     }
 
@@ -55,7 +56,7 @@ class PostAdapter(
     companion object {
         val POST_COMPARATOR = object : DiffUtil.ItemCallback<Post>() {
             override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
-                oldItem.id == newItem.id
+                oldItem == newItem
             override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean =
                 oldItem.id == newItem.id
         }
