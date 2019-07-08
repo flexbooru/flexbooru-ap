@@ -33,7 +33,7 @@
     <string name="posts_extension_png">png</string>
     <string name="posts_extension_gif">gif</string>
     <string name="history_clear_all">清除所有</string>
-    <string name="history_clear_all_content">所有历史记录将被清除。</string>
+    <string name="history_clear_all_content">All history will be cleared.</string>
     <string name="dialog_ok">确定</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_yes">是</string>
@@ -81,9 +81,7 @@
     <string name="tags_blacklist_add">添加标签</string>
     <string name="tags_blacklist_add_hint">添加标签…</string>
     <string name="placeholder_post_id"># %01$d</string>
-    <string name="placeholder_post_size">%01$s - %02$d x %03$d</string>
     <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
-    <string name="placeholder_action_pay_by_google_play">Google Play - %01$s</string>
     <string name="msg_path_denied">保存失败！ 没有权限访问当前路径。</string>
     <string name="msg_download_complete">下载完毕</string>
     <string name="msg_download_failed">下载失败</string>
