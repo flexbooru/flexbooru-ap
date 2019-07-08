@@ -3,6 +3,7 @@ package onlymash.flexbooru.ap.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +22,11 @@ import de.hdodenhof.circleimageview.CircleImageView
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.glide.GlideImagesPlugin
+import io.noties.markwon.linkify.LinkifyPlugin
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.coroutines.launch
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.Settings
@@ -69,12 +72,13 @@ class CommentActivity : KodeinActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.title_comments)
-            subtitle = "Post: $postId"
+            subtitle = "Post $postId"
         }
         val glide = GlideApp.with(this)
         val markdown = Markwon.builder(this)
             .usePlugin(GlideImagesPlugin.create(glide))
             .usePlugin(HtmlPlugin.create())
+            .usePlugin(LinkifyPlugin.create(Linkify.EMAIL_ADDRESSES or Linkify.WEB_URLS))
             .build()
         commentAdapter = CommentAdapter(glide = glide, markwon = markdown)
         comments_list.apply {
@@ -194,19 +198,22 @@ class CommentActivity : KodeinActivity() {
                         )
                     }
                 }
+                commentView.apply {
+                    movementMethod = BetterLinkMovementMethod.getInstance()
+                    transformationMethod = LinkTransformationMethod()
+                }
             }
 
             fun bindTo(data: Comment) {
                 comment = data
-                username.text = data.user.userName
-                date.text = data.comment.datetime.formatDate()
-                markwon.setMarkdown(commentView, data.comment.html)
-                commentView.transformationMethod = LinkTransformationMethod()
                 data.user.userAvatar?.let {
                     glide.load(it)
                         .placeholder(ContextCompat.getDrawable(this@CommentActivity, R.drawable.avatar_user))
                         .into(avatar)
                 }
+                username.text = data.user.userName
+                date.text = data.comment.datetime.formatDate()
+                markwon.setMarkdown(commentView, data.comment.getMarkdownText())
             }
         }
     }

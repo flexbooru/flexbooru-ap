@@ -111,6 +111,8 @@ dependencies {
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:image-glide:$markwon_version"
     implementation "io.noties.markwon:html:$markwon_version"
+    implementation "io.noties.markwon:linkify:$markwon_version"
+    implementation 'me.saket:better-link-movement-method:2.2.0'
     implementation 'com.android.billingclient:billing:2.0.1'
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'

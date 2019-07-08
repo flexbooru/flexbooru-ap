@@ -23,6 +23,8 @@ data class UserComment(
     val userName: String
 )
 
+private const val REGEX_STR = "\\[url=(.+?)]((?:.|\n)+?)\\[/url]"
+
 data class CommentData(
     @SerializedName("datetime")
     val datetime: String,
@@ -34,9 +36,8 @@ data class CommentData(
     val html: String
 ) {
     fun getMarkdownText(): String {
-        return text.replace("[quote]", "`", ignoreCase = true)
-            .replace("[/quote]", "`", ignoreCase = true)
-            .replace("[/quote]", "`")
+        return text.replace("[quote]", "```", ignoreCase = true)
+            .replace("[/quote]", "```", ignoreCase = true)
             .replace("[b]", "**", ignoreCase = true)
             .replace("[/b]", "**", ignoreCase = true)
             .replace("[i]", "_", ignoreCase = true)
@@ -45,12 +46,11 @@ data class CommentData(
             .replace("[/img]", ")", ignoreCase = true)
             .replace("[u]", "", ignoreCase = true)
             .replace("[/u]", "", ignoreCase = true)
-            .replace("[code]", ">{1,}", ignoreCase = true)
-            .replace("[/code]", "", ignoreCase = true)
-//            .replace("[spoiler]", "<details><summary>SP:</summary>", ignoreCase = true)
-//            .replace("[/spoiler]", "</details>", ignoreCase = true)
-            .replace("[spoiler]", "  ", ignoreCase = true)
-            .replace("[/spoiler]", "  ", ignoreCase = true)
-            .replace("""\n""", "  ")
+            .replace("[code]", "```", ignoreCase = true)
+            .replace("[/code]", "```", ignoreCase = true)
+            .replace("[spoiler]", "<details><summary>SP: </summary>", ignoreCase = true)
+            .replace("[/spoiler]", "</details>", ignoreCase = true)
+            .replace("""\n""",   "  \n")
+            .replace(Regex(REGEX_STR), "[$2]($1)")
     }
 }
