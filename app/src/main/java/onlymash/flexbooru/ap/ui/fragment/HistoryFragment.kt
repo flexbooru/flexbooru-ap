@@ -159,7 +159,7 @@ class HistoryFragment : KodeinFragment() {
             fun bind(data: Detail?) {
                 detail = data ?: return
                 postId.text = getString(R.string.placeholder_post_id, data.id)
-                postSize.text = getString(R.string.placeholder_post_size, Formatter.formatFileSize(itemView.context, data.size.toLong()))
+                postSize.text = Formatter.formatFileSize(itemView.context, data.size.toLong())
                 postRes.text = getString(R.string.placeholder_post_res, data.width, data.height)
                 val context = itemView.context
                 GlideApp.with(context)

@@ -72,7 +72,7 @@ class DownloadWorker(
 
         val channelId = applicationContext.packageName + ".download"
 
-        val title = "Post $postId"
+        val title = applicationContext.getString(R.string.placeholder_post_id, postId)
 
         val notificationManager = getNotificationManager(
             channelId,

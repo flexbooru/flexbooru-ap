@@ -103,12 +103,8 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
         view.findViewById<AppCompatTextView>(R.id.user_name).text = detail.userName
         view.findViewById<AppCompatTextView>(R.id.user_id).text = detail.userId.toString()
         view.findViewById<AppCompatTextView>(R.id.pub_date).text = detail.pubtime.formatDate()
-        view.findViewById<AppCompatTextView>(R.id.post_size).text =
-            getString(
-                R.string.placeholder_post_size,
-                Formatter.formatFileSize(context, detail.size.toLong()),
-                detail.width,
-                detail.height)
+        view.findViewById<AppCompatTextView>(R.id.post_res_size).text =
+            getString(R.string.placeholder_post_res_size, detail.width, detail.height, Formatter.formatFileSize(context, detail.size.toLong()))
         view.findViewById<AppCompatImageView>(R.id.post_url_download).setOnClickListener {
             activity?.let {
                 DownloadWorker.download(it, detail)

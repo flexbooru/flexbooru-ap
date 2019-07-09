@@ -196,7 +196,7 @@ class DetailActivity : BaseActivity() {
                 true
             }
             if (fromWhere == FROM_POST) {
-                title = "Post $currentPostId"
+                title = getString(R.string.placeholder_post_id, currentPostId)
             }
         }
         ViewCompat.setOnApplyWindowInsetsListener(posts_pager) { _, insets ->
@@ -224,7 +224,7 @@ class DetailActivity : BaseActivity() {
                     }
                     FROM_HISTORY -> currentPostId = details[position].id
                 }
-                toolbar.title = "Post $currentPostId"
+                toolbar.title = getString(R.string.placeholder_post_id, currentPostId)
                 initVoteIcon()
             }
             override fun onPageScrollStateChanged(state: Int) {}
@@ -258,7 +258,7 @@ class DetailActivity : BaseActivity() {
                 detailAdapter.notifyDataSetChanged()
                 posts_pager.setCurrentItem(pos, false)
                 currentPostId = data[pos].id
-                toolbar.title = "Post $currentPostId"
+                toolbar.title = getString(R.string.placeholder_post_id, currentPostId)
                 localPostViewModel.posts.removeObservers(this)
                 startPostponedEnterTransition()
             })
@@ -277,7 +277,7 @@ class DetailActivity : BaseActivity() {
             allDetails.addAll(it)
             if (fromWhere == FROM_HISTORY && details.isEmpty()) {
                 currentPostId = it[pos].id
-                toolbar.title = "Post $currentPostId"
+                toolbar.title = getString(R.string.placeholder_post_id, currentPostId)
                 details.addAll(it)
                 detailAdapter.notifyDataSetChanged()
                 posts_pager.setCurrentItem(pos, false)

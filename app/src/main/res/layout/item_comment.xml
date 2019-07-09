@@ -33,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?textAppearanceBody2"
+        android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/user_name"
         app:layout_constraintBottom_toBottomOf="@+id/user_avatar"/>

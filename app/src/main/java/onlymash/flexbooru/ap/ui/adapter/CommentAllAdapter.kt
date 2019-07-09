@@ -53,6 +53,7 @@ class CommentAllAdapter(private val glide: GlideRequests,
         private val dateView: AppCompatTextView = itemView.findViewById(R.id.date_text)
         private val userAvatar: CircleImageView = itemView.findViewById(R.id.user_avatar)
         private val commentView: AppCompatTextView = itemView.findViewById(R.id.comment_text)
+        private val postIdView: AppCompatTextView = itemView.findViewById(R.id.post_id)
 
         private var comment: CommentAll? = null
 
@@ -84,6 +85,7 @@ class CommentAllAdapter(private val glide: GlideRequests,
             dateView.text = item.comment.datetime.formatDate()
             markwon.setMarkdown(commentView, item.comment.getMarkdownText())
             val context = itemView.context
+            postIdView.text = context.getString(R.string.placeholder_post_id, item.post.id)
             item.user.userAvatar?.let {
                 glide.load(it)
                     .placeholder(ContextCompat.getDrawable(context, R.drawable.avatar_user))

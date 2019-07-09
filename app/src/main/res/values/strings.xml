@@ -93,10 +93,10 @@
     <string name="tags_blacklist_add">Add tag</string>
     <string name="tags_blacklist_add_hint">Add tag…</string>
 
-    <string name="placeholder_post_id"># %01$d</string>
-    <string name="placeholder_post_size" translatable="false">%01$s</string>
+    <string name="placeholder_post_id" translatable="false">№ %01$d</string>
     <string name="placeholder_post_res" translatable="false">%01$d x %02$d</string>
-    <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
+    <string name="placeholder_post_res_size" translatable="false">%01$d x %02$d - %03$s</string>
+    <string name="placeholder_post_color" translatable="false">[%01$d, %02$d, %03$d]</string>
     <string name="placeholder_action_pay_by_google_play" translatable="false">Google Play - %01$s</string>
 
     <string name="msg_path_denied">Save failed! No access to the current path.</string>

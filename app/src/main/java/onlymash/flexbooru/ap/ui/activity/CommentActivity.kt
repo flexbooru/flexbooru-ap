@@ -73,7 +73,7 @@ class CommentActivity : KodeinActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.title_comments)
-            subtitle = "Post $postId"
+            subtitle = getString(R.string.placeholder_post_id, postId)
         }
         val glide = GlideApp.with(this)
         val markdown = Markwon.builder(this)
