@@ -80,8 +80,6 @@
     <string name="tags_filter_clear_all_content">所有標籤將會被清除。</string>
     <string name="tags_blacklist_add">新增標籤</string>
     <string name="tags_blacklist_add_hint">新增標籤...</string>
-    <string name="placeholder_post_id"># %01$d</string>
-    <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
     <string name="msg_path_denied">儲存失敗！沒有存取目前路徑的權限。</string>
     <string name="msg_download_complete">下載完成</string>
     <string name="msg_download_failed">下載失敗</string>
