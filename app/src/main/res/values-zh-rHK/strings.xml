@@ -9,7 +9,7 @@
     <string name="title_account">帳號</string>
     <string name="title_about">關於</string>
     <string name="title_copyright">版權</string>
-    <string name="title_donation">捐贈</string>
+    <string name="title_donation">捐助</string>
     <string name="title_tags_blacklist">標籤黑名單</string>
     <string name="title_setup_wizard">設定精靈</string>
     <string name="title_comments">留言</string>
@@ -120,5 +120,5 @@
     <string name="about_copyright">版權</string>
     <string name="about_licenses">授權</string>
     <string name="about_open_source_licenses">開放源碼授權</string>
-    <string name="donation_description">捐贈以支援開放源碼的開發</string>
+    <string name="donation_description">捐助以支援開放源碼的開發</string>
 </resources>
