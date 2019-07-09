@@ -119,6 +119,6 @@
     <string name="about_feedback_email">電子郵件</string>
     <string name="about_copyright">版權</string>
     <string name="about_licenses">授權</string>
-    <string name="about_open_source_licenses">開放源碼授權</string>
-    <string name="donation_description">捐助以支援開放源碼的開發</string>
+    <string name="about_open_source_licenses">開放原始碼授權</string>
+    <string name="donation_description">捐助以支援開放原始碼的開發。</string>
 </resources>
