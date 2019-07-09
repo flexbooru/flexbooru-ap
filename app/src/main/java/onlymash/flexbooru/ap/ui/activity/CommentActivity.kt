@@ -35,6 +35,7 @@ import onlymash.flexbooru.ap.data.Status
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.model.Comment
+import onlymash.flexbooru.ap.data.model.getMarkdownText
 import onlymash.flexbooru.ap.data.repository.comment.CommentRepositoryImpl
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
