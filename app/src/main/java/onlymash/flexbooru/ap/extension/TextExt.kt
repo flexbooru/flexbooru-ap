@@ -22,6 +22,9 @@ fun Long.formatDate(): CharSequence {
 }
 
 fun String.formatDate(): CharSequence {
-    val date = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.ENGLISH).parse(this.replace('T', ' ')) ?: return ""
+    val dateFormat = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.ENGLISH).apply {
+        timeZone = TimeZone.getTimeZone("GMT")
+    }
+    val date = dateFormat.parse(this.replace('T', ' ')) ?: return ""
     return date.time.formatDate()
 }
