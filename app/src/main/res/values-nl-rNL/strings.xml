@@ -80,8 +80,6 @@
     <string name="tags_filter_clear_all_content">All tags will be cleared.</string>
     <string name="tags_blacklist_add">Add tag</string>
     <string name="tags_blacklist_add_hint">Add tag…</string>
-    <string name="placeholder_post_id"># %01$d</string>
-    <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
     <string name="msg_path_denied">Save failed! No access to the current path.</string>
     <string name="msg_download_complete">Download complete</string>
     <string name="msg_download_failed">Download failed</string>
