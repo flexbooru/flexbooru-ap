@@ -80,8 +80,6 @@
     <string name="tags_filter_clear_all_content">Все теги будут очищены.</string>
     <string name="tags_blacklist_add">Добавить тег</string>
     <string name="tags_blacklist_add_hint">Добавить тег…</string>
-    <string name="placeholder_post_id">№ %01$d</string>
-    <string name="placeholder_post_color">[%01$d, %02$d, %03$d]</string>
     <string name="msg_path_denied">Не удалось сохранить! Нет доступа к текущему пути.</string>
     <string name="msg_download_complete">Загрузка завершена</string>
     <string name="msg_download_failed">Ошибка при загрузке</string>
