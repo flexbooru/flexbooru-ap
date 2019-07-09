@@ -107,6 +107,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             setOf(
                 R.id.nav_posts,
                 R.id.nav_history,
+                R.id.nav_comments,
                 R.id.nav_tags_blacklist,
                 R.id.nav_settings,
                 R.id.nav_about

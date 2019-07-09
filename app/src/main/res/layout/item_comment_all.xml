@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/drawable_padding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/post_preview"
+        android:padding="@dimen/drawable_padding"
+        android:layout_width="?attr/listPreferredItemHeightLarge"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="H, 3:4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/user_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingStart="@dimen/drawable_padding"
+        android:paddingEnd="@dimen/drawable_padding"
+        android:gravity="center_vertical"
+        android:textAppearance="?textAppearanceHeadline6"
+        app:layout_constraintStart_toEndOf="@+id/post_preview"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/date_text"
+        app:layout_constraintEnd_toStartOf="@+id/user_avatar"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/date_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/drawable_padding"
+        android:paddingEnd="@dimen/drawable_padding"
+        android:textAppearance="?textAppearanceBody2"
+        app:layout_constraintStart_toEndOf="@+id/post_preview"
+        app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
+        app:layout_constraintEnd_toStartOf="@+id/user_avatar"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_avatar"
+        android:padding="@dimen/drawable_padding"
+        android:layout_width="?attr/listPreferredItemHeight"
+        android:layout_height="0dp"
+        android:src="@drawable/avatar_user"
+        android:background="?selectableItemBackgroundBorderless"
+        app:civ_border_color="@color/grey_300"
+        app:civ_border_width="2dp"
+        app:layout_constraintDimensionRatio="H, 1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/comment_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/drawable_padding"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textIsSelectable="true"
+        app:layout_constraintTop_toBottomOf="@+id/user_avatar"
+        app:layout_constraintStart_toEndOf="@id/post_preview"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

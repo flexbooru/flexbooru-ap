@@ -9,3 +9,5 @@ fun View.toVisibility(constraint : Boolean) {
         View.GONE
     }
 }
+
+fun View.isVisible() = visibility == View.VISIBLE

@@ -108,3 +108,19 @@ fun getCreateCommentUrl(
         .addQueryParameter("lang", "en")
         .build()
 }
+
+fun getAllCommentsUrl(
+    scheme: String,
+    host: String,
+    page: Int,
+    token: String): HttpUrl {
+
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("api/v2/comments")
+        .addQueryParameter("page_number", page.toString())
+        .addQueryParameter("lang", "en")
+        .addQueryParameter("token", token)
+        .build()
+}

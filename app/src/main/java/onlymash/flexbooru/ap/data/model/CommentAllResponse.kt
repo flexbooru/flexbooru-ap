@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CommentAllResponse(
     @SerializedName("comments")
-    val comments: List<CommentAll>,
+    val comments: List<CommentAll> = emptyList(),
     @SerializedName("page_number")
     val pageNumber: Int,
     @SerializedName("posts_per_page")

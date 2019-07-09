@@ -13,7 +13,8 @@ data class CommentData(
     val html: String
 )
 
-private const val REGEX_STR = "\\[url=(.+?)]((?:.|\n)+?)\\[/url]"
+private const val REGEX_STR_1 = "\\[url=(.+?)]((?:.|\n)+?)\\[/url]"
+private const val REGEX_STR_2 = "\\[URL=(.+?)]((?:.|\n)+?)\\[/URL]"
 
 fun CommentData.getMarkdownText(): String {
     return text.replace("[quote]", "```", ignoreCase = true)
@@ -31,5 +32,6 @@ fun CommentData.getMarkdownText(): String {
         .replace("[spoiler]", "<details><summary>SP: </summary>", ignoreCase = true)
         .replace("[/spoiler]", "</details>", ignoreCase = true)
         .replace("""\n""",   "  \n")
-        .replace(Regex(REGEX_STR), "[$2]($1)")
+        .replace(Regex(REGEX_STR_1), "[$2]($1)")
+        .replace(Regex(REGEX_STR_2), "[$2]($1)")
 }

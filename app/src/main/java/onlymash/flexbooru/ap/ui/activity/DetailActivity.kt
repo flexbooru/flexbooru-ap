@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
@@ -55,7 +56,7 @@ const val CURRENT_POSITION_KEY = "current_position"
 const val FROM_WHERE_KEY = "from_where"
 const val FROM_POSTS = 0
 const val FROM_HISTORY = 1
-const val FROM_URL = 2
+const val FROM_POST = 2
 
 private const val ALPHA_MAX = 0xFF
 private const val ALPHA_MIN = 0x00
@@ -87,6 +88,11 @@ class DetailActivity : BaseActivity() {
             val options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(activity, view, transitionName)
             activity.startActivity(intent, options.toBundle())
+        }
+        fun startDetailActivityFromComment(context: Context, postId: Int) {
+            context.startActivity(Intent(context, DetailActivity::class.java).apply {
+                putExtra(POST_ID_KEY, postId)
+            })
         }
     }
 
@@ -140,10 +146,15 @@ class DetailActivity : BaseActivity() {
         setContentView(R.layout.activity_detail)
         intent?.apply {
             val url = data
+            val postId = getIntExtra(POST_ID_KEY, -1)
             if (url is Uri && url.scheme == "https") {
-                fromWhere = FROM_URL
+                fromWhere = FROM_POST
                 pos = 0
                 currentPostId = url.path?.replace("/pictures/view_post/", "")?.toInt() ?: 0
+            } else if (postId > 0) {
+                fromWhere = FROM_POST
+                pos = 0
+                currentPostId = postId
             } else {
                 fromWhere = getIntExtra(
                     FROM_WHERE_KEY,
@@ -184,7 +195,7 @@ class DetailActivity : BaseActivity() {
                 }
                 true
             }
-            if (fromWhere == FROM_URL) {
+            if (fromWhere == FROM_POST) {
                 title = "Post $currentPostId"
             }
         }

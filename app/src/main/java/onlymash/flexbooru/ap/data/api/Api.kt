@@ -72,4 +72,8 @@ interface Api {
     suspend fun createComment(@Url url: HttpUrl,
                               @Field("text") text: String,
                               @Field("token") token: String): Response<CreateCommentResponse>
+
+
+    @GET
+    suspend fun getAllComments(@Url url: HttpUrl): Response<CommentAllResponse>
 }
