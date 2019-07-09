@@ -90,7 +90,7 @@ fun getCommentsUrl(
     return HttpUrl.Builder()
         .scheme(scheme)
         .host(host)
-        .addPathSegments("api/v1/post/$postId/comments")
+        .addPathSegments("api/v2/posts/$postId/comments")
         .addQueryParameter("lang", "en")
         .addQueryParameter("token", token)
         .build()
