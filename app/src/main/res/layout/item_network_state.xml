@@ -17,12 +17,7 @@
         android:paddingEnd="20dp"
         android:visibility="gone"/>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        style="@style/Widget.AppCompat.ProgressBar"/>
+    <include layout="@layout/progress_bar"/>
 
     <Button
         android:id="@+id/retry_button"

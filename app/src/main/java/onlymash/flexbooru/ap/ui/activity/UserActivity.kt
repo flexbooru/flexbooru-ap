@@ -10,16 +10,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.progress_bar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.SearchType
+import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.db.dao.PostDao
 import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.extension.getLogoutUrl
+import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import org.kodein.di.erased.instance
@@ -46,6 +50,7 @@ class UserActivity : KodeinActivity() {
     }
 
     private var user: User? = null
+    private val api by instance<Api>()
     private val postDao by instance<PostDao>()
     private val detailDao by instance<DetailDao>()
 
@@ -120,11 +125,14 @@ class UserActivity : KodeinActivity() {
                     .setMessage(R.string.user_logout_content)
                     .setPositiveButton(R.string.dialog_yes) { _, _ ->
                         user?.let { user ->
+                            progress_bar.toVisibility(true)
                             lifecycleScope.launch {
-                                if (logout(user.uid)) {
+                                if (logout(user)) {
                                     Settings.userUid = -1L
                                     Settings.userToken = ""
                                     finish()
+                                } else {
+                                    progress_bar.toVisibility(false)
                                 }
                             }
                         }
@@ -137,10 +145,17 @@ class UserActivity : KodeinActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private suspend fun logout(uid: Long): Boolean {
+    private suspend fun logout(user: User): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                UserManager.deleteByUid(uid)
+                try {
+                    api.logout(getLogoutUrl(
+                        scheme = Settings.scheme,
+                        host = Settings.hostname,
+                        token = user.token
+                    ))
+                } catch (_: Exception) {}
+                UserManager.deleteByUid(user.uid)
                 postDao.deleteAll()
                 detailDao.deleteAll()
                 true

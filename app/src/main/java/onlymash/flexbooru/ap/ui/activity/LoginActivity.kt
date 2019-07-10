@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.progress_bar.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api

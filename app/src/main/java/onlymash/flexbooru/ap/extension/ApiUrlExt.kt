@@ -124,3 +124,12 @@ fun getAllCommentsUrl(
         .addQueryParameter("token", token)
         .build()
 }
+
+fun getLogoutUrl(scheme: String, host: String, token: String): HttpUrl {
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(host)
+        .addPathSegments("login/logout")
+        .addQueryParameter("token", token)
+        .build()
+}

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_comment_all.*
 import kotlinx.android.synthetic.main.fragment_comment_all.error_msg
 import kotlinx.android.synthetic.main.fragment_comment_all.retry_button
 import kotlinx.android.synthetic.main.fragment_comment_all.status_container
+import kotlinx.android.synthetic.main.progress_bar.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.common.USER_TOKEN_KEY

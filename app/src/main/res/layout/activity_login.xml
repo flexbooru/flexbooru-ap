@@ -102,13 +102,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/action_sign_in_short"
                     style="@style/Widget.Button.OutlinedButton"/>
-            <ProgressBar
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/progress_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    style="@style/Widget.AppCompat.ProgressBar"/>
+            <include
+                layout="@layout/progress_bar"
+                android:visibility="invisible"/>
         </FrameLayout>
         <TextView
                 android:paddingTop="15dp"

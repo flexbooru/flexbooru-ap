@@ -21,12 +21,7 @@
             app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        style="@style/Widget.AppCompat.ProgressBar"/>
+    <include layout="@layout/progress_bar"/>
 
     <LinearLayout
         android:id="@+id/status_container"
