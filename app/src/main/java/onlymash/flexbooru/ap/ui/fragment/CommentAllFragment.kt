@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.noties.markwon.Markwon
+import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
@@ -77,6 +78,7 @@ class CommentAllFragment : KodeinFragment() {
         val markdown = Markwon.builder(requireContext())
             .usePlugin(GlideImagesPlugin.create(glide))
             .usePlugin(HtmlPlugin.create())
+            .usePlugin(StrikethroughPlugin.create())
             .usePlugin(LinkifyPlugin.create(Linkify.EMAIL_ADDRESSES or Linkify.WEB_URLS))
             .build()
         commentAllAdapter = CommentAllAdapter(glide, markdown)

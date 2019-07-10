@@ -24,5 +24,6 @@
     <color name="colorPlaceholder">@color/grey_800</color>
     <color name="colorDropDownBackground">@color/grey</color>
     <color name="colorToolbar">@color/grey</color>
+    <color name="colorLine">#2F2F2F</color>
 
 </resources>

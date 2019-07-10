@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import io.noties.markwon.Markwon
+import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
@@ -79,6 +80,7 @@ class CommentActivity : KodeinActivity() {
         val markdown = Markwon.builder(this)
             .usePlugin(GlideImagesPlugin.create(glide))
             .usePlugin(HtmlPlugin.create())
+            .usePlugin(StrikethroughPlugin.create())
             .usePlugin(LinkifyPlugin.create(Linkify.EMAIL_ADDRESSES or Linkify.WEB_URLS))
             .build()
         commentAdapter = CommentAdapter(glide = glide, markwon = markdown)
