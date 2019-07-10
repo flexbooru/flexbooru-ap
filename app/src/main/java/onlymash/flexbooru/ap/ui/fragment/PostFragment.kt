@@ -282,6 +282,11 @@ class PostFragment : KodeinFragment(),
                 postViewModel.load(search)
                 postViewModel.refresh()
             }
+            USER_TOKEN_KEY -> {
+                search.token = Settings.userToken
+                postViewModel.load(search)
+                postViewModel.refresh()
+            }
         }
     }
 }

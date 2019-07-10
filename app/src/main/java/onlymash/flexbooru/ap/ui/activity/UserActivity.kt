@@ -2,26 +2,34 @@ package onlymash.flexbooru.ap.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.db.UserManager
+import onlymash.flexbooru.ap.data.db.dao.DetailDao
+import onlymash.flexbooru.ap.data.db.dao.PostDao
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.glide.GlideApp
+import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import org.kodein.di.erased.instance
+import kotlin.Exception
 
 private const val USER_ID_KEY = "user_id"
 private const val USERNAME_KEY = "username"
 private const val AVATAR_URL_KEY = "avatar_url"
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : KodeinActivity() {
 
     companion object {
         fun startUserActivity(
@@ -38,6 +46,8 @@ class UserActivity : AppCompatActivity() {
     }
 
     private var user: User? = null
+    private val postDao by instance<PostDao>()
+    private val detailDao by instance<DetailDao>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,11 +120,14 @@ class UserActivity : AppCompatActivity() {
                     .setMessage(R.string.user_logout_content)
                     .setPositiveButton(R.string.dialog_yes) { _, _ ->
                         user?.let { user ->
-                            UserManager.deleteByUid(user.uid)
+                            lifecycleScope.launch {
+                                if (logout(user.uid)) {
+                                    Settings.userUid = -1L
+                                    Settings.userToken = ""
+                                    finish()
+                                }
+                            }
                         }
-                        Settings.userToken = ""
-                        Settings.userUid = -1L
-                        finish()
                     }
                     .setNegativeButton(R.string.dialog_no, null)
                     .create()
@@ -122,5 +135,18 @@ class UserActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private suspend fun logout(uid: Long): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                UserManager.deleteByUid(uid)
+                postDao.deleteAll()
+                detailDao.deleteAll()
+                true
+            }catch (_: Exception) {
+                false
+            }
+        }
     }
 }

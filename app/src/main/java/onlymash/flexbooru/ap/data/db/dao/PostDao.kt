@@ -28,4 +28,7 @@ interface PostDao {
 
     @Query("SELECT * FROM `posts` WHERE `query` = :query ORDER BY `uid` ASC")
     fun getPostsLiveData(query: String) : LiveData<List<Post>>
+
+    @Query("DELETE FROM `posts`")
+    fun deleteAll()
 }

@@ -1,5 +1,6 @@
 package onlymash.flexbooru.ap.ui.fragment
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.util.Linkify
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_comment_all.retry_button
 import kotlinx.android.synthetic.main.fragment_comment_all.status_container
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
+import onlymash.flexbooru.ap.common.USER_TOKEN_KEY
 import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Status
 import onlymash.flexbooru.ap.data.api.Api
@@ -34,8 +36,9 @@ import onlymash.flexbooru.ap.ui.viewmodel.CommentAllViewModel
 import org.kodein.di.erased.instance
 import java.util.concurrent.Executor
 
-class CommentAllFragment : KodeinFragment() {
+class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private val sp by instance<SharedPreferences>()
     private val api by instance<Api>()
     private val executor by instance<Executor>()
 
@@ -56,6 +59,7 @@ class CommentAllFragment : KodeinFragment() {
         scheme = Settings.scheme
         host = Settings.hostname
         token = Settings.userToken
+        sp.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreateView(
@@ -114,6 +118,18 @@ class CommentAllFragment : KodeinFragment() {
         retry_button.setOnClickListener {
             status_container.toVisibility(false)
             commentAllViewModel.retry()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sp.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == USER_TOKEN_KEY) {
+            commentAllViewModel.show(Settings.userToken)
+            commentAllViewModel.refresh()
         }
     }
 }
