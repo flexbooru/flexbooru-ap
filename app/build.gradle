@@ -18,7 +18,7 @@ android {
         }
     }
     compileSdkVersion 29
-    buildToolsVersion '29.0.0'
+    buildToolsVersion '29.0.1'
     defaultConfig {
         applicationId "onlymash.flexbooru.ap"
         minSdkVersion 21
@@ -115,7 +115,7 @@ dependencies {
     implementation "io.noties.markwon:linkify:$markwon_version"
     implementation 'me.saket:better-link-movement-method:2.2.0'
     implementation 'com.android.billingclient:billing:2.0.2'
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation "androidx.work:work-testing:$work_version"
