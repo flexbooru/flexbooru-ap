@@ -11,7 +11,6 @@ import android.os.Build
 import android.provider.DocumentsContract
 import androidx.core.app.NotificationCompat
 import androidx.work.*
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import onlymash.flexbooru.ap.common.App
 import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.receiver.DownloadNotificationClickReceiver
@@ -41,7 +40,7 @@ class DownloadWorker(
                 OneTimeWorkRequestBuilder<DownloadWorker>()
                     .setInputData(
                         workDataOf(
-                            DOWNLOAD_URL_KEY to detail.fileUrl,
+                            DOWNLOAD_URL_KEY to detail.fileUrl.toEncodedUrl(),
                             DOWNLOAD_DOC_ID_KEY to docId,
                             DOWNLOAD_POST_ID_KEY to detail.id
                         )
@@ -58,15 +57,13 @@ class DownloadWorker(
 
     override suspend fun doWork(): Result {
 
-        val urlString = inputData.getString(DOWNLOAD_URL_KEY)
+        val url = inputData.getString(DOWNLOAD_URL_KEY)
         val postId = inputData.getInt(DOWNLOAD_POST_ID_KEY, -1)
         val docId = inputData.getString(DOWNLOAD_DOC_ID_KEY)
 
-        if (urlString.isNullOrEmpty() || postId < 0 || docId.isNullOrEmpty()) {
+        if (url.isNullOrEmpty() || postId < 0 || docId.isNullOrEmpty()) {
             return Result.failure()
         }
-
-        val url = urlString.toHttpUrlOrNull().toString()
 
         val desUri = getFileUriByDocId(docId) ?: return Result.failure()
 

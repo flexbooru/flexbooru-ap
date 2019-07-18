@@ -113,7 +113,7 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
         view.findViewById<AppCompatImageView>(R.id.post_url_open).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                data = Uri.parse(detail.fileUrl)
+                data = Uri.parse(detail.fileUrl.toEncodedUrl())
             }
             context.safeOpenIntent(intent)
         }
@@ -137,7 +137,7 @@ class InfoDialog : BaseBottomSheetDialogFragment() {
                 avatarUrl = detail.userAvatar)
         }
         view.findViewById<ConstraintLayout>(R.id.post_url_container).setOnLongClickListener {
-            context.copyText(detail.fileUrl)
+            context.copyText(detail.fileUrl.toEncodedUrl())
             true
         }
     }

@@ -30,7 +30,7 @@ fun Detail.getDetailUrl(): String {
     return when (Settings.detailSize) {
         FILE_SIZE_MEDIUM -> mediumPreview
         FILE_SIZE_BIG -> bigPreview
-        FILE_SIZE_ORIGIN -> fileUrl
+        FILE_SIZE_ORIGIN -> fileUrl.toEncodedUrl()
         else -> smallPreview
     }
 }
@@ -46,3 +46,7 @@ fun Context.launchUrl(uri: Uri) = try {
 } catch (e: ActivityNotFoundException) { e.printStackTrace() }
 
 fun Context.launchUrl(url: String) = this.launchUrl(Uri.parse(url))
+
+fun String.toEncodedUrl(): String =
+    this.replace(" ", "%20")
+        .replace("?", "%3F")

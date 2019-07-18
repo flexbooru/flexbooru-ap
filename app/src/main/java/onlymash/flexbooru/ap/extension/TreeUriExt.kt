@@ -151,9 +151,11 @@ fun String.fileName(): String {
     } else {
         substring(start)
     }
-    return Uri.decode(encodeFileName)
+    return encodeFileName.decode()
         .replace("?", "")
         .replace("!", "")
         .replace(":", "_")
         .replace("\"","_")
 }
+
+fun String.decode(): String = Uri.decode(this)
