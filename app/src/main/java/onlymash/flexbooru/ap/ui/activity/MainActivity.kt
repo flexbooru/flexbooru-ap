@@ -19,10 +19,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -166,10 +164,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private fun initTagFilter() {
-        ViewCompat.setOnApplyWindowInsetsListener(nav_view_tags) { _, insets ->
-            (nav_view_tags.layoutParams as DrawerLayout.LayoutParams).topMargin = insets.systemWindowInsetTop
-            insets
-        }
         toolbar_drawer.apply {
             setNavigationOnClickListener {
                 drawer_layout.closeDrawer(GravityCompat.END)
