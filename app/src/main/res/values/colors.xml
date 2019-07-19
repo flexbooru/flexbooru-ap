@@ -24,8 +24,12 @@
     <color name="colorItemDrawer">@color/grey_300</color>
     <color name="colorPlaceholder">@color/grey_100</color>
     <color name="colorDropDownBackground">@color/color_light_background</color>
-    <color name="colorToolbar">@color/color_light_primary</color>
+    <color name="colorToolbar">@color/color_light_background</color>
+    <color name="colorToolbarIcon">@color/grey_900</color>
     <color name="colorLine">@color/grey_300</color>
+    <color name="colorStatusBar">#33000000</color>
+    <color name="colorNavigationBar">@color/color_dark_background</color>
+    <color name="colorNavigationBarDivider">#DCDCDC</color>
 
     <color name="grey">#2C2C2C</color>
     <color name="black">#000000</color>
@@ -33,9 +37,13 @@
     <color name="scrim">#52000000</color>
     <color name="dark">#121212</color>
 
-    <color name="teal_700">#00796B</color>
-    <color name="teal_700_light">#48A999</color>
-    <color name="teal_700_dark">#004C40</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="blue_700_light">#63A4FF</color>
+    <color name="blue_700_dark">#004BA0</color>
+
+    <color name="blue_a_400">#2979FF</color>
+    <color name="blue_a_400_light">#75A7FF</color>
+    <color name="blue_a_400_dark">#004ECB</color>
 
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
@@ -45,14 +53,14 @@
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
 
-    <color name="color_light_primary">@color/teal_700</color>
-    <color name="color_light_primary_dark">@color/teal_700_dark</color>
-    <color name="color_light_secondary">#03DAC6</color>
+    <color name="color_light_primary">@color/blue_700</color>
+    <color name="color_light_primary_dark">@color/blue_700_dark</color>
+    <color name="color_light_secondary">@color/blue_a_400</color>
     <color name="color_light_accent">@color/color_light_secondary</color>
     <color name="color_light_background">@color/white</color>
     <color name="color_light_error">#B00020</color>
     <color name="color_light_primary_variant">@color/color_light_primary_dark</color>
-    <color name="color_light_secondary_variant">#018786</color>
+    <color name="color_light_secondary_variant">@color/color_light_primary</color>
     <color name="color_light_surface">@color/white</color>
     <color name="color_light_on_primary">@color/white</color>
     <color name="color_light_on_secondary">@color/white</color>
@@ -61,14 +69,14 @@
     <color name="color_light_on_surface">@color/black</color>
     <color name="color_light_scrim">@color/scrim</color>
 
-    <color name="color_dark_primary">@color/teal_700_light</color>
+    <color name="color_dark_primary">@color/blue_700_light</color>
     <color name="color_dark_primary_dark">@color/grey_900</color>
-    <color name="color_dark_secondary">#03DAC6</color>
+    <color name="color_dark_secondary">@color/blue_a_400_light</color>
     <color name="color_dark_accent">@color/color_dark_secondary</color>
     <color name="color_dark_background">@color/dark</color>
     <color name="color_dark_error">#CF6679</color>
     <color name="color_dark_primary_variant">@color/color_light_primary_dark</color>
-    <color name="color_dark_secondary_variant">#03DAC6</color>
+    <color name="color_dark_secondary_variant">@color/color_dark_primary</color>
     <color name="color_dark_surface">@color/dark</color>
     <color name="color_dark_on_primary">@color/black</color>
     <color name="color_dark_on_secondary">@color/white</color>

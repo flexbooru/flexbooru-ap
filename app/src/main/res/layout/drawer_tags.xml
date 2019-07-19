@@ -13,6 +13,7 @@
             android:id="@+id/toolbar_drawer"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorToolbar"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:navigationIcon="@drawable/ic_close_24dp"
             app:title="@string/posts_search"
@@ -33,6 +34,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:srcCompat="@drawable/ic_search_24dp"/>
+        app:srcCompat="@drawable/ic_search_24dp"
+        style="@style/Widget.FloatingActionButton"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,7 +1,15 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/is_light_status_bar</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/is_light_navigation_bar</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/colorNavigationBarDivider</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
+        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -22,13 +30,11 @@
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
         <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.Detail">
@@ -55,7 +61,7 @@
         <item name="cardBackgroundColor">@color/colorBackgroundCard</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
 
@@ -85,10 +91,12 @@
 
     <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="backgroundTint">@color/colorAccent</item>
     </style>
 
     <style name="Widget.Button.TextButton.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="Widget.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -108,4 +116,7 @@
         <item name="android:background">@color/colorDropDownBackground</item>
     </style>
 
+    <style name="Widget.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="elevation">@dimen/card_elevation</item>
+    </style>
 </resources>

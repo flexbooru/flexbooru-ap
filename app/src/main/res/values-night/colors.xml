@@ -23,7 +23,11 @@
     <color name="colorItemDrawer">@color/grey_800</color>
     <color name="colorPlaceholder">@color/grey_800</color>
     <color name="colorDropDownBackground">@color/grey</color>
-    <color name="colorToolbar">@color/grey</color>
+    <color name="colorToolbar">@color/grey_900</color>
+    <color name="colorToolbarIcon">@color/white</color>
     <color name="colorLine">#2F2F2F</color>
+    <color name="colorStatusBar">@color/grey_900</color>
+    <color name="colorNavigationBar">@color/grey_900</color>
+    <color name="colorNavigationBarDivider">@color/grey_900</color>
 
 </resources>
