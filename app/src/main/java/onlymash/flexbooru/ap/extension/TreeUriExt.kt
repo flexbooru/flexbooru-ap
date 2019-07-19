@@ -143,19 +143,12 @@ fun String.fileExt(): String {
     }
 }
 
-fun String.fileName(): String {
-    val start = lastIndexOf('/') + 1
-    val end = indexOfFirst { it == '?' }
-    val encodeFileName = if (end > start) {
-        substring(start, end)
-    } else {
-        substring(start)
-    }
-    return encodeFileName.decode()
-        .replace("?", "")
+fun String.fileName(): String =
+    substring(lastIndexOf('/') + 1)
+        .replace("?_", "_")
+        .replace("?", "_")
         .replace("!", "")
         .replace(":", "_")
         .replace("\"","_")
-}
 
 fun String.decode(): String = Uri.decode(this)
