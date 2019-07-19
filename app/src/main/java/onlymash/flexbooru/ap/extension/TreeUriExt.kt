@@ -145,6 +145,7 @@ fun String.fileExt(): String {
 
 fun String.fileName(): String =
     substring(lastIndexOf('/') + 1)
+        .decode()
         .replace("?_", "_")
         .replace("?", "_")
         .replace("!", "")
