@@ -86,6 +86,7 @@
     <string name="msg_login_tip_empty">Username or Password can not be empty.</string>
     <string name="msg_host_cannot_be_empty">Host cannot be empty.</string>
     <string name="msg_unsupported_host">Unsupported host.</string>
+    <string name="msg_minimum_two_characters">A minimum two characters.</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
