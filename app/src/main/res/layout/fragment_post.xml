@@ -7,15 +7,16 @@
         android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp"
-            app:fastScrollEnabled="true"
-            app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-            app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-            app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"/>
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"/>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
