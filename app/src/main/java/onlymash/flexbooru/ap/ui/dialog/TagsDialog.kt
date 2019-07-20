@@ -72,7 +72,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState)
         val view = View.inflate(requireContext(), R.layout.dialog_tags, null)
         tagAdapter = TagAdapter()
-        view.findViewById<RecyclerView>(R.id.tags_list).apply {
+        view.findViewById<RecyclerView>(R.id.list).apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = tagAdapter
         }

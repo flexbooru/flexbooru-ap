@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_history.*
+import kotlinx.android.synthetic.main.fast_recyclerview.*
 import kotlinx.android.synthetic.main.progress_bar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,7 +61,7 @@ class HistoryFragment : KodeinFragment() {
                 return
             }
             if (intent.getBooleanExtra(HISTORY_JUMP_TO_TOP_KEY, false)) {
-                history_list.scrollToPosition(0)
+                list.scrollToPosition(0)
             }
         }
     }
@@ -99,7 +99,7 @@ class HistoryFragment : KodeinFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyAdapter = HistoryAdapter()
-        history_list.apply {
+        list.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = historyAdapter
         }

@@ -10,6 +10,7 @@ import androidx.core.app.SharedElementCallback
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import kotlinx.android.synthetic.main.fast_recyclerview.*
 import kotlinx.android.synthetic.main.fragment_post.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
