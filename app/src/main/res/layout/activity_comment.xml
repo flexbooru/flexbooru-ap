@@ -60,7 +60,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="@dimen/elevation"
             android:layout_gravity="bottom"
             android:background="@drawable/top_shadow_gradient"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -69,28 +69,31 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="3dp"
+        android:paddingBottom="@dimen/elevation"
         android:background="@color/colorBackgroundCard">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_avatar"
-            android:layout_margin="8dp"
+            android:layout_marginTop="6dp"
             android:padding="8dp"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:src="@drawable/avatar_user"
-            android:background="?selectableItemBackgroundBorderless"
+            android:background="?selectableItemBackground"
             app:civ_border_color="@color/grey_300"
             app:civ_border_width="2dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/comment_edit_layout"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="@dimen/elevation"
+            android:layout_marginBottom="@dimen/elevation"
             android:hint="@string/action_comment_hint"
+            app:counterMaxLength="2000"
+            app:counterEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -102,15 +105,29 @@
                 android:maxLength="2000"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/comment_send"
-            android:layout_gravity="bottom"
+        <FrameLayout
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_send_24dp"
-            android:tint="@color/color_light_primary"
-            android:padding="16dp"
-            android:layout_marginBottom="3dp"
-            android:background="?selectableItemBackgroundBorderless"/>
+            android:layout_marginBottom="18dp"
+            android:layout_gravity="bottom">
+
+            <ProgressBar
+                android:id="@+id/comment_send_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/comment_send"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:src="@drawable/ic_send_24dp"
+                android:tint="@color/color_light_primary"
+                android:background="?selectableItemBackground"/>
+        </FrameLayout>
     </LinearLayout>
 </LinearLayout>

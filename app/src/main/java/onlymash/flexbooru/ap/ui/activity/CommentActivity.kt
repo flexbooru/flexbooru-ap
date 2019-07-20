@@ -132,6 +132,8 @@ class CommentActivity : KodeinActivity() {
             comment_send.setOnClickListener {
                 val text = comment_edit.text?.toString() ?: ""
                 if (text.length >= 2) {
+                    comment_send.toVisibility(false)
+                    comment_send_progress_bar.toVisibility(true)
                     lifecycleScope.launch {
                         when (
                             val result = repo.createComment(
@@ -148,7 +150,11 @@ class CommentActivity : KodeinActivity() {
                                 Toast.makeText(this@CommentActivity, result.errorMsg, Toast.LENGTH_LONG).show()
                             }
                         }
+                        comment_send_progress_bar.toVisibility(false)
+                        comment_send.toVisibility(true)
                     }
+                } else {
+                    comment_edit.error = getString(R.string.msg_minimum_two_characters)
                 }
             }
             user_avatar.setOnClickListener {
