@@ -10,7 +10,9 @@
 
     <dimen name="history_item_height">100dp</dimen>
 
-    <dimen name="corner_radius">6dp</dimen>
+    <dimen name="elevation">2dp</dimen>
+
+    <dimen name="corner_radius">8dp</dimen>
     <dimen name="card_elevation">1dp</dimen>
     <dimen name="card_content_padding">0dp</dimen>
 
