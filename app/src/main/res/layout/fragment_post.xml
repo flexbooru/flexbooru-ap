@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh"
     android:layout_width="match_parent"
@@ -7,4 +7,4 @@
 
     <include layout="@layout/fast_recyclerview"/>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout>

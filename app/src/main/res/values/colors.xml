@@ -53,6 +53,12 @@
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
 
+    <color name="blue">#FF33B5E5</color>
+    <color name="purple">#FFAA66CC</color>
+    <color name="green">#FF99CC00</color>
+    <color name="orange">#FFFFBB33</color>
+    <color name="red">#FFFF4444</color>
+
     <color name="color_light_primary">@color/blue_700</color>
     <color name="color_light_primary_dark">@color/blue_700_dark</color>
     <color name="color_light_secondary">@color/blue_a_400</color>

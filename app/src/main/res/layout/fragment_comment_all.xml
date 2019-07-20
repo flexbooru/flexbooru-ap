@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout
         android:id="@+id/comment_all_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,7 +20,7 @@
             app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
             app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
             app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout>
 
     <include layout="@layout/progress_bar"/>
 

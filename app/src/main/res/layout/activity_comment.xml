@@ -15,7 +15,7 @@
 
         <include layout="@layout/app_bar"/>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout
             android:id="@+id/comments_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,7 +26,7 @@
                 android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
