@@ -108,6 +108,7 @@
     <string name="user_logout">Encerrar sessão</string>
     <string name="user_logout_content">Tem certeza que quer sair?</string>
     <string name="about_app_version">Versão</string>
+    <string name="about_app_translation">Translate this app</string>
     <string name="about_app_rate">Classifique este app</string>
     <string name="about_author">Autor</string>
     <string name="about_author_email">Email</string>
