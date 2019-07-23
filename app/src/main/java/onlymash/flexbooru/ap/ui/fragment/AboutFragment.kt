@@ -49,7 +49,7 @@ class AboutFragment : PreferenceFragmentCompat() {
                 }
             }
             "about_app_translation" -> {
-                context?.launchUrl("https://crowdin.com/project/flexbooru")
+                context?.launchUrl("https://crowdin.com/project/flexbooru-ap")
             }
             "about_licenses" -> {
                 context?.run {
