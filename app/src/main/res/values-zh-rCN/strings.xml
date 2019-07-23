@@ -108,7 +108,7 @@
     <string name="user_logout">登出</string>
     <string name="user_logout_content">确定要登出？</string>
     <string name="about_app_version">版本</string>
-    <string name="about_app_translation">Translate this app</string>
+    <string name="about_app_translation">翻译此应用</string>
     <string name="about_app_rate">给此应用评分</string>
     <string name="about_author">作者</string>
     <string name="about_author_email">电子邮箱</string>
