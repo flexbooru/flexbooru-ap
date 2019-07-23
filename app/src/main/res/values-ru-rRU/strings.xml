@@ -108,6 +108,7 @@
     <string name="user_logout">Выход</string>
     <string name="user_logout_content">Вы уверены, что хотите выйти?</string>
     <string name="about_app_version">Версия</string>
+    <string name="about_app_translation">Translate this app</string>
     <string name="about_app_rate">Оцените это приложение</string>
     <string name="about_author">Автор</string>
     <string name="about_author_email">Почта</string>
