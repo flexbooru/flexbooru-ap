@@ -86,7 +86,7 @@
     <string name="msg_login_tip_empty">使用者名稱或密碼不能為空白。</string>
     <string name="msg_host_cannot_be_empty">主機不能為空白。</string>
     <string name="msg_unsupported_host">不支援的主機。</string>
-    <string name="msg_minimum_two_characters">Minimum length of 2 characters.</string>
+    <string name="msg_minimum_two_characters">最小長度為2個字元。</string>
     <string name="action_pay_by_google_play">Google Play</string>
     <string name="prompt_username">使用者名稱</string>
     <string name="prompt_password">密碼</string>
@@ -108,7 +108,7 @@
     <string name="user_logout">登出</string>
     <string name="user_logout_content">您確定要登出嗎？</string>
     <string name="about_app_version">版本</string>
-    <string name="about_app_translation">Translate this app</string>
+    <string name="about_app_translation">翻譯這個應用程式</string>
     <string name="about_app_rate">評價這個應用程式</string>
     <string name="about_author">作者</string>
     <string name="about_author_email">電子郵件</string>
