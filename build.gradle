@@ -6,16 +6,16 @@ buildscript {
         kotlin_version = '1.3.41'
         material_version = '1.1.0-alpha09'
         androix_base_version = '1.1.0-rc01'
-        lifecycle_version = '2.2.0-alpha02'
-        nav_version = '2.1.0-beta02'
+        lifecycle_version = '2.2.0-alpha03'
+        nav_version = '2.2.0-alpha01'
         work_version = '2.2.0-rc01'
-        room_version = '2.2.0-alpha01'
+        room_version = '2.2.0-alpha02'
         okhttp_version = '4.0.1'
         retrofit_version = '2.6.1'
         glide_version = '4.9.0'
-        markwon_version = '4.0.2'
+        markwon_version = '4.1.0'
         kodein_version = '6.3.3'
-        coroutines_version = '1.3.0-RC'
+        coroutines_version = '1.3.0-RC2'
     }
     repositories {
         google()
@@ -25,7 +25,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0-rc02'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.22.0"
         classpath 'com.google.gms:google-services:4.3.0'
         classpath 'io.fabric.tools:gradle:1.31.0'
     }
