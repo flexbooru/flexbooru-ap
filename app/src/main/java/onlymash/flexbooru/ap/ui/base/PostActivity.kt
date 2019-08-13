@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
+import onlymash.flexbooru.ap.worker.MuzeiArtWorker
 
 abstract class PostActivity : BaseActivity() {
 
@@ -15,6 +16,8 @@ abstract class PostActivity : BaseActivity() {
     private var isCheckedJpg = true
     private var isCheckedPng = true
     private var isCheckedGif = true
+
+    abstract var query: String
 
     private var queryListener: QueryListener? = null
 
@@ -53,6 +56,10 @@ abstract class PostActivity : BaseActivity() {
                 isCheckedGif = !item.isChecked
                 item.isChecked = isCheckedGif
                 queryListener?.onExtensionChange(isCheckedJpg, isCheckedPng, isCheckedGif)
+            }
+            R.id.action_muzei_set -> {
+                Settings.muzeiQuery = query
+                MuzeiArtWorker.enqueueLoad()
             }
         }
         return super.onOptionsItemSelected(item)

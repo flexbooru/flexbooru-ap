@@ -62,4 +62,16 @@
         <item>normal</item>
         <item>big</item>
     </string-array>
+    <string-array name="settings_muzei_limit_entries">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+    </string-array>
+    <string-array name="settings_muzei_limit_entries_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+    </string-array>
 </resources>

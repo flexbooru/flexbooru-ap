@@ -68,6 +68,8 @@ private const val SUGGESTION_FOR_FILTER = 1
 
 class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    override var query: String = ""
+
     private val sp by instance<SharedPreferences>()
     private val detailDao by instance<DetailDao>()
     private val tagFilterDao by instance<TagFilterDao>()

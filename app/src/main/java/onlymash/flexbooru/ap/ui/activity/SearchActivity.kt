@@ -52,7 +52,7 @@ class SearchActivity : PostActivity() {
         }
     }
 
-    private var query = ""
+    override var query = ""
     private var searchType = SearchType.NORMAL
     private var userId: Int = -1
     private var uploaderId: Int = -1

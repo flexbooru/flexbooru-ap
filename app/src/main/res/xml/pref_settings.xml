@@ -1,81 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:key="settings_screen"
-        app:initialExpandedChildrenCount="4">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:key="settings_screen"
+    app:initialExpandedChildrenCount="4">
 
     <PreferenceCategory
-            app:key="settings_server"
-            app:title="@string/settings_server">
+        app:key="settings_server"
+        app:title="@string/settings_server">
         <com.takisoft.preferencex.SimpleMenuPreference
-                app:entries="@array/settings_scheme_entries"
-                app:entryValues="@array/settings_scheme_entries_values"
-                app:defaultValue="https"
-                app:title="@string/settings_scheme"
-                app:key="settings_scheme"
-                app:useSimpleSummaryProvider="true"/>
+            app:entries="@array/settings_scheme_entries"
+            app:entryValues="@array/settings_scheme_entries_values"
+            app:defaultValue="https"
+            app:title="@string/settings_scheme"
+            app:key="settings_scheme"
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
-                app:key="settings_host"
-                app:title="@string/settings_host"
-                app:defaultValue="fiepi.com"
-                app:useSimpleSummaryProvider="true"/>
+            app:key="settings_host"
+            app:title="@string/settings_host"
+            app:defaultValue="fiepi.com"
+            app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:key="settings_display"
-            app:title="@string/settings_display">
+        app:key="settings_display"
+        app:title="@string/settings_display">
 
         <com.takisoft.preferencex.SimpleMenuPreference
-                app:entries="@array/settings_night_mode_entries"
-                app:entryValues="@array/settings_night_mode_entries_values"
-                app:defaultValue="system"
-                app:title="@string/settings_night_mode"
-                app:icon="@drawable/ic_brightness_2_outline_24dp"
-                app:key="settings_night_mode"
-                app:useSimpleSummaryProvider="true"/>
+            app:entries="@array/settings_night_mode_entries"
+            app:entryValues="@array/settings_night_mode_entries_values"
+            app:defaultValue="system"
+            app:title="@string/settings_night_mode"
+            app:icon="@drawable/ic_brightness_2_outline_24dp"
+            app:key="settings_night_mode"
+            app:useSimpleSummaryProvider="true"/>
 
         <com.takisoft.preferencex.SimpleMenuPreference
-                app:entries="@array/settings_grid_width_entries"
-                app:entryValues="@array/settings_grid_width_entries_values"
-                app:defaultValue="normal"
-                app:title="@string/settings_grid_width"
-                app:key="settings_grid_width"
-                app:useSimpleSummaryProvider="true"/>
+            app:entries="@array/settings_grid_width_entries"
+            app:entryValues="@array/settings_grid_width_entries_values"
+            app:defaultValue="normal"
+            app:title="@string/settings_grid_width"
+            app:key="settings_grid_width"
+            app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:key="settings_options"
-            app:title="@string/settings_options">
+        app:key="settings_options"
+        app:title="@string/settings_options">
 
         <com.takisoft.preferencex.SimpleMenuPreference
-                app:entries="@array/settings_page_limit_entries"
-                app:entryValues="@array/settings_page_limit_entries_values"
-                app:defaultValue="20"
-                app:title="@string/settings_page_limit"
-                app:key="settings_page_limit"
-                app:useSimpleSummaryProvider="true"/>
+            app:entries="@array/settings_page_limit_entries"
+            app:entryValues="@array/settings_page_limit_entries_values"
+            app:defaultValue="20"
+            app:title="@string/settings_page_limit"
+            app:key="settings_page_limit"
+            app:useSimpleSummaryProvider="true"/>
 
         <com.takisoft.preferencex.SimpleMenuPreference
-                app:entries="@array/settings_preview_size_entries"
-                app:entryValues="@array/settings_preview_size_entries_values"
-                app:defaultValue="medium"
-                app:title="@string/settings_preview_size"
-                app:key="settings_preview_size"
-                app:useSimpleSummaryProvider="true"/>
+            app:entries="@array/settings_muzei_limit_entries"
+            app:entryValues="@array/settings_muzei_limit_entries_values"
+            app:defaultValue="10"
+            app:title="@string/settings_muzei_limit"
+            app:key="settings_muzei_limit"
+            app:useSimpleSummaryProvider="true"/>
 
         <com.takisoft.preferencex.SimpleMenuPreference
-                app:entries="@array/settings_detail_size_entries"
-                app:entryValues="@array/settings_detail_size_entries_values"
-                app:defaultValue="big"
-                app:title="@string/settings_detail_size"
-                app:key="settings_detail_size"
-                app:useSimpleSummaryProvider="true"/>
+            app:entries="@array/settings_preview_size_entries"
+            app:entryValues="@array/settings_preview_size_entries_values"
+            app:defaultValue="medium"
+            app:title="@string/settings_preview_size"
+            app:key="settings_preview_size"
+            app:useSimpleSummaryProvider="true"/>
+
+        <com.takisoft.preferencex.SimpleMenuPreference
+            app:entries="@array/settings_detail_size_entries"
+            app:entryValues="@array/settings_detail_size_entries_values"
+            app:defaultValue="big"
+            app:title="@string/settings_detail_size"
+            app:key="settings_detail_size"
+            app:useSimpleSummaryProvider="true"/>
 
         <Preference
-                app:icon="@drawable/ic_folder_outline_24dp"
-                app:title="@string/settings_download_path"
-                app:key="settings_download_path"/>
+            app:icon="@drawable/ic_folder_outline_24dp"
+            app:title="@string/settings_download_path"
+            app:key="settings_download_path"/>
 
     </PreferenceCategory>
 

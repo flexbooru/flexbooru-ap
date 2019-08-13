@@ -97,6 +97,7 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.onlymash:subsampling-scale-image-view:3.10.3'
     implementation 'com.github.onlymash:SetupWizardLayout:0.2'
+    implementation 'com.google.android.apps.muzei:muzei-api:3.2.0-alpha01'
     implementation 'com.takisoft.preferencex:preferencex-simplemenu:1.1.0-alpha05'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

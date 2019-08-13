@@ -99,6 +99,11 @@
                     </group>
                 </menu>
             </item>
+
+            <item
+                android:id="@+id/action_muzei_set"
+                android:title="@string/posts_muzei_set"
+                app:showAsAction="ifRoom"/>
         </menu>
     </item>
 

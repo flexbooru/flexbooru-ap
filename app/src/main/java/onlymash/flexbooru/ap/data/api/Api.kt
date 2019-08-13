@@ -9,6 +9,7 @@ import onlymash.flexbooru.ap.common.USER_AGENT_KEY
 import onlymash.flexbooru.ap.data.model.*
 import onlymash.flexbooru.ap.extension.getUserAgent
 import onlymash.flexbooru.ap.util.Logger
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -54,6 +55,9 @@ interface Api {
 
     @GET
     suspend fun getDetail(@Url url: HttpUrl): Response<Detail>
+
+    @GET
+    fun getDetailNoSuspend(@Url url: HttpUrl): Call<Detail>
 
     @POST
     @FormUrlEncoded

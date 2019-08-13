@@ -15,6 +15,7 @@ private const val SETTINGS_NIGHT_MODE_SYSTEM = "system"
 private const val SETTINGS_NIGHT_MODE_BATTERY = "battery"
 
 const val SETTINGS_PAGE_LIMIT_KEY = "settings_page_limit"
+const val SETTINGS_MUZEI_LIMIT_KEY = "settings_muzei_limit"
 const val SETTINGS_PATH_KEY = "settings_path"
 const val SETTINGS_PATH_TREE_ID_KEY = "settings_path_tree_id"
 const val SETTINGS_PATH_AUTHORITY_KEY = "settings_path_authority"
@@ -35,6 +36,8 @@ const val SETTINGS_GRID_WIDTH_NORMAL = "normal"
 const val SETTINGS_GRID_WIDTH_BIG = "big"
 
 private const val OPEN_SETUP_WIZARD_KEY = "open_setup_wizard"
+
+private const val MUZEI_QUERY_KEY = "muzei_query"
 
 object Settings {
 
@@ -62,6 +65,9 @@ object Settings {
 
     val pageLimit: Int
         get() = sp.getString(SETTINGS_PAGE_LIMIT_KEY, "20")?.toInt() ?: 20
+
+    val muzeiLimit: Int
+        get() = sp.getString(SETTINGS_MUZEI_LIMIT_KEY, "10")?.toInt() ?: 10
 
     var pathString: String?
         get() = sp.getString(SETTINGS_PATH_KEY, "")
@@ -95,4 +101,8 @@ object Settings {
     var isOpenSetupWizard: Boolean
         get() = sp.getBoolean(OPEN_SETUP_WIZARD_KEY, true)
         set(value) = sp.edit().putBoolean(OPEN_SETUP_WIZARD_KEY, value).apply()
+
+    var muzeiQuery: String
+        get() = sp.getString(MUZEI_QUERY_KEY, "") ?: ""
+        set(value) = sp.edit().putString(MUZEI_QUERY_KEY, value).apply()
 }

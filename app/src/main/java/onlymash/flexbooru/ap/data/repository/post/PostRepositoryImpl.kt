@@ -88,14 +88,8 @@ class PostRepositoryImpl(
                 try {
                     val response = api.getPosts(search.getPostsUrl(0))
                     if (response.isSuccessful) {
-                        val posts = response.body()?.posts
-                        if (posts != null) {
-                            db.runInTransaction {
-                                db.postDao().deletePosts(search.query)
-                                insertResultIntoDb(search.query, posts)
-                            }
-                        }
-                        NetResult.Success(true)
+                        val posts = response.body()?.posts ?: listOf()
+                        NetResult.Success(posts)
                     } else {
                         NetResult.Error("code: ${response.code()}")
                     }
@@ -107,7 +101,15 @@ class PostRepositoryImpl(
                     }
                 }
             }) {
-                is NetResult.Success -> networkState.postValue(NetworkState.LOADED)
+                is NetResult.Success -> {
+                    networkState.postValue(NetworkState.LOADED)
+                    withContext(Dispatchers.IO) {
+                        db.runInTransaction {
+                            db.postDao().deletePosts(search.query)
+                            insertResultIntoDb(search.query, result.data)
+                        }
+                    }
+                }
                 is NetResult.Error -> networkState.value = NetworkState.error(result.errorMsg)
             }
         }

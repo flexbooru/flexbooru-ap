@@ -10,7 +10,7 @@ buildscript {
         nav_version = '2.2.0-alpha01'
         work_version = '2.2.0-rc01'
         room_version = '2.2.0-alpha02'
-        okhttp_version = '4.0.1'
+        okhttp_version = '4.1.0'
         retrofit_version = '2.6.1'
         glide_version = '4.9.0'
         markwon_version = '4.1.0'

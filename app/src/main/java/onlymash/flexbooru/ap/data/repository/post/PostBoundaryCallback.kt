@@ -52,8 +52,8 @@ class PostBoundaryCallback(
                     val data = result.data
                     lastResponseSize = data.size
                     withContext(Dispatchers.IO) {
-                        handleResponse(search.query, data)
                         callback.recordSuccess()
+                        handleResponse(search.query, data)
                     }
                 }
                 is NetResult.Error -> {
