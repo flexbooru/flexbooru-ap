@@ -215,10 +215,12 @@ class CommentActivity : KodeinActivity() {
 
             fun bindTo(data: Comment) {
                 comment = data
-                data.user.userAvatar?.let {
-                    glide.load(it)
+                if (data.user.userAvatar != null) {
+                    glide.load(data.user.userAvatar)
                         .placeholder(ContextCompat.getDrawable(this@CommentActivity, R.drawable.avatar_user))
                         .into(avatar)
+                } else {
+                    avatar.setImageDrawable(ContextCompat.getDrawable(this@CommentActivity, R.drawable.avatar_user))
                 }
                 username.text = data.user.userName
                 date.text = data.comment.datetime.formatDate()

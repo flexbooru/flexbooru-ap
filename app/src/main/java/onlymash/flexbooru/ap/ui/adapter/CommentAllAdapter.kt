@@ -86,10 +86,12 @@ class CommentAllAdapter(private val glide: GlideRequests,
             markwon.setMarkdown(commentView, item.comment.getMarkdownText())
             val context = itemView.context
             postIdView.text = context.getString(R.string.placeholder_post_id, item.post.id)
-            item.user.userAvatar?.let {
-                glide.load(it)
+            if (item.user.userAvatar != null) {
+                glide.load(item.user.userAvatar)
                     .placeholder(ContextCompat.getDrawable(context, R.drawable.avatar_user))
                     .into(userAvatar)
+            } else {
+                userAvatar.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.avatar_user))
             }
             glide.load(item.post.smallPreview)
                 .placeholder(ContextCompat.getDrawable(context, R.drawable.background_placeholder))
