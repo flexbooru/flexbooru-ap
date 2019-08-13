@@ -33,7 +33,7 @@
     <string name="posts_extension_jpg">jpeg/jpg</string>
     <string name="posts_extension_png">png</string>
     <string name="posts_extension_gif">gif</string>
-    <string name="posts_muzei_set">Set as Muzei</string>
+    <string name="posts_muzei_set">Pin to Muzei</string>
     <string name="history_clear_all">Очистить всё</string>
     <string name="history_clear_all_content">Вся история будет очищена.</string>
     <string name="dialog_ok">ОК</string>
