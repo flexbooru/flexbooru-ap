@@ -33,7 +33,7 @@
     <string name="posts_extension_jpg">jpeg/jpg</string>
     <string name="posts_extension_png">png</string>
     <string name="posts_extension_gif">gif</string>
-    <string name="posts_muzei_set">Set as Muzei</string>
+    <string name="posts_muzei_set">Pin to Muzei</string>
     <string name="history_clear_all">清除全部</string>
     <string name="history_clear_all_content">所有記錄將會被清除。</string>
     <string name="dialog_ok">確定</string>
