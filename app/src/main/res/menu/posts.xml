@@ -103,6 +103,7 @@
             <item
                 android:id="@+id/action_muzei_set"
                 android:title="@string/posts_muzei_set"
+                android:icon="@drawable/ic_muzei_24dp"
                 app:showAsAction="ifRoom"/>
         </menu>
     </item>
