@@ -116,7 +116,7 @@ dependencies {
     implementation "io.noties.markwon:linkify:$markwon_version"
     implementation 'me.saket:better-link-movement-method:2.2.0'
     implementation 'com.android.billingclient:billing:2.0.3'
-    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-core:17.1.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation "androidx.work:work-testing:$work_version"
