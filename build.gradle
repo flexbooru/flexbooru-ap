@@ -4,18 +4,18 @@ apply plugin: "com.github.ben-manes.versions"
 buildscript {
     ext {
         kotlin_version = '1.3.50'
-        material_version = '1.1.0-alpha09'
-        androix_base_version = '1.1.0-rc01'
-        lifecycle_version = '2.2.0-alpha03'
-        nav_version = '2.2.0-alpha01'
+        material_version = '1.1.0-alpha10'
+        androix_base_version = '1.1.0'
+        lifecycle_version = '2.2.0-alpha05'
+        nav_version = '2.2.0-alpha03'
         work_version = '2.3.0-alpha01'
-        room_version = '2.2.0-beta01'
-        okhttp_version = '4.1.0'
-        retrofit_version = '2.6.1'
-        glide_version = '4.9.0'
-        markwon_version = '4.1.0'
-        kodein_version = '6.3.3'
-        coroutines_version = '1.3.0'
+        room_version = '2.2.0-rc01'
+        okhttp_version = '4.2.0'
+        retrofit_version = '2.6.2'
+        glide_version = '4.10.0'
+        markwon_version = '4.1.1'
+        kodein_version = '6.4.0'
+        coroutines_version = '1.3.2'
     }
     repositories {
         google()
@@ -25,9 +25,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.22.0"
-        classpath 'com.google.gms:google-services:4.3.1'
-        classpath 'io.fabric.tools:gradle:1.31.0'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.25.0"
+        classpath 'com.google.gms:google-services:4.3.2'
+        classpath 'io.fabric.tools:gradle:1.31.1'
     }
 }
 

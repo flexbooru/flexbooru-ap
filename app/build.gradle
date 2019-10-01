@@ -69,13 +69,13 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation "androidx.appcompat:appcompat:$androix_base_version"
     implementation "androidx.preference:preference-ktx:$androix_base_version"
-    implementation 'androidx.fragment:fragment-ktx:1.2.0-alpha02'
-    implementation 'androidx.core:core-ktx:1.2.0-alpha03'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-alpha04'
+    implementation 'androidx.core:core-ktx:1.2.0-alpha04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation 'androidx.cardview:cardview:1.0.0'
 //    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.browser:browser:1.2.0-alpha07'
+    implementation 'androidx.browser:browser:1.2.0-alpha08'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.0-alpha03'
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -97,14 +97,14 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.onlymash:subsampling-scale-image-view:3.10.3'
     implementation 'com.github.onlymash:SetupWizardLayout:0.2'
-    implementation 'com.google.android.apps.muzei:muzei-api:3.2.0-alpha01'
+    implementation 'com.google.android.apps.muzei:muzei-api:3.2.0'
     implementation 'com.takisoft.preferencex:preferencex-simplemenu:1.1.0-alpha05'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-    implementation 'com.squareup.okio:okio:2.3.0'
+    implementation 'com.squareup.okio:okio:2.4.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
@@ -116,7 +116,7 @@ dependencies {
     implementation "io.noties.markwon:linkify:$markwon_version"
     implementation 'me.saket:better-link-movement-method:2.2.0'
     implementation 'com.android.billingclient:billing:2.0.3'
-    implementation 'com.google.firebase:firebase-core:17.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation "androidx.work:work-testing:$work_version"
