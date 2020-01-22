@@ -48,8 +48,6 @@ class LoginActivity : KodeinActivity() {
             return
         }
         loginViewModel.login(
-            scheme = Settings.scheme,
-            host = Settings.hostname,
             username = username,
             password = password
         )

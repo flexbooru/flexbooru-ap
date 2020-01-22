@@ -26,6 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.common.HOST
 import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.QUERY_KEY
 import onlymash.flexbooru.ap.common.Settings
@@ -272,9 +273,7 @@ class DetailActivity : BaseActivity() {
 
         localDetailViewModel = getViewModel(
             DetailViewModel(
-                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                scheme = Settings.scheme,
-                host = Settings.hostname
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
         localDetailViewModel.details.observe(this, Observer {
@@ -326,7 +325,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun getWebLink(): String {
-        return "${Settings.scheme}://${Settings.hostname}/pictures/view_post/$currentPostId?lang=en"
+        return "https://$HOST/pictures/view_post/$currentPostId?lang=en"
     }
 
     private fun getCurrentDetail(postId: Int): Detail? {

@@ -5,24 +5,6 @@
     app:initialExpandedChildrenCount="4">
 
     <PreferenceCategory
-        app:key="settings_server"
-        app:title="@string/settings_server">
-        <com.takisoft.preferencex.SimpleMenuPreference
-            app:entries="@array/settings_scheme_entries"
-            app:entryValues="@array/settings_scheme_entries_values"
-            app:defaultValue="https"
-            app:title="@string/settings_scheme"
-            app:key="settings_scheme"
-            app:useSimpleSummaryProvider="true"/>
-
-        <EditTextPreference
-            app:key="settings_host"
-            app:title="@string/settings_host"
-            app:defaultValue="fiepi.com"
-            app:useSimpleSummaryProvider="true"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
         app:key="settings_display"
         app:title="@string/settings_display">
 

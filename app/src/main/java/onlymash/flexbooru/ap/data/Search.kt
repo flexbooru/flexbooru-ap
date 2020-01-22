@@ -4,8 +4,6 @@ import onlymash.flexbooru.ap.common.DATE_RANGE_ANYTIME
 import onlymash.flexbooru.ap.common.ORDER_DATE
 
 data class Search(
-    var scheme: String,
-    var host: String,
     var query: String = "",
     var order: String = ORDER_DATE,
     var dateRange: Int = DATE_RANGE_ANYTIME,

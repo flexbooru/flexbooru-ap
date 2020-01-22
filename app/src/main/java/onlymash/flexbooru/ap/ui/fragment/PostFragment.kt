@@ -117,8 +117,6 @@ class PostFragment : KodeinFragment(),
             color = getString(COLOR_KEY) ?: ""
         }
         search = Search(
-            scheme = Settings.scheme,
-            host = Settings.hostname,
             query = query,
             limit = Settings.pageLimit,
             type = searchType,
@@ -272,16 +270,6 @@ class PostFragment : KodeinFragment(),
             SETTINGS_PAGE_LIMIT_KEY -> {
                 search.limit = Settings.pageLimit
                 postViewModel.load(search)
-            }
-            SETTINGS_SCHEME_KEY -> {
-                search.scheme = Settings.scheme
-                postViewModel.load(search)
-                postViewModel.refresh()
-            }
-            SETTINGS_HOST_KEY -> {
-                search.host = Settings.hostname
-                postViewModel.load(search)
-                postViewModel.refresh()
             }
             USER_TOKEN_KEY -> {
                 search.token = Settings.userToken

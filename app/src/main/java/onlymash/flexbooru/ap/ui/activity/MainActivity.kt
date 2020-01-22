@@ -99,6 +99,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private lateinit var headerView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sp.registerOnSharedPreferenceChangeListener(this)
@@ -370,8 +371,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         val token = Settings.userToken
         if (token.isEmpty()) return
         suggestionViewModel.fetch(
-            scheme = Settings.scheme,
-            host = Settings.hostname,
             tag = tag,
             token = token
         )

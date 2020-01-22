@@ -16,8 +16,6 @@ import retrofit2.HttpException
 class CommentAllDataSource(
     private val scope: CoroutineScope,
     private val api: Api,
-    private val scheme: String,
-    private val host: String,
     private val token: String) : PageKeyedDataSource<Int, CommentAll>() {
 
     // keep a function reference for the retry event
@@ -46,8 +44,6 @@ class CommentAllDataSource(
             when (val result = withContext(Dispatchers.IO) {
                 try {
                     val response = api.getAllComments(getAllCommentsUrl(
-                        scheme = scheme,
-                        host = host,
                         page = 0,
                         token = token))
                     val data = response.body()?.comments
@@ -88,8 +84,6 @@ class CommentAllDataSource(
             when (val result = withContext(Dispatchers.IO) {
                 try {
                     val response = api.getAllComments(getAllCommentsUrl(
-                        scheme = scheme,
-                        host = host,
                         page = page,
                         token = token))
                     val data = response.body()?.comments

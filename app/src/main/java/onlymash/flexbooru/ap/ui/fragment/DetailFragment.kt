@@ -65,17 +65,13 @@ class DetailFragment : KodeinFragment() {
         super.onCreate(savedInstanceState)
         val args = arguments ?: throw(RuntimeException("arguments is null."))
         postId = args.getInt(POST_ID_KEY)
-        scheme = Settings.scheme
-        host = Settings.hostname
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_detail, container, false)
         detailViewModel = getViewModel(
             DetailViewModel(
-                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                scheme = scheme,
-                host = host
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
         return root

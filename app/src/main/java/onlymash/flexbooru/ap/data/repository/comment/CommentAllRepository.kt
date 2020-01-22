@@ -8,8 +8,6 @@ interface CommentAllRepository {
 
     fun getComments(
         scope: CoroutineScope,
-        scheme: String,
-        host: String,
         token: String
     ): Listing<CommentAll>
 }

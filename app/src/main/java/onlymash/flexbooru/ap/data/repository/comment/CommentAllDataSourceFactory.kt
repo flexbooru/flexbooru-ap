@@ -9,14 +9,12 @@ import onlymash.flexbooru.ap.data.model.CommentAll
 class CommentAllDataSourceFactory(
     private val scope: CoroutineScope,
     private val api: Api,
-    private val scheme: String,
-    private val host: String,
     private val token: String) : DataSource.Factory<Int, CommentAll>() {
 
     val sourceLiveData = MutableLiveData<CommentAllDataSource>()
 
     override fun create(): DataSource<Int, CommentAll> {
-        val source = CommentAllDataSource(scope, api, scheme, host, token)
+        val source = CommentAllDataSource(scope, api, token)
         sourceLiveData.postValue(source)
         return source
     }

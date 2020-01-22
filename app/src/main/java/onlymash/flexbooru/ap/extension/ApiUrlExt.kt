@@ -1,13 +1,15 @@
 package onlymash.flexbooru.ap.extension
 
 import okhttp3.HttpUrl
+import onlymash.flexbooru.ap.common.HOST
+import onlymash.flexbooru.ap.common.SCHEME_HTTPS
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.SearchType
 
 fun Search.getPostsUrl(page: Int): HttpUrl {
     val builder = HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("pictures/view_posts/$page")
         .addQueryParameter("lang", "en")
         .addQueryParameter("type", "json")
@@ -42,14 +44,12 @@ fun Search.getPostsUrl(page: Int): HttpUrl {
 }
 
 fun getPostDetailUrl(
-    scheme: String,
-    host: String,
     postId: Int,
     token: String): HttpUrl {
 
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("pictures/view_post/$postId")
         .addQueryParameter("lang", "en")
         .addQueryParameter("type", "json")
@@ -57,67 +57,60 @@ fun getPostDetailUrl(
         .build()
 }
 
-fun getLoginUrl(scheme: String, host: String): HttpUrl {
+fun getLoginUrl(): HttpUrl {
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("login/submit")
         .build()
 }
 
-fun getVoteUrl(scheme: String, host: String): HttpUrl {
+fun getVoteUrl(): HttpUrl {
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("pictures/vote")
         .build()
 }
 
-fun getSuggestionUrl(scheme: String, host: String): HttpUrl {
+fun getSuggestionUrl(): HttpUrl {
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("pictures/autocomplete_tag")
         .build()
 }
 
 fun getCommentsUrl(
-    scheme: String,
-    host: String,
     postId: Int,
     token: String): HttpUrl {
 
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("api/v2/posts/$postId/comments")
         .addQueryParameter("lang", "en")
         .addQueryParameter("token", token)
         .build()
 }
 
-fun getCreateCommentUrl(
-    scheme: String,
-    host: String,
-    postId: Int): HttpUrl {
+fun getCreateCommentUrl(postId: Int): HttpUrl {
 
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("pictures/add_comment/$postId")
         .addQueryParameter("lang", "en")
         .build()
 }
 
 fun getAllCommentsUrl(
-    scheme: String,
-    host: String,
     page: Int,
     token: String): HttpUrl {
 
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("api/v2/comments")
         .addQueryParameter("page_number", page.toString())
         .addQueryParameter("lang", "en")
@@ -125,10 +118,10 @@ fun getAllCommentsUrl(
         .build()
 }
 
-fun getLogoutUrl(scheme: String, host: String, token: String): HttpUrl {
+fun getLogoutUrl(token: String): HttpUrl {
     return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(host)
+        .scheme(SCHEME_HTTPS)
+        .host(HOST)
         .addPathSegments("login/logout")
         .addQueryParameter("token", token)
         .build()

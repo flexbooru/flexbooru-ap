@@ -12,8 +12,6 @@ import java.util.*
 class LoginRepositoryImpl(private val api: Api) : LoginRepository {
 
     override suspend fun login(
-        scheme: String,
-        host: String,
         username: String,
         password: String
     ): NetResult<User> {
@@ -21,7 +19,7 @@ class LoginRepositoryImpl(private val api: Api) : LoginRepository {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.login(
-                    url = getLoginUrl(scheme, host),
+                    url = getLoginUrl(),
                     username = username,
                     password = password,
                     timeZone = TimeZone.getDefault().id

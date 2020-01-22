@@ -9,15 +9,13 @@ import onlymash.flexbooru.ap.extension.getSuggestionUrl
 class SuggestionRepositoryImpl(private val api: Api) : SuggestionRepository {
 
     override suspend fun fetchSuggestion(
-        scheme: String,
-        host: String,
         tag: String,
         token: String
     ): List<Tag> {
         val tags = withContext(Dispatchers.IO) {
             try {
                 api.getSuggestion(
-                    url = getSuggestionUrl(scheme, host),
+                    url = getSuggestionUrl(),
                     tag = tag,
                     token = token
                 ).body()?.tagsList

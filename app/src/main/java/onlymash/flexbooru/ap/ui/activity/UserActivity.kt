@@ -150,8 +150,6 @@ class UserActivity : KodeinActivity() {
             try {
                 try {
                     api.logout(getLogoutUrl(
-                        scheme = Settings.scheme,
-                        host = Settings.hostname,
                         token = user.token
                     ))
                 } catch (_: Exception) {}

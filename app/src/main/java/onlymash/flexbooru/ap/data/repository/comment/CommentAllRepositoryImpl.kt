@@ -18,15 +18,11 @@ class CommentAllRepositoryImpl(
     @MainThread
     override fun getComments(
         scope: CoroutineScope,
-        scheme: String,
-        host: String,
         token: String
     ): Listing<CommentAll> {
         val sourceFactory = CommentAllDataSourceFactory(
             scope = scope,
             api = api,
-            scheme = scheme,
-            host = host,
             token = token
         )
         val livePagedList = sourceFactory.toLiveData(

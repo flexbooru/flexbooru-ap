@@ -10,14 +10,9 @@ class SuggestionViewModel(private val repo: SuggestionRepository) : ScopeViewMod
 
     val tags = MutableLiveData<List<Tag>>()
 
-    fun fetch(scheme: String,
-              host: String,
-              tag: String,
-              token: String) {
+    fun fetch(tag: String, token: String) {
         viewModelScope.launch {
             val data = repo.fetchSuggestion(
-                scheme = scheme,
-                host = host,
                 token = token,
                 tag = tag
             )

@@ -11,8 +11,6 @@ import onlymash.flexbooru.ap.extension.getCommentsUrl
 
 class CommentViewModel(
     private val repo: CommentRepository,
-    private val scheme: String,
-    private val host: String,
     private val token: String) : ScopeViewModel() {
 
     val comments = MutableLiveData<List<Comment>>()
@@ -21,7 +19,7 @@ class CommentViewModel(
     fun loadComments(postId: Int) {
         status.postValue(NetworkState.LOADING)
         viewModelScope.launch {
-            when (val result = repo.getComments(getCommentsUrl(scheme, host, postId, token))) {
+            when (val result = repo.getComments(getCommentsUrl(postId, token))) {
                 is NetResult.Success -> {
                     comments.postValue(result.data)
                     status.postValue(NetworkState.LOADED)

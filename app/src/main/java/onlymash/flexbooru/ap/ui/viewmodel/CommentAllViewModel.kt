@@ -5,14 +5,12 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import onlymash.flexbooru.ap.data.repository.comment.CommentAllRepository
 
-class CommentAllViewModel(private val repo: CommentAllRepository,
-                          private val scheme: String,
-                          private val host: String) : ScopeViewModel() {
+class CommentAllViewModel(private val repo: CommentAllRepository) : ScopeViewModel() {
 
     private val _token = MutableLiveData<String>()
 
     private val _result = Transformations.map(_token) {
-        repo.getComments(viewModelScope, scheme, host, it)
+        repo.getComments(viewModelScope, it)
     }
 
     val comments = Transformations.switchMap(_result) { it.pagedList }

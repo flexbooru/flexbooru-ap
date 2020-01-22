@@ -43,8 +43,6 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
     private val api by instance<Api>()
     private val executor by instance<Executor>()
 
-    private lateinit var scheme: String
-    private lateinit var host: String
     private lateinit var token: String
 
     private lateinit var commentAllViewModel: CommentAllViewModel
@@ -57,8 +55,6 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scheme = Settings.scheme
-        host = Settings.hostname
         token = Settings.userToken
         sp.registerOnSharedPreferenceChangeListener(this)
     }
@@ -70,9 +66,7 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
     ): View? {
         val view = inflater.inflate(R.layout.fragment_comment_all, container, false)
         commentAllViewModel = getViewModel(CommentAllViewModel(
-            repo = repo,
-            scheme = scheme,
-            host = host)
+            repo = repo)
         )
         return view
     }

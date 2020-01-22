@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import org.kodein.di.erased.instance
 
 
-const val SETTINGS_SCHEME_KEY = "settings_scheme"
-const val SETTINGS_HOST_KEY = "settings_host"
-
 const val SETTINGS_NIGHT_MODE_KEY = "settings_night_mode"
 private const val SETTINGS_NIGHT_MODE_ON = "on"
 private const val SETTINGS_NIGHT_MODE_OFF = "off"
@@ -42,14 +39,6 @@ private const val MUZEI_QUERY_KEY = "muzei_query"
 object Settings {
 
     private val sp by App.app.instance<SharedPreferences>()
-
-    var scheme: String
-        get() = sp.getString(SETTINGS_SCHEME_KEY, SCHEME_HTTPS) ?: SCHEME_HTTPS
-        set(value) = sp.edit().putString(SETTINGS_SCHEME_KEY, value).apply()
-
-    var hostname: String
-        get() = sp.getString(SETTINGS_HOST_KEY, "fiepi.com") ?: "fiepi.com"
-        set(value) = sp.edit().putString(SETTINGS_HOST_KEY, value).apply()
 
     private val nightModeString: String
         get() = sp.getString(SETTINGS_NIGHT_MODE_KEY, SETTINGS_NIGHT_MODE_SYSTEM) ?: SETTINGS_NIGHT_MODE_SYSTEM

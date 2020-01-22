@@ -155,8 +155,6 @@ class SearchActivity : PostActivity() {
         val token = Settings.userToken
         if (token.isEmpty()) return
         suggestionViewModel.fetch(
-            scheme = Settings.scheme,
-            host = Settings.hostname,
             tag = tag,
             token = token
         )

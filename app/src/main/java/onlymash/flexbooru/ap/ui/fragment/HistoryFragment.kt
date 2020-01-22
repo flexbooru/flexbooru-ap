@@ -24,7 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
-import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.model.Detail
@@ -48,8 +47,6 @@ class HistoryFragment : KodeinFragment() {
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
 
-    private lateinit var scheme: String
-    private lateinit var host: String
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var historyAdapter: HistoryAdapter
 
@@ -64,12 +61,6 @@ class HistoryFragment : KodeinFragment() {
                 list.scrollToPosition(0)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        scheme = Settings.scheme
-        host = Settings.hostname
     }
 
     override fun onStart() {
@@ -88,9 +79,7 @@ class HistoryFragment : KodeinFragment() {
     ): View? {
         detailViewModel = getViewModel(
             DetailViewModel(
-                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                scheme = scheme,
-                host = host
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
         return inflater.inflate(R.layout.fragment_history, container, false)

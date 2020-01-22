@@ -32,3 +32,5 @@ const val DATE_RANGE_ANYTIME = 0
 const val DATE_RANGE_PAST_DAY = 3
 const val DATE_RANGE_PAST_WEEK = 1
 const val DATE_RANGE_PAST_MONTH = 2
+
+const val HOST = "anime-pictures.net"

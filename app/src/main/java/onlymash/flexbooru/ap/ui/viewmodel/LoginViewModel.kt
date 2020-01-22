@@ -12,13 +12,11 @@ class LoginViewModel(private val repo: LoginRepository) : ScopeViewModel() {
     val loginResult = MutableLiveData<NetResult<User>>()
 
     fun login(
-        scheme: String,
-        host: String,
         username: String,
         password: String
     ) {
         viewModelScope.launch {
-            val result = repo.login(scheme, host, username, password)
+            val result = repo.login(username, password)
             loginResult.value = result
         }
     }

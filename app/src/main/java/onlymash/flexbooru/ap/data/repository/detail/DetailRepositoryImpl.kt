@@ -17,8 +17,6 @@ class DetailRepositoryImpl(private val api: Api,
                            private val detailDao: DetailDao) : DetailRepository {
 
     override suspend fun getDetail(
-        scheme: String,
-        host: String,
         postId: Int,
         token: String): NetResult<Detail> {
         return withContext(Dispatchers.IO) {
@@ -29,8 +27,6 @@ class DetailRepositoryImpl(private val api: Api,
                 try {
                     val response = api.getDetail(
                         getPostDetailUrl(
-                            scheme = scheme,
-                            host = host,
                             postId = postId,
                             token = token
                         )
@@ -64,8 +60,6 @@ class DetailRepositoryImpl(private val api: Api,
     }
 
     override suspend fun votePost(
-        scheme: String,
-        host: String,
         vote: Int,
         token: String,
         detail: Detail
@@ -73,7 +67,7 @@ class DetailRepositoryImpl(private val api: Api,
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.vote(
-                    url = getVoteUrl(scheme, host),
+                    url = getVoteUrl(),
                     postId = detail.id,
                     vote = vote,
                     token = token

@@ -4,6 +4,8 @@ import androidx.core.net.toUri
 import com.google.android.apps.muzei.api.provider.Artwork
 import com.google.android.apps.muzei.api.provider.MuzeiArtProvider
 import onlymash.flexbooru.ap.common.App
+import onlymash.flexbooru.ap.common.HOST
+import onlymash.flexbooru.ap.common.SCHEME_HTTPS
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
@@ -36,8 +38,6 @@ class MuzeiProvider : MuzeiArtProvider() {
                 try {
                     val response = api.getDetailNoSuspend(
                         getPostDetailUrl(
-                            scheme = Settings.scheme,
-                            host = Settings.hostname,
                             postId = postId,
                             token = Settings.userToken
                         )

@@ -91,13 +91,9 @@ class CommentActivity : KodeinActivity() {
         }
         TooltipCompat.setTooltipText(comment_send, getText(R.string.action_comment_send))
         TooltipCompat.setTooltipText(user_avatar, getText(R.string.title_account))
-        val scheme = Settings.scheme
-        val host = Settings.hostname
         UserManager.getUserByUid(Settings.userUid)?.let { user ->
             commentViewModel = getViewModel(CommentViewModel(
                 repo = repo,
-                scheme = scheme,
-                host = host,
                 token = user.token)
             )
             commentViewModel.comments.observe(this, Observer {
@@ -137,7 +133,7 @@ class CommentActivity : KodeinActivity() {
                     lifecycleScope.launch {
                         when (
                             val result = repo.createComment(
-                                url = getCreateCommentUrl(scheme, host, postId),
+                                url = getCreateCommentUrl(postId),
                                 text = text,
                                 token = user.token
                             )) {

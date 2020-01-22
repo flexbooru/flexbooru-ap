@@ -21,7 +21,7 @@
         tools:targetApi="n">
         <activity android:name=".ui.activity.CommentActivity"/>
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,9 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.SetupWizardActivity"
-            android:theme="@style/AppTheme.SetupWizard.DayNight" />
         <activity android:name=".ui.activity.PurchaseActivity" />
         <activity android:name=".ui.activity.CopyrightActivity" />
         <activity android:name=".ui.activity.UserActivity" />
@@ -54,9 +51,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.SearchActivity" />
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".receiver.DownloadNotificationClickReceiver" />
 

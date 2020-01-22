@@ -10,10 +10,7 @@ import onlymash.flexbooru.ap.data.repository.detail.DetailRepository
 import onlymash.flexbooru.ap.extension.NetResult
 
 class DetailViewModel(
-    private val repo: DetailRepository,
-    private val scheme: String,
-    private val host: String
-) : ScopeViewModel() {
+    private val repo: DetailRepository) : ScopeViewModel() {
 
     val detail = MutableLiveData<NetResult<Detail>>()
 
@@ -21,7 +18,7 @@ class DetailViewModel(
 
     fun load(postId: Int, token: String) {
         viewModelScope.launch {
-            val result = repo.getDetail(scheme, host, postId, token)
+            val result = repo.getDetail(postId, token)
             detail.postValue(result)
         }
     }
@@ -40,8 +37,6 @@ class DetailViewModel(
     fun vote(vote: Int, token: String, detail: Detail) {
         viewModelScope.launch {
             val result = repo.votePost(
-                scheme = scheme,
-                host = host,
                 vote = vote,
                 token = token,
                 detail = detail

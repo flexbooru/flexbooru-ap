@@ -5,8 +5,6 @@ import onlymash.flexbooru.ap.extension.NetResult
 
 interface LoginRepository {
     suspend fun login(
-        scheme: String,
-        host: String,
         username: String,
         password: String
     ): NetResult<User>

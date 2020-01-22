@@ -55,8 +55,6 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
     private var postId = -1
     private var detail: Detail? = null
 
-    private lateinit var scheme: String
-    private lateinit var host: String
     private lateinit var behavior: BottomSheetBehavior<View>
     private lateinit var tagAdapter: TagAdapter
     private lateinit var detailViewModel: DetailViewModel
@@ -64,8 +62,6 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         postId = arguments?.getInt(POST_ID_KEY, -1) ?: -1
-        scheme = Settings.scheme
-        host = Settings.hostname
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -78,9 +74,7 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
         }
         detailViewModel = getViewModel(
             DetailViewModel(
-                repo = DetailRepositoryImpl(api = api, detailDao = detailDao),
-                scheme = scheme,
-                host = host
+                repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
         detailViewModel.detail.observe(this, Observer {
