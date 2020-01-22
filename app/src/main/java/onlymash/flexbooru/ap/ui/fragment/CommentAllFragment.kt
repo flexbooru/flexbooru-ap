@@ -92,10 +92,10 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             adapter = commentAllAdapter
         }
-        commentAllViewModel.comments.observe(this, Observer {
+        commentAllViewModel.comments.observe(this.viewLifecycleOwner, Observer {
             commentAllAdapter.submitList(it)
         })
-        commentAllViewModel.networkState.observe(this, Observer {
+        commentAllViewModel.networkState.observe(this.viewLifecycleOwner, Observer {
             if (progress_bar.isVisible() && (it == NetworkState.LOADED || it.status == Status.FAILED)) {
                 progress_bar.visibility = View.GONE
             }
@@ -106,7 +106,7 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
                 status_container.toVisibility(false)
             }
         })
-        commentAllViewModel.refreshState.observe(this, Observer {
+        commentAllViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
             if (it != NetworkState.LOADING) {
                 comment_all_refresh.isRefreshing = false
             }

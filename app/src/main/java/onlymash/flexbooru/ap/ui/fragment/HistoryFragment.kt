@@ -103,7 +103,7 @@ class HistoryFragment : KodeinFragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = historyAdapter
         }
-        detailViewModel.details.observe(this, Observer {
+        detailViewModel.details.observe(this.viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 val result = withContext(Dispatchers.IO) {
                     val oldItems = mutableListOf<Detail>()

@@ -90,7 +90,7 @@ class DetailFragment : KodeinFragment() {
         val subsamplingScaleImageView = view.findViewById<SubsamplingScaleImageView>(R.id.post_image)
         val photoView = view.findViewById<PhotoView>(R.id.post_gif)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
-        detailViewModel.detail.observe(this, Observer {
+        detailViewModel.detail.observe(this.viewLifecycleOwner, Observer {
             when (it) {
                 is NetResult.Error -> {
                     Log.w(TAG, it.errorMsg)

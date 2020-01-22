@@ -27,8 +27,8 @@
         <item name="scrimBackground">@color/scrimBackground</item>
         <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialog.DayNight</item>
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
-        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle.DayNight</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
     </style>
 
@@ -106,12 +106,10 @@
         <item name="cornerRadius">@dimen/corner_radius</item>
     </style>
 
-    <style name="OverflowMenuStyle.DayNight" parent="OverflowMenuStyle">
+    <style name="OverflowMenuStyle" parent="Widget.MaterialComponents.PopupMenu.Overflow">
         <item name="android:dropDownVerticalOffset">@dimen/popup_drop_down_offset</item>
         <item name="android:popupElevation">@dimen/elevation</item>
     </style>
-
-    <style name="OverflowMenuStyle" parent="Widget.MaterialComponents.PopupMenu.Overflow"/>
 
     <style name="BaseDropDownListViewStyle" parent="Widget.AppCompat.Light.ListView.DropDown"/>
 

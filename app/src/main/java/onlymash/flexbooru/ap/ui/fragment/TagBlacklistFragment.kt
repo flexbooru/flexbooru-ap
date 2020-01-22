@@ -50,7 +50,7 @@ class TagBlacklistFragment : KodeinFragment() {
             adapter = tagBlacklistAdapter
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
-        tagBlacklistViewModel.tags.observe(this, Observer {
+        tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner, Observer {
             val oldItems = mutableListOf<TagBlacklist>()
             oldItems.addAll(tagsBlacklist)
             tagsBlacklist.clear()

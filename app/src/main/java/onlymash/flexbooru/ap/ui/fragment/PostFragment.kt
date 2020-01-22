@@ -170,7 +170,7 @@ class PostFragment : KodeinFragment(),
             layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
             adapter = postAdapter
         }
-        tagBlacklistViewModel.tags.observe(this, Observer { tagsBlacklist ->
+        tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner, Observer { tagsBlacklist ->
             var tagsString = ""
             tagsBlacklist.forEach { tag ->
                 tagsString = if (tagsString.isEmpty()) {
@@ -183,10 +183,10 @@ class PostFragment : KodeinFragment(),
             postViewModel.load(search)
         })
         tagBlacklistViewModel.loadAll()
-        postViewModel.posts.observe(this, Observer {
+        postViewModel.posts.observe(this.viewLifecycleOwner, Observer {
             postAdapter.submitList(it)
         })
-        postViewModel.networkState.observe(this, Observer {
+        postViewModel.networkState.observe(this.viewLifecycleOwner, Observer {
             postAdapter.setNetworkState(it)
         })
         initSwipeToRefresh()
@@ -194,7 +194,7 @@ class PostFragment : KodeinFragment(),
     }
 
     private fun initSwipeToRefresh() {
-        postViewModel.refreshState.observe(this, Observer {
+        postViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
             refresh.isRefreshing = it == NetworkState.LOADING
         })
         refresh.setOnRefreshListener {
