@@ -24,4 +24,4 @@ Click on this [link](https://crowdin.com/project/flexbooru-ap) and you can trans
 
 ## Screenshot
 
-<img src="art/screenshot_01.png" height="300" hspace="20"> <img src="art/screenshot_02.png" height="300" hspace="20"> <img src="art/screenshot_03.png" height="300" hspace="20"> <img src="art/screenshot_04.png" height="300" hspace="20">
+<img src="art/screenshot_01.webp" height="300" hspace="20"> <img src="art/screenshot_02.webp" height="300" hspace="20"> <img src="art/screenshot_03.webp" height="300" hspace="20"> <img src="art/screenshot_04.webp" height="300" hspace="20">
