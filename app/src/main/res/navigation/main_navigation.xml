@@ -78,9 +78,4 @@
             android:name="onlymash.flexbooru.ap.ui.activity.PurchaseActivity"
             android:label="@string/title_donation"
             tools:layout="@layout/activity_purchase"/>
-    <activity
-        android:id="@+id/nav_setup_wizard"
-        android:name="onlymash.flexbooru.ap.ui.activity.SetupWizardActivity"
-        android:label="@string/title_setup_wizard"
-        tools:layout="@layout/activity_setup_wizard"/>
 </navigation>
