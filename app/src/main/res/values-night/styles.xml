@@ -3,8 +3,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
 
-    <style name="AppTheme.AlertDialog" parent="Theme.MaterialComponents.Dialog.Alert"/>
-
     <style name="BaseDropDownListViewStyle" parent="Widget.AppCompat.ListView.DropDown"/>
 
 </resources>
