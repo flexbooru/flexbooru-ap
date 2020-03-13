@@ -102,7 +102,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-//    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha06'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.onlymash:subsampling-scale-image-view:3.10.3'
     implementation 'com.google.android.apps.muzei:muzei-api:3.2.0'

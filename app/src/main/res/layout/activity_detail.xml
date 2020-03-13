@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.DetailActivity">
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/posts_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

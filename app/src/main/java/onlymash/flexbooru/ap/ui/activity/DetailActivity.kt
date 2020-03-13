@@ -17,9 +17,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.*
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.bottom_shortcut_bar.*
 import kotlinx.coroutines.Dispatchers
@@ -118,6 +118,8 @@ class DetailActivity : BaseActivity() {
 
     val onDismissListener = object : DismissFrameLayout.OnDismissListener {
         override fun onStart() {
+            posts_pager.isUserInputEnabled = false
+            posts_pager
             colorDrawable.alpha = ALPHA_MIN
         }
 
@@ -130,6 +132,7 @@ class DetailActivity : BaseActivity() {
         }
 
         override fun onCancel() {
+            posts_pager.isUserInputEnabled = true
             colorDrawable.alpha = ALPHA_MAX
         }
     }
@@ -178,7 +181,7 @@ class DetailActivity : BaseActivity() {
     }
     private fun initView() {
         colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.black))
-        detailAdapter = DetailAdapter(supportFragmentManager)
+        detailAdapter = DetailAdapter(supportFragmentManager, lifecycle)
         posts_pager.background = colorDrawable
         posts_pager.adapter = detailAdapter
         toolbar.apply {
@@ -216,7 +219,7 @@ class DetailActivity : BaseActivity() {
             space_nav_bar.minimumHeight = insets.systemWindowInsetBottom
             insets
         }
-        posts_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        posts_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 pos = position
                 when (fromWhere) {
@@ -233,8 +236,6 @@ class DetailActivity : BaseActivity() {
                 toolbar.title = getString(R.string.placeholder_post_id, currentPostId)
                 initVoteIcon()
             }
-            override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
         })
         post_tags.setOnClickListener {
             if (currentPostId > 0) {
@@ -481,9 +482,9 @@ class DetailActivity : BaseActivity() {
         window.hideBar()
     }
 
-    inner class DetailAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class DetailAdapter(fm: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fm, lifecycle) {
 
-        override fun getItem(position: Int): Fragment =
+        override fun createFragment(position: Int): Fragment =
             DetailFragment.newInstance(
                 when (fromWhere) {
                     FROM_POSTS -> posts[position].id
@@ -492,7 +493,7 @@ class DetailActivity : BaseActivity() {
                 }
             )
 
-        override fun getCount(): Int =
+        override fun getItemCount(): Int =
             when (fromWhere) {
                 FROM_POSTS -> posts.size
                 FROM_HISTORY -> details.size
