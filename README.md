@@ -16,8 +16,7 @@ Click on this [link](https://crowdin.com/project/flexbooru-ap) and you can trans
 
 ## Downlad
 
-<a href="https://play.google.com/store/apps/details?id=onlymash.flexbooru.ap"><img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="48">
-
+[Latest release](https://github.com/flexbooru/flexbooru-ap/releases/latest)
 
 ## Screenshot
 
