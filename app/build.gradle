@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode verCode
-        versionName "1.0.1"
+        versionName "1.1.0"
         versionNameSuffix '.c' + verCode
         resConfigs 'en', 'zh-rCN', 'ru-rRU', 'zh-rHK', 'pt-rBR'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
