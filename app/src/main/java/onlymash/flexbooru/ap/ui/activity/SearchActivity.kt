@@ -110,7 +110,7 @@ class SearchActivity : PostActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.posts, menu)
+        menuInflater.inflate(R.menu.posts_search, menu)
         val item = menu?.findItem(R.id.action_search) ?: return true
         val searchView = item.actionView as SearchView
         initSearchView(searchView)
