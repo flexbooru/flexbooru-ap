@@ -282,7 +282,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 val searchView = item.actionView as SearchView
                 initSearchView(searchView)
             }
-            R.id.nav_about -> menuInflater.inflate(R.menu.about, menu)
             else -> menu?.clear()
         }
         return true
@@ -440,7 +439,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                     .create()
                     .show()
             }
-            R.id.action_donation -> findNavController(R.id.nav_host_fragment).navigate(R.id.nav_purchase)
             R.id.action_open_filter -> drawer_layout.openDrawer(GravityCompat.END)
         }
         return super.onOptionsItemSelected(item)
