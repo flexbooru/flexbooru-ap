@@ -17,8 +17,10 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.TooltipCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.updatePadding
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.lifecycle.Observer
@@ -66,7 +68,7 @@ import org.kodein.di.erased.instance
 private const val SUGGESTION_FOR_NORMAL = 0
 private const val SUGGESTION_FOR_FILTER = 1
 
-class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener, View.OnApplyWindowInsetsListener {
 
     override var query: String = ""
 
@@ -120,7 +122,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         nav_view.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             currentFragmentId = destination.id
-            val lp = toolbar.layoutParams as AppBarLayout.LayoutParams
+            val lp = container_toolbar.layoutParams as AppBarLayout.LayoutParams
             when (currentFragmentId) {
                 R.id.nav_posts -> {
                     lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
@@ -448,6 +450,14 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
             USER_UID_KEY -> loadUser()
         }
+    }
+
+    override fun applyInsets(insets: WindowInsets) {
+        container_tags_filter.updatePadding(top = insets.systemWindowInsetTop, bottom = insets.systemWindowInsetBottom)
+        container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+        val fabMarginBottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+        (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom
+        (fab_search.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom
     }
 
     override fun onDestroy() {

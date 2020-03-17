@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.fast_recyclerview.*
-import kotlinx.android.synthetic.main.fragment_post.*
+import kotlinx.android.synthetic.main.refreshable_list.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.NetworkState
@@ -31,6 +31,7 @@ import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
+import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
 import java.util.concurrent.Executor
 
@@ -140,7 +141,7 @@ class PostFragment : KodeinFragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(R.layout.fragment_post, container, false)
+        inflater.inflate(R.layout.refreshable_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -165,6 +166,7 @@ class PostFragment : KodeinFragment(),
             }
         )
         list.apply {
+            setOnApplyWindowInsetsListener(ListListener)
             layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
             adapter = postAdapter
         }

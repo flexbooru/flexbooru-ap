@@ -15,11 +15,12 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
-import kotlinx.android.synthetic.main.fragment_comment_all.*
+import kotlinx.android.synthetic.main.fast_recyclerview.*
 import kotlinx.android.synthetic.main.fragment_comment_all.error_msg
 import kotlinx.android.synthetic.main.fragment_comment_all.retry_button
 import kotlinx.android.synthetic.main.fragment_comment_all.status_container
 import kotlinx.android.synthetic.main.progress_bar.*
+import kotlinx.android.synthetic.main.refreshable_list.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.common.USER_TOKEN_KEY
@@ -34,6 +35,7 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.adapter.CommentAllAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.CommentAllViewModel
+import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
 import java.util.concurrent.Executor
 
@@ -81,7 +83,8 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
             .usePlugin(LinkifyPlugin.create(Linkify.EMAIL_ADDRESSES or Linkify.WEB_URLS))
             .build()
         commentAllAdapter = CommentAllAdapter(glide, markdown)
-        comment_all_list.apply {
+        list.apply {
+            setOnApplyWindowInsetsListener(ListListener)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             adapter = commentAllAdapter
@@ -102,11 +105,11 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
         })
         commentAllViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
             if (it != NetworkState.LOADING) {
-                comment_all_refresh.isRefreshing = false
+                refresh.isRefreshing = false
             }
         })
         commentAllViewModel.show(token)
-        comment_all_refresh.setOnRefreshListener {
+        refresh.setOnRefreshListener {
             status_container.toVisibility(false)
             commentAllViewModel.refresh()
         }

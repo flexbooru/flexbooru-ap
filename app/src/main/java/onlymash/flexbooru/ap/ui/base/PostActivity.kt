@@ -1,16 +1,20 @@
 package onlymash.flexbooru.ap.ui.base
 
+import android.os.Bundle
 import android.text.InputType
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowInsets
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.updatePadding
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.worker.MuzeiArtWorker
 
-abstract class PostActivity : BaseActivity() {
+abstract class PostActivity : BaseActivity(), View.OnApplyWindowInsetsListener {
 
     private var currentAspectRatio: String = ""
     private var isCheckedJpg = true
@@ -23,6 +27,11 @@ abstract class PostActivity : BaseActivity() {
 
     internal fun setQueryListener(listener: QueryListener?) {
         queryListener = listener
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        initInsets()
+        super.onCreate(savedInstanceState)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -90,5 +99,23 @@ abstract class PostActivity : BaseActivity() {
             .setNegativeButton(R.string.dialog_cancel, null)
             .create()
             .show()
+    }
+
+    private fun initInsets() {
+        findViewById<View>(android.R.id.content).apply {
+            setOnApplyWindowInsetsListener(this@PostActivity)
+            systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+    }
+
+    abstract fun applyInsets(insets: WindowInsets)
+
+    override fun onApplyWindowInsets(view: View, insets: WindowInsets): WindowInsets {
+        view.updatePadding(left = insets.systemWindowInsetLeft, right = insets.systemWindowInsetRight)
+        applyInsets(insets)
+        @Suppress("DEPRECATION")
+        return insets.replaceSystemWindowInsets(0, insets.systemWindowInsetTop, 0, insets.systemWindowInsetBottom)
     }
 }

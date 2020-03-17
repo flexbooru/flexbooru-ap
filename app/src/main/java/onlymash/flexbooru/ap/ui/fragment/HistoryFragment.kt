@@ -36,6 +36,7 @@ import onlymash.flexbooru.ap.ui.activity.UserActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
+import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
 
 
@@ -89,6 +90,7 @@ class HistoryFragment : KodeinFragment() {
         super.onViewCreated(view, savedInstanceState)
         historyAdapter = HistoryAdapter()
         list.apply {
+            setOnApplyWindowInsetsListener(ListListener)
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = historyAdapter
         }

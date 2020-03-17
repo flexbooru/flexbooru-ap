@@ -7,7 +7,9 @@ import android.database.MatrixCursor
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.Menu
+import android.view.WindowInsets
 import androidx.appcompat.widget.SearchView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.lifecycle.Observer
@@ -150,6 +152,11 @@ class SearchActivity : PostActivity() {
         }
     }
 
+    override fun applyInsets(insets: WindowInsets) {
+        container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+        val fabMarginBottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+        (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom
+    }
 
     private fun fetchSuggestions(tag: String) {
         val token = Settings.userToken

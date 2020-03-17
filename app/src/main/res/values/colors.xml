@@ -27,8 +27,8 @@
     <color name="colorToolbar">@color/color_light_background</color>
     <color name="colorToolbarIcon">@color/grey_900</color>
     <color name="colorLine">@color/grey_300</color>
-    <color name="colorStatusBar">#33000000</color>
-    <color name="colorNavigationBar">@color/color_dark_background</color>
+    <color name="colorStatusBar">@color/scrim_bar_dark</color>
+    <color name="colorNavigationBar">@color/scrim_bar_dark</color>
     <color name="colorNavigationBarDivider">#DCDCDC</color>
 
     <color name="grey">#2C2C2C</color>
@@ -36,6 +36,8 @@
     <color name="white">#FFFFFF</color>
     <color name="scrim">#52000000</color>
     <color name="dark">#121212</color>
+    <color name="scrim_bar_light">#ccffffff</color>
+    <color name="scrim_bar_dark">#33000000</color>
 
     <color name="blue_700">#1976D2</color>
     <color name="blue_700_light">#63A4FF</color>

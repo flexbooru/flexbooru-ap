@@ -2,6 +2,7 @@ package onlymash.flexbooru.ap.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -10,8 +11,14 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.launchUrl
 import onlymash.flexbooru.ap.extension.openAppInMarket
 import onlymash.flexbooru.ap.ui.activity.CopyrightActivity
+import onlymash.flexbooru.ap.widget.ListListener
 
 class AboutFragment : PreferenceFragmentCompat() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        listView.setOnApplyWindowInsetsListener(ListListener)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_about)

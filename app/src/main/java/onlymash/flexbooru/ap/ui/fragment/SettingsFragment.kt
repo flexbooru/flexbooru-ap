@@ -3,6 +3,7 @@ package onlymash.flexbooru.ap.ui.fragment
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import onlymash.flexbooru.ap.R
@@ -10,10 +11,16 @@ import onlymash.flexbooru.ap.common.PREFERENCE_NAME
 import onlymash.flexbooru.ap.common.SETTINGS_PATH_KEY
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.extension.openDocumentTree
+import onlymash.flexbooru.ap.widget.ListListener
 
 private const val PATH_KEY = "settings_download_path"
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        listView.setOnApplyWindowInsetsListener(ListListener)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName = PREFERENCE_NAME

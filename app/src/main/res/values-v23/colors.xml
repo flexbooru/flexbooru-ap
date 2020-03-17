@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorStatusBar">@color/color_light_background</color>
+    <color name="colorStatusBar">@color/scrim_bar_light</color>
 </resources>

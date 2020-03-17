@@ -10,7 +10,7 @@
             android:id="@+id/nav_posts"
             android:name="onlymash.flexbooru.ap.ui.fragment.PostFragment"
             android:label="@string/title_posts"
-            tools:layout="@layout/fragment_post">
+            tools:layout="@layout/refreshable_list">
         <argument
                 android:name="query"
                 app:argType="string"

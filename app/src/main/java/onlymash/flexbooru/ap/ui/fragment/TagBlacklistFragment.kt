@@ -21,6 +21,7 @@ import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.TagBlacklistDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
+import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
 
 class TagBlacklistFragment : KodeinFragment() {
@@ -46,6 +47,7 @@ class TagBlacklistFragment : KodeinFragment() {
         super.onViewCreated(view, savedInstanceState)
         tagBlacklistAdapter = TagBlacklistAdapter()
         tags_blacklist_list.apply {
+            setOnApplyWindowInsetsListener(ListListener)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = tagBlacklistAdapter
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))

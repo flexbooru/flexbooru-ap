@@ -26,8 +26,8 @@
     <color name="colorToolbar">@color/grey_900</color>
     <color name="colorToolbarIcon">@color/white</color>
     <color name="colorLine">#2F2F2F</color>
-    <color name="colorStatusBar">@color/grey_900</color>
-    <color name="colorNavigationBar">@color/grey_900</color>
+    <color name="colorStatusBar">@color/scrim_bar_dark</color>
+    <color name="colorNavigationBar">@color/scrim_bar_dark</color>
     <color name="colorNavigationBarDivider">@color/grey_900</color>
 
 </resources>
