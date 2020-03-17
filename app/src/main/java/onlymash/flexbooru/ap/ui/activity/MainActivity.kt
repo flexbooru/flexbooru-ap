@@ -68,7 +68,7 @@ import org.kodein.di.erased.instance
 private const val SUGGESTION_FOR_NORMAL = 0
 private const val SUGGESTION_FOR_FILTER = 1
 
-class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener, View.OnApplyWindowInsetsListener {
+class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override var query: String = ""
 
