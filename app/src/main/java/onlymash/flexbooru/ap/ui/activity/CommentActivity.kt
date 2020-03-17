@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
@@ -45,6 +46,7 @@ import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.diffcallback.CommentDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.CommentViewModel
 import onlymash.flexbooru.ap.widget.LinkTransformationMethod
+import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 
 class CommentActivity : KodeinActivity() {
@@ -68,6 +70,10 @@ class CommentActivity : KodeinActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comment)
+        setupInsets { insets ->
+            container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+            container_comment_box.updatePadding(bottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.elevation))
+        }
         val postId = intent?.getIntExtra(POST_ID_KEY, -1) ?: -1
         (container_toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
         setSupportActionBar(toolbar)

@@ -31,4 +31,6 @@
     <dimen name="gesture_exclusion_width">30dp</dimen>
     <dimen name="gesture_exclusion_height">190dp</dimen>
     <dimen name="gesture_exclusion_offset">60dp</dimen>
+
+    <dimen name="copyright_padding">10dp</dimen>
 </resources>

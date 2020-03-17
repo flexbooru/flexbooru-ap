@@ -15,6 +15,7 @@
         <include layout="@layout/app_bar"/>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"

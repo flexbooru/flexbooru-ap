@@ -9,12 +9,13 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
@@ -39,7 +40,7 @@ import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
-import onlymash.flexbooru.ap.ui.base.BaseActivity
+import onlymash.flexbooru.ap.ui.base.DirPickerActivity
 import onlymash.flexbooru.ap.ui.dialog.InfoDialog
 import onlymash.flexbooru.ap.ui.dialog.TagsDialog
 import onlymash.flexbooru.ap.ui.fragment.DetailFragment
@@ -64,7 +65,7 @@ const val FROM_POST = 2
 private const val ALPHA_MAX = 0xFF
 private const val ALPHA_MIN = 0x00
 
-class DetailActivity : BaseActivity() {
+class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
 
     companion object {
         private const val TAG = "DetailActivity"
@@ -153,6 +154,7 @@ class DetailActivity : BaseActivity() {
         }
         window.initFullTransparentBar()
         setContentView(R.layout.activity_detail)
+        findViewById<View>(android.R.id.content).setOnApplyWindowInsetsListener(this)
         intent?.apply {
             val url = data
             val postId = getIntExtra(POST_ID_KEY, -1)
@@ -179,6 +181,7 @@ class DetailActivity : BaseActivity() {
         initView()
         initViewModel()
     }
+
     private fun initView() {
         colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.black))
         detailAdapter = DetailAdapter(supportFragmentManager, lifecycle)
@@ -207,17 +210,6 @@ class DetailActivity : BaseActivity() {
             if (fromWhere == FROM_POST) {
                 title = getString(R.string.placeholder_post_id, currentPostId)
             }
-        }
-        ViewCompat.setOnApplyWindowInsetsListener(posts_pager) { _, insets ->
-            toolbar_container.minimumHeight = toolbar.height + insets.systemWindowInsetTop
-            toolbar_container.setPadding(
-                insets.systemWindowInsetLeft,
-                insets.systemWindowInsetTop,
-                insets.systemWindowInsetRight,
-                0
-            )
-            space_nav_bar.minimumHeight = insets.systemWindowInsetBottom
-            insets
         }
         posts_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -254,6 +246,17 @@ class DetailActivity : BaseActivity() {
         TooltipCompat.setTooltipText(post_info, post_info.contentDescription)
         TooltipCompat.setTooltipText(post_save, post_save.contentDescription)
         TooltipCompat.setTooltipText(post_vote, post_vote.contentDescription)
+    }
+
+    override fun onApplyWindowInsets(v: View?, insets: WindowInsets): WindowInsets {
+        toolbar_container.minimumHeight = toolbar.height + insets.systemWindowInsetTop
+        toolbar_container.updatePadding(
+            left = insets.systemWindowInsetLeft,
+            top = insets.systemWindowInsetTop,
+            right = insets.systemWindowInsetRight
+        )
+        space_nav_bar.minimumHeight = insets.systemWindowInsetBottom
+        return insets
     }
 
     private fun initViewModel() {

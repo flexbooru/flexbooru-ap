@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.app_bar.*
@@ -26,6 +27,7 @@ import onlymash.flexbooru.ap.extension.getLogoutUrl
 import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 import kotlin.Exception
 
@@ -57,6 +59,10 @@ class UserActivity : KodeinActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
+        setupInsets { insets ->
+            container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+            scroll_container.updatePadding(bottom = insets.systemWindowInsetBottom)
+        }
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

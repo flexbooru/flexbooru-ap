@@ -16,6 +16,7 @@ import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.viewmodel.LoginViewModel
+import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 
 class LoginActivity : KodeinActivity() {
@@ -30,6 +31,7 @@ class LoginActivity : KodeinActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        setupInsets {  }
         loginViewModel = getViewModel(LoginViewModel(LoginRepositoryImpl(api)))
         loginViewModel.loginResult.observe(this, Observer {
             handleResult(it)

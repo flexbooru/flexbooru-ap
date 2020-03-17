@@ -65,6 +65,7 @@ import onlymash.flexbooru.ap.ui.diffcallback.TagFilterDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.*
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagFilterViewModel
+import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 
 private const val SUGGESTION_FOR_NORMAL = 0
@@ -117,6 +118,9 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             )
         }
         setContentView(R.layout.activity_main)
+        setupInsets { insets ->
+            applyInsets(insets)
+        }
         sp.registerOnSharedPreferenceChangeListener(this)
         setSupportActionBar(toolbar)
         appBarConfiguration = AppBarConfiguration(
@@ -464,7 +468,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         }
     }
 
-    override fun applyInsets(insets: WindowInsets) {
+    private fun applyInsets(insets: WindowInsets) {
         container_tags_filter.updatePadding(top = insets.systemWindowInsetTop, bottom = insets.systemWindowInsetBottom)
         container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
         (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)

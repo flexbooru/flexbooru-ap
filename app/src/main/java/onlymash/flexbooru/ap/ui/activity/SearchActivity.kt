@@ -28,6 +28,7 @@ import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
+import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 
 class SearchActivity : PostActivity() {
@@ -68,6 +69,9 @@ class SearchActivity : PostActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        setupInsets { insets ->
+            applyInsets(insets)
+        }
         intent?.apply {
             query = getStringExtra(QUERY_KEY) ?: ""
             searchType = getSerializableExtra(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
@@ -152,7 +156,7 @@ class SearchActivity : PostActivity() {
         }
     }
 
-    override fun applyInsets(insets: WindowInsets) {
+    private fun applyInsets(insets: WindowInsets) {
         container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
         val fabMarginBottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
         (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom

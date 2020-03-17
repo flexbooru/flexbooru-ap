@@ -7,7 +7,7 @@ import android.provider.DocumentsContract
 import onlymash.flexbooru.ap.common.REQUEST_CODE_OPEN_DIRECTORY
 import onlymash.flexbooru.ap.common.Settings
 
-abstract class BaseActivity : KodeinActivity() {
+abstract class DirPickerActivity : KodeinActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

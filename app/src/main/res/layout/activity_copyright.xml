@@ -28,7 +28,7 @@
                 android:id="@+id/copyright"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/copyright_padding"
                 android:textIsSelectable="true"
                 android:textAppearance="?textAppearanceBody2"/>
     </ScrollView>

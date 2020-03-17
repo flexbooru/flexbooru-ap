@@ -11,16 +11,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.text.parseAsHtml
+import androidx.core.view.updatePadding
 import kotlinx.android.synthetic.main.activity_copyright.*
 import kotlinx.android.synthetic.main.app_bar.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.launchUrl
+import onlymash.flexbooru.ap.widget.setupInsets
 
 class CopyrightActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_copyright)
+        setupInsets { insets ->
+            container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+            copyright.updatePadding(bottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.copyright_padding))
+        }
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
