@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_height">200dp</dimen>
 
     <dimen name="bottom_bar_height">56dp</dimen>
 
@@ -27,4 +27,8 @@
     <dimen name="padding_horizontal_item_text">20dp</dimen>
 
     <dimen name="margin_horizontal_edit_text_dialog">20dp</dimen>
+
+    <dimen name="gesture_exclusion_width">30dp</dimen>
+    <dimen name="gesture_exclusion_height">190dp</dimen>
+    <dimen name="gesture_exclusion_offset">60dp</dimen>
 </resources>

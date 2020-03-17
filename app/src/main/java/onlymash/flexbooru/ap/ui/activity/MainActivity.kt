@@ -5,7 +5,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.database.MatrixCursor
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.*
@@ -103,6 +105,17 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val windowWidth = resources.displayMetrics.widthPixels
+            val windowHeight = resources.displayMetrics.heightPixels
+            val gestureWidth = resources.getDimensionPixelSize(R.dimen.gesture_exclusion_width)
+            val gestureHeight = resources.getDimensionPixelSize(R.dimen.gesture_exclusion_height)
+            val gestureOffset = resources.getDimensionPixelSize(R.dimen.gesture_exclusion_offset)
+            window.decorView.systemGestureExclusionRects = listOf(
+                Rect(0, windowHeight - gestureHeight - gestureOffset, gestureWidth, windowHeight - gestureOffset),
+                Rect(windowWidth - gestureWidth, windowHeight - gestureHeight - gestureOffset, windowWidth, windowHeight - gestureOffset)
+            )
+        }
         setContentView(R.layout.activity_main)
         sp.registerOnSharedPreferenceChangeListener(this)
         setSupportActionBar(toolbar)
