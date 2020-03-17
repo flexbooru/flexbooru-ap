@@ -469,9 +469,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     override fun applyInsets(insets: WindowInsets) {
         container_tags_filter.updatePadding(top = insets.systemWindowInsetTop, bottom = insets.systemWindowInsetBottom)
         container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
-        val fabMarginBottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
-        (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom
-        (fab_search.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom
+        (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
     }
 
     override fun onDestroy() {
