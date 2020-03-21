@@ -167,7 +167,9 @@ class PostFragment : KodeinFragment(),
         )
         list.apply {
             setOnApplyWindowInsetsListener(ListListener)
-            layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL).apply {
+                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+            }
             adapter = postAdapter
         }
         tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner, Observer { tagsBlacklist ->
