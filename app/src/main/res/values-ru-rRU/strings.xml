@@ -6,6 +6,7 @@
     <string name="title_history">История</string>
     <string name="title_settings">Настройки</string>
     <string name="title_login">Войти</string>
+    <string name="title_register">Sign up</string>
     <string name="title_account">Aккаунт</string>
     <string name="title_about">О программе</string>
     <string name="title_copyright">Авторские права</string>
