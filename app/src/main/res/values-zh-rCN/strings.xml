@@ -6,7 +6,7 @@
     <string name="title_history">历史</string>
     <string name="title_settings">设置</string>
     <string name="title_login">登录</string>
-    <string name="title_register">Sign up</string>
+    <string name="title_register">注册</string>
     <string name="title_account">账号</string>
     <string name="title_about">关于</string>
     <string name="title_copyright">版权</string>
@@ -15,7 +15,7 @@
     <string name="title_setup_wizard">设置向导</string>
     <string name="title_comments">评论</string>
     <string name="posts_search">搜索</string>
-    <string name="posts_open_filter">Open filter</string>
+    <string name="posts_open_filter">打开过滤器</string>
     <string name="posts_more_options">更多选项</string>
     <string name="posts_order">排序</string>
     <string name="posts_order_date">日期</string>
