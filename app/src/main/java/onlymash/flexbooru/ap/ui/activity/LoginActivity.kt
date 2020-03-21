@@ -14,6 +14,7 @@ import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.data.repository.login.LoginRepositoryImpl
 import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getViewModel
+import onlymash.flexbooru.ap.extension.launchUrl
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.viewmodel.LoginViewModel
 import onlymash.flexbooru.ap.widget.setupInsets
@@ -38,6 +39,9 @@ class LoginActivity : KodeinActivity() {
         })
         sign_in_button.setOnClickListener {
             attemptSignIn()
+        }
+        register.setOnClickListener {
+            launchUrl("https://anime-pictures.net/login/view_register")
         }
     }
 
