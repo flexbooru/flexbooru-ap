@@ -29,7 +29,7 @@ private const val DOWNLOAD_DOC_ID_KEY = "doc_id"
 class DownloadWorker(
     context: Context,
     workerParameters: WorkerParameters
-) : CoroutineWorker(context, workerParameters) {
+) : Worker(context, workerParameters) {
 
     companion object {
         fun download(activity: Activity, detail: Detail) {
@@ -55,7 +55,7 @@ class DownloadWorker(
         }
     }
 
-    override suspend fun doWork(): Result {
+    override fun doWork(): Result {
 
         val url = inputData.getString(DOWNLOAD_URL_KEY)
         val postId = inputData.getInt(DOWNLOAD_POST_ID_KEY, -1)
