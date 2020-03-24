@@ -24,6 +24,7 @@
 -keepattributes Signature
 -keepattributes Exceptions
 -keepattributes EnclosingMethod
+-keepattributes InnerClasses
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -48,20 +49,7 @@
 # Application classes that will be serialized/deserialized over Gson
 -keep class onlymash.flexbooru.ap.data.model.** { <fields>; }
 
-# Prevent proguard from stripping interface information from TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
-# Prevent R8 from leaving Data object members always null
--keepclassmembers,allowobfuscation class * {
-  @com.google.gson.annotations.SerializedName <fields>;
-}
-
 -keepnames class onlymash.flexbooru.ap.data.SearchType
-
--keep class com.android.vending.billing.**
 
 # ServiceLoader support
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
@@ -72,4 +60,14 @@
 # Most of volatile fields are updated with AFU and should not be mangled
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
+}
+
+### Kotlin serialization
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class onlymash.flexbooru.ap.data.model.**$$serializer { *; }
+-keepclassmembers class onlymash.flexbooru.ap.data.model.** {
+    *** Companion;
+}
+-keepclasseswithmembers class onlymash.flexbooru.ap.data.model.** {
+    kotlinx.serialization.KSerializer serializer(...);
 }
