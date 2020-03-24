@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicBoolean
 
 class PagingRequestHelper {
+
     private val mutex = Mutex()
 
     private val requestQueues =
@@ -16,7 +17,7 @@ class PagingRequestHelper {
             RequestQueue(RequestType.BEFORE),
             RequestQueue(RequestType.AFTER)
         )
-    val listeners = CopyOnWriteArrayList<Listener>()
+    private val listeners = CopyOnWriteArrayList<Listener>()
 
     /**
      * Adds a new listener that will be notified when any request changes [state][Status].
@@ -42,7 +43,7 @@ class PagingRequestHelper {
      * If run, the request will be run in the current thread.
      *
      * @param type    The type of the request.
-     * @param request The request to run.
+     * @param handleCallback The request to run.
      * @return True if the request is run, false otherwise.
      */
     suspend fun runIfNotRunning(
@@ -126,8 +127,7 @@ class PagingRequestHelper {
      * @return True if any request is retried, false otherwise.
      */
     suspend fun retryAllFailed(): Boolean {
-        val toBeRetried =
-            arrayOfNulls<RequestWrapper>(RequestType.values().size)
+        val toBeRetried = arrayOfNulls<RequestWrapper>(RequestType.values().size)
         var retried = false
         mutex.withLock {
             for (i in RequestType.values().indices) {
