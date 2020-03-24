@@ -1,18 +1,21 @@
 package onlymash.flexbooru.ap.data.model
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
+@Serializable
 data class Suggestion(
-    @SerializedName("tags_list")
+    @SerialName("tags_list")
     val tagsList: List<Tag> = emptyList()
 )
 
+@Serializable
 data class Tag(
-    @SerializedName("c")
+    @SerialName("c")
     val c: Int,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("t")
+    @SerialName("t")
     val t: String,
-    @SerializedName("t2")
+    @SerialName("t2")
     val t2: String?
 )

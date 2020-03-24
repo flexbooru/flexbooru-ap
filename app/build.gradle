@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
 apply plugin: 'io.fabric'
 
 Properties properties = new Properties()
@@ -44,6 +45,8 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += ["-Xopt-in=kotlinx.serialization.UnstableDefault",
+                             "-Xopt-in=kotlinx.serialization.ImplicitReflectionSerializer"]
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -64,6 +67,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
     implementation "org.kodein.di:kodein-di-erased-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
     implementation "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.1.0"
@@ -109,11 +113,11 @@ dependencies {
     implementation 'com.takisoft.preferencex:preferencex-simplemenu:1.1.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation 'com.squareup.okio:okio:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"

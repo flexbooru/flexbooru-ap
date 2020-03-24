@@ -1,12 +1,14 @@
 package onlymash.flexbooru.ap.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
+@Serializable
 data class UserComment(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("user_avatar")
+    @SerialName("user_avatar")
     val userAvatar: String? = null,
-    @SerializedName("user_name")
+    @SerialName("user_name")
     val userName: String
 )

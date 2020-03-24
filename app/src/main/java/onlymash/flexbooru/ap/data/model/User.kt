@@ -3,39 +3,43 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Entity(
     tableName = "users",
     indices = [(Index(value = ["user_id"], unique = true))]
 )
+@Serializable
 data class User(
 
     @ColumnInfo(name = "uid")
     @PrimaryKey(autoGenerate = true)
+    @Transient
     var uid: Long = 0L,
 
     @ColumnInfo(name = "user_id")
-    @SerializedName("user_id")
+    @SerialName("user_id")
     val userId: Int,
 
     @ColumnInfo(name = "username")
-    @SerializedName("username")
+    @SerialName("username")
     val username: String,
 
     @ColumnInfo(name = "avatar_url")
-    @SerializedName("avatar_url")
+    @SerialName("avatar_url")
     val avatarUrl: String?,
 
     @ColumnInfo(name = "token")
-    @SerializedName("token")
+    @SerialName("token")
     val token: String,
 
     @ColumnInfo(name = "jvwall_block_erotic")
-    @SerializedName("jvwall_block_erotic")
+    @SerialName("jvwall_block_erotic")
     val jvwallBlockErotic: Boolean,
 
     @ColumnInfo(name = "success")
-    @SerializedName("success")
+    @SerialName("success")
     val success: Boolean
 )

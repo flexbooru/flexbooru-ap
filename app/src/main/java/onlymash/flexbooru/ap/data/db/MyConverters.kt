@@ -1,33 +1,28 @@
 package onlymash.flexbooru.ap.data.db
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.parseList
+import kotlinx.serialization.stringify
 import onlymash.flexbooru.ap.data.model.TagsFull
 
 class MyConverters {
 
     @TypeConverter
-    fun fromIntListToJson(list: List<Int>): String =
-        Gson().toJson(list)
+    fun fromIntListToJson(list: List<Int>): String = Json.stringify(list)
 
     @TypeConverter
-    fun fromJsonToIntList(json: String): List<Int> =
-        Gson().fromJson(json, object : TypeToken<List<Int>>(){}.type)
+    fun fromJsonToIntList(json: String): List<Int> = Json.parseList(json)
 
     @TypeConverter
-    fun fromStringListToJson(list: List<String>): String =
-        Gson().toJson(list)
+    fun fromStringListToJson(list: List<String>): String = Json.stringify(list)
 
     @TypeConverter
-    fun fromJsonToStringList(json: String): List<String> =
-        Gson().fromJson(json, object : TypeToken<List<String>>(){}.type)
+    fun fromJsonToStringList(json: String): List<String> = Json.parseList(json)
 
     @TypeConverter
-    fun fromTagsFullListToJson(tagsFull: List<TagsFull>): String =
-        Gson().toJson(tagsFull)
+    fun fromTagsFullListToJson(tagsFull: List<TagsFull>): String = Json.stringify(tagsFull)
 
     @TypeConverter
-    fun fromJsonToTagsFullList(json: String): List<TagsFull> =
-        Gson().fromJson(json, object : TypeToken<List<TagsFull>>(){}.type)
+    fun fromJsonToTagsFullList(json: String): List<TagsFull> = Json.parseList(json)
 }

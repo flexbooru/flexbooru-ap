@@ -1,7 +1,11 @@
 package onlymash.flexbooru.ap.data.api
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,7 +16,6 @@ import onlymash.flexbooru.ap.util.Logger
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
@@ -41,10 +44,13 @@ interface Api {
                     .addInterceptor(logger)
             }
                 .build()
+            val contentType = "application/json".toMediaType()
             return Retrofit.Builder()
                 .baseUrl("https://fiepi.me")
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(Json(JsonConfiguration.Stable.copy(
+                    ignoreUnknownKeys = true))
+                    .asConverterFactory(contentType))
                 .build()
                 .create(Api::class.java)
         }

@@ -1,18 +1,20 @@
 package onlymash.flexbooru.ap.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PostResponse(
-    @SerializedName("max_pages")
+    @SerialName("max_pages")
     val maxPages: Int,
-    @SerializedName("page_number")
+    @SerialName("page_number")
     val pageNumber: Int,
-    @SerializedName("posts")
+    @SerialName("posts")
     val posts: List<Post>,
-    @SerializedName("posts_count")
+    @SerialName("posts_count")
     val postsCount: Int,
-    @SerializedName("posts_per_page")
+    @SerialName("posts_per_page")
     val postsPerPage: Int,
-    @SerializedName("response_posts_count")
+    @SerialName("response_posts_count")
     val responsePostsCount: Int
 )

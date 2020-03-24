@@ -3,135 +3,140 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Transient
 
 @Entity(
     tableName = "details",
     indices = [(Index(value = ["id"], unique = true))]
 )
+@Serializable
 data class Detail(
 
     @ColumnInfo(name = "uid")
     @PrimaryKey(autoGenerate = true)
+    @Transient
     var uid: Long = 0,
 
     @ColumnInfo(name = "id")
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
 
     @ColumnInfo(name = "big_preview")
-    @SerializedName("big_preview")
+    @SerialName("big_preview")
     val bigPreview: String,
 
     @ColumnInfo(name = "color")
-    @SerializedName("color")
+    @SerialName("color")
     val color: List<Int>,
 
     @ColumnInfo(name = "download_count")
-    @SerializedName("download_count")
+    @SerialName("download_count")
     val downloadCount: Int,
 
     @ColumnInfo(name = "erotics")
-    @SerializedName("erotics")
+    @SerialName("erotics")
     val erotics: Int,
 
     @ColumnInfo(name = "ext")
-    @SerializedName("ext")
+    @SerialName("ext")
     val ext: String,
 
     @ColumnInfo(name = "favorite_folder")
-    @SerializedName("favorite_folder")
+    @SerialName("favorite_folder")
     val favoriteFolder: String?,
 
     @ColumnInfo(name = "file_url")
-    @SerializedName("file_url")
+    @SerialName("file_url")
     val fileUrl: String,
 
     @ColumnInfo(name = "height")
-    @SerializedName("height")
+    @SerialName("height")
     val height: Int,
 
     @ColumnInfo(name = "is_favorites")
-    @SerializedName("is_favorites")
+    @SerialName("is_favorites")
     val isFavorites: Boolean,
 
     @ColumnInfo(name = "md5")
-    @SerializedName("md5")
+    @SerialName("md5")
     val md5: String,
 
     @ColumnInfo(name = "md5_pixels")
-    @SerializedName("md5_pixels")
+    @SerialName("md5_pixels")
     val md5Pixels: String,
 
     @ColumnInfo(name = "medium_preview")
-    @SerializedName("medium_preview")
+    @SerialName("medium_preview")
     val mediumPreview: String,
 
     @ColumnInfo(name = "pubtime")
-    @SerializedName("pubtime")
+    @SerialName("pubtime")
     val pubtime: String,
 
     @ColumnInfo(name = "score")
-    @SerializedName("score")
+    @SerialName("score")
     val score: Int,
 
     @ColumnInfo(name = "score_number")
-    @SerializedName("score_number")
+    @SerialName("score_number")
     var scoreNumber: Int,
 
     @ColumnInfo(name = "size")
-    @SerializedName("size")
+    @SerialName("size")
     val size: Int,
 
     @ColumnInfo(name = "small_preview")
-    @SerializedName("small_preview")
+    @SerialName("small_preview")
     val smallPreview: String,
 
     @ColumnInfo(name = "spoiler")
-    @SerializedName("spoiler")
+    @SerialName("spoiler")
     val spoiler: Boolean,
 
     @ColumnInfo(name = "star_it")
-    @SerializedName("star_it")
+    @SerialName("star_it")
     var starIt: Boolean,
 
     @ColumnInfo(name = "status")
-    @SerializedName("status")
+    @SerialName("status")
     val status: Int,
 
     @ColumnInfo(name = "tags")
-    @SerializedName("tags")
+    @SerialName("tags")
     val tags: List<String>,
 
     @ColumnInfo(name = "tags_full")
-    @SerializedName("tags_full")
+    @SerialName("tags_full")
     val tagsFull: List<TagsFull>,
 
     @ColumnInfo(name = "user_avatar")
-    @SerializedName("user_avatar")
+    @SerialName("user_avatar")
     val userAvatar: String?,
 
     @ColumnInfo(name = "user_id")
-    @SerializedName("user_id")
+    @SerialName("user_id")
     val userId: Int,
 
     @ColumnInfo(name = "user_name")
-    @SerializedName("user_name")
+    @SerialName("user_name")
     val userName: String,
 
     @ColumnInfo(name = "width")
-    @SerializedName("width")
+    @SerialName("width")
     val width: Int
 )
 
+@Serializable
 data class TagsFull(
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
-    @SerializedName("num")
+    @SerialName("num")
     val num: Int,
 
-    @SerializedName("type")
+    @SerialName("type")
     val type: Int
 )

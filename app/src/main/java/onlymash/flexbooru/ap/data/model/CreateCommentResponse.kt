@@ -1,12 +1,14 @@
 package onlymash.flexbooru.ap.data.model
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
 
+@Serializable
 data class CreateCommentResponse(
 
-    @SerializedName("success")
+    @SerialName("success")
     val success: Boolean,
 
-    @SerializedName("html")
+    @SerialName("html")
     val html: String? = null
 )
