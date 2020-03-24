@@ -57,8 +57,6 @@ class DetailFragment : KodeinFragment() {
     private val picasso by instance<Picasso>()
 
     private lateinit var detailViewModel: DetailViewModel
-    private lateinit var scheme: String
-    private lateinit var host: String
     private var postId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {

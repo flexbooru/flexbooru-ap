@@ -36,7 +36,7 @@ class PagingRequestHelper {
     fun removeListener(listener: Listener): Boolean = listeners.remove(listener)
 
     /**
-     * Runs the given [Request] if no other requests in the given request type is already
+     * Runs the given [Callback] if no other requests in the given request type is already
      * running.
      *
      *
@@ -315,24 +315,8 @@ class PagingRequestHelper {
      * Available request types.
      */
     enum class RequestType {
-        /**
-         * Corresponds to an initial request made to a [DataSource] or the empty state for
-         * a [BoundaryCallback][androidx.paging.PagedList.BoundaryCallback].
-         */
         INITIAL,
-
-        /**
-         * Corresponds to the `loadBefore` calls in [DataSource] or
-         * `onItemAtFrontLoaded` in
-         * [BoundaryCallback][androidx.paging.PagedList.BoundaryCallback].
-         */
         BEFORE,
-
-        /**
-         * Corresponds to the `loadAfter` calls in [DataSource] or
-         * `onItemAtEndLoaded` in
-         * [BoundaryCallback][androidx.paging.PagedList.BoundaryCallback].
-         */
         AFTER
     }
 
