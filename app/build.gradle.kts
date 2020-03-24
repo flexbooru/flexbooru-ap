@@ -46,9 +46,12 @@ android {
         }
     }
     applicationVariants.all {
-        outputs.all {
-            outputFile.renameTo(file("${outputFile.parent}/flexbooru-ap_${defaultConfig.versionName}${defaultConfig.versionNameSuffix}.apk"))
+        outputs.map {
+            it as com.android.build.gradle.internal.api.BaseVariantOutputImpl
         }
+            .forEach { output ->
+                output.outputFileName = "flexbooru-ap_${defaultConfig.versionName}${defaultConfig.versionNameSuffix}.apk"
+            }
     }
     buildTypes {
         getByName("release") {
