@@ -5,19 +5,16 @@ import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.data.repository.post.PostRepositoryImpl
-import java.util.concurrent.Executor
 
 class PostViewModel(
     db: MyDatabase,
-    api: Api,
-    ioExecutor: Executor
+    api: Api
 ) : ScopeViewModel() {
 
     private val repo = PostRepositoryImpl(
         scope = viewModelScope,
         db = db,
-        api = api,
-        ioExecutor = ioExecutor
+        api = api
     )
 
     private val _search = MutableLiveData<Search>()

@@ -33,7 +33,6 @@ import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
-import java.util.concurrent.Executor
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
 const val JUMP_TO_TOP_QUERY_KEY = "jump_to_top_query"
@@ -54,7 +53,6 @@ class PostFragment : KodeinFragment(),
     private val db by instance<MyDatabase>()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
-    private val ioExecutor by instance<Executor>()
     private lateinit var search: Search
     private lateinit var postAdapter: PostAdapter
 
@@ -129,8 +127,7 @@ class PostFragment : KodeinFragment(),
         postViewModel = getViewModel(
             PostViewModel(
                 db = db,
-                api = api,
-                ioExecutor = ioExecutor
+                api = api
             )
         )
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
@@ -167,9 +164,7 @@ class PostFragment : KodeinFragment(),
         )
         list.apply {
             setOnApplyWindowInsetsListener(ListListener)
-            layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL).apply {
-                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
-            }
+            layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
             adapter = postAdapter
         }
         tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner, Observer { tagsBlacklist ->

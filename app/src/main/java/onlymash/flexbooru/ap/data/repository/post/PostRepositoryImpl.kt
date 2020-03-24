@@ -20,13 +20,11 @@ import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.getPostsUrl
 import retrofit2.HttpException
 import java.lang.Exception
-import java.util.concurrent.Executor
 
 class PostRepositoryImpl(
     private val scope: CoroutineScope,
     private val db: MyDatabase,
-    private val api: Api,
-    private val ioExecutor: Executor
+    private val api: Api
 ) : PostRepository {
 
     private var boundaryCallback: PostBoundaryCallback? = null
@@ -48,7 +46,6 @@ class PostRepositoryImpl(
         boundaryCallback = PostBoundaryCallback(
             api = api,
             handleResponse = this::insertResultIntoDb,
-            ioExecutor = ioExecutor,
             scope = scope,
             search = search
         )
@@ -69,7 +66,9 @@ class PostRepositoryImpl(
             pagedList = livePagedList,
             networkState = boundaryCallback!!.networkState,
             retry = {
-                boundaryCallback!!.helper.retryAllFailed()
+                scope.launch {
+                    boundaryCallback!!.helper.retryAllFailed()
+                }
             },
             refresh = {
                 refreshTrigger.value = null
