@@ -113,7 +113,7 @@ data class Detail(
 
     @ColumnInfo(name = "user_avatar")
     @SerialName("user_avatar")
-    val userAvatar: String?,
+    val userAvatar: String? = null,
 
     @ColumnInfo(name = "user_id")
     @SerialName("user_id")
