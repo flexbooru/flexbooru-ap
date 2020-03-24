@@ -29,6 +29,11 @@ android {
         versionNameSuffix '.c' + verCode
         resConfigs 'en', 'zh-rCN', 'ru-rRU', 'zh-rHK', 'pt-rBR'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.incremental":"true"]
+            }
+        }
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
