@@ -36,7 +36,7 @@ android {
         targetSdkVersion(29)
         versionCode = verCode
         versionName = "1.2.0"
-        versionNameSuffix = ".c" + verCode
+        versionNameSuffix = ".c$verCode"
         resConfigs(listOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -88,9 +88,9 @@ dependencies {
     val workVersion = "2.4.0-alpha01"
     val roomVersion = "2.2.5"
     val okhttpVersion = "4.4.1"
-    val retrofitVersion = "2.8.0"
+    val retrofitVersion = "2.8.1"
     val glideVersion = "4.11.0"
-    val markwonVersion = "4.3.0"
+    val markwonVersion = "4.3.1"
     val kodeinVersion = "6.5.4"
     val coroutinesVersion = "1.3.5"
     val serializationVersion = "0.20.0"
@@ -101,21 +101,21 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.1.0")
     implementation("org.kodein.di:kodein-di-erased-jvm:$kodeinVersion")
     implementation("org.kodein.di:kodein-di-framework-android-x:$kodeinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.1.0")
     implementation("com.google.android.material:material:$materialVersion")
     implementation("androidx.annotation:annotation:1.1.0")
-    implementation("androidx.appcompat:appcompat:1.2.0-alpha03")
+    implementation("androidx.appcompat:appcompat:1.2.0-beta01")
     implementation("androidx.preference:preference-ktx:1.1.0")
-    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha02")
-    implementation("androidx.core:core-ktx:1.3.0-alpha02")
-    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha01")
+    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha03")
+    implementation("androidx.core:core-ktx:1.3.0-beta01")
+    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha02")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-beta01")
     implementation("androidx.cardview:cardview:1.0.0")
 //    implementation("androidx.multidex:multidex:2.0.1"
     implementation("androidx.browser:browser:1.3.0-alpha01")
-    implementation("androidx.drawerlayout:drawerlayout:1.1.0-alpha04")
+    implementation("androidx.drawerlayout:drawerlayout:1.1.0-beta01")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
@@ -139,7 +139,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$navVersion")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0-alpha01")
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("com.github.onlymash:subsampling-scale-image-view:3.10.3")
     implementation("com.google.android.apps.muzei:muzei-api:3.2.0")
@@ -160,7 +160,7 @@ dependencies {
     implementation("io.noties.markwon:ext-strikethrough:$markwonVersion")
     implementation("io.noties.markwon:linkify:$markwonVersion")
     implementation("me.saket:better-link-movement-method:2.2.0")
-    implementation("com.google.firebase:firebase-core:17.2.3")
+    implementation("com.google.firebase:firebase-core:17.3.0")
     implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
     testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.work:work-testing:$workVersion")
