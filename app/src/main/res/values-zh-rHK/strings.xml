@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Flex/AP</string>
-    <string name="app_description">一個為 anime-pictures.net 而設的 App</string>
+    <string name="app_description">一個為 anime-pictures.net 而設的應用程式</string>
     <string name="title_posts">帖子</string>
     <string name="title_history">記錄</string>
     <string name="title_settings">設定</string>
@@ -35,7 +35,7 @@
     <string name="posts_extension_png">png</string>
     <string name="posts_extension_gif">gif</string>
     <string name="posts_muzei_set">釘選到 Muzei</string>
-    <string name="history_clear_all">清除全部</string>
+    <string name="history_clear_all">全部清除</string>
     <string name="history_clear_all_content">所有記錄將會被清除。</string>
     <string name="dialog_ok">確定</string>
     <string name="dialog_cancel">取消</string>
@@ -78,9 +78,9 @@
     <string name="search_posts_hint">搜尋帖子...</string>
     <string name="add_tag_filter_hint">新增標籤...</string>
     <string name="set_up_server">設定伺服器</string>
-    <string name="set_up_server_scheme">協定：</string>
-    <string name="set_up_server_host">主機：</string>
-    <string name="tags_filter_clear_all">清除全部</string>
+    <string name="set_up_server_scheme">協定:</string>
+    <string name="set_up_server_host">主機:</string>
+    <string name="tags_filter_clear_all">全部清除</string>
     <string name="tags_filter_clear_all_content">所有標籤將會被清除。</string>
     <string name="tags_blacklist_add">新增標籤</string>
     <string name="tags_blacklist_add_hint">新增標籤...</string>
