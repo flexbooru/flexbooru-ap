@@ -36,7 +36,7 @@ android {
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = verCode
-        versionName = "1.2.0"
+        versionName = "1.2.1"
         versionNameSuffix = ".c$verCode"
         resConfigs(listOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -83,9 +83,9 @@ android {
 }
 
 dependencies { 
-    val materialVersion = "1.2.0-alpha05"
+    val materialVersion = "1.2.0-alpha06"
     val lifecycleVersion = "2.3.0-alpha01"
-    val navVersion = "2.3.0-alpha04"
+    val navVersion = "2.3.0-alpha05"
     val workVersion = "2.4.0-alpha02"
     val roomVersion = "2.2.5"
     val okhttpVersion = "4.5.0"
