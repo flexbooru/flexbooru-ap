@@ -15,11 +15,6 @@
 
 package onlymash.flexbooru.ap.data
 
-enum class Status {
-    RUNNING,
-    SUCCESS,
-    FAILED
-}
 
 @Suppress("DataClassPrivateConstructor")
 data class NetworkState private constructor(

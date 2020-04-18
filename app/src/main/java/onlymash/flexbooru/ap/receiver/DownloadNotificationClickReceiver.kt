@@ -3,6 +3,7 @@ package onlymash.flexbooru.ap.receiver
 import android.content.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.getMimeType
+import java.lang.RuntimeException
 
 class DownloadNotificationClickReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -20,7 +21,11 @@ class DownloadNotificationClickReceiver : BroadcastReceiver() {
                         newIntent,
                         context.getString(R.string.share_via)
                     ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            } catch (_: ActivityNotFoundException) {}
+            } catch (_: ActivityNotFoundException) {
+
+            } catch (_: RuntimeException) {
+
+            }
         }
     }
 }

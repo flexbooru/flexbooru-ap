@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import com.squareup.picasso.Picasso
 import onlymash.flexbooru.ap.crash.CrashHandler
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
@@ -14,7 +13,6 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
 import org.kodein.di.erased.singleton
-import java.util.concurrent.Executors
 
 class App : Application(), KodeinAware {
 
@@ -34,8 +32,6 @@ class App : Application(), KodeinAware {
         bind() from singleton { instance<MyDatabase>().tagFilterDao() }
         bind() from singleton { instance<MyDatabase>().tagBlacklistDao() }
         bind() from singleton { Api() }
-        bind() from singleton { Executors.newSingleThreadExecutor() }
-        bind() from singleton { Picasso.Builder(instance()).build() }
     }
 
     override fun onCreate() {

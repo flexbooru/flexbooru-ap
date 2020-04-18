@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <uses-permission
+        android:name="android.permission.RECEIVE_BOOT_COMPLETED"
+        tools:node="remove"/>
+
     <application
         android:name=".common.App"
         android:largeHeap="true"
@@ -22,7 +26,8 @@
         <activity android:name=".ui.activity.CommentActivity"/>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme.Launcher">
+            android:theme="@style/AppTheme.Launcher"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +41,8 @@
             android:label="@string/title_login" />
         <activity
             android:name=".ui.activity.DetailActivity"
-            android:theme="@style/AppTheme.Detail">
+            android:theme="@style/AppTheme.Detail"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -74,6 +80,29 @@
                 <action android:name="com.google.android.apps.muzei.api.MuzeiArtProvider"/>
             </intent-filter>
         </provider>
+
+        <activity
+            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
+            tools:node="remove"/>
+        <activity
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            tools:node="remove"/>
+
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+            tools:node="remove"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+            tools:node="remove"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+            tools:node="remove"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+            tools:node="remove"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            tools:node="remove"/>
     </application>
 
 </manifest>

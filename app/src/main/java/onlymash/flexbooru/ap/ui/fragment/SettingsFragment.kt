@@ -10,6 +10,8 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.PREFERENCE_NAME
 import onlymash.flexbooru.ap.common.SETTINGS_PATH_KEY
 import onlymash.flexbooru.ap.common.Settings
+import onlymash.flexbooru.ap.extension.decode
+import onlymash.flexbooru.ap.extension.getTreeUri
 import onlymash.flexbooru.ap.extension.openDocumentTree
 import onlymash.flexbooru.ap.widget.ListListener
 
@@ -26,6 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         preferenceManager.sharedPreferencesName = PREFERENCE_NAME
         preferenceManager.sharedPreferencesMode = Context.MODE_PRIVATE
         setPreferencesFromResource(R.xml.pref_settings, "settings_screen")
+        Settings.pathString = context?.contentResolver?.getTreeUri()?.toString()?.decode()
         initPathSummary()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }

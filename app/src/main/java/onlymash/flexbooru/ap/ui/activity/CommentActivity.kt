@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -113,12 +114,12 @@ class CommentActivity : KodeinActivity() {
             commentViewModel.status.observe(this, Observer {
                 comments_refresh.isRefreshing = it == NetworkState.LOADING
                 if (it != NetworkState.LOADED) {
-                    status_container.toVisibility(true)
-                    retry_button.toVisibility(it.status == Status.FAILED)
-                    error_msg.toVisibility(it.msg != null)
+                    status_container.isVisible = true
+                    retry_button.isVisible = it.status == Status.FAILED
+                    error_msg.isVisible = it.msg != null
                     error_msg.text = it.msg
                 } else {
-                    status_container.toVisibility(false)
+                    status_container.isVisible = false
                 }
             })
             if (postId > 0) {
@@ -128,15 +129,15 @@ class CommentActivity : KodeinActivity() {
                 commentViewModel.loadComments(postId)
             }
             retry_button.setOnClickListener {
-                status_container.toVisibility(false)
+                status_container.isVisible = false
                 commentViewModel.loadComments(postId)
             }
             comment_send.setOnClickListener {
                 val text = comment_edit.text?.toString() ?: ""
                 if (text.length >= 2) {
-                    comment_send.toVisibility(false)
-                    comment_send_progress_bar.toVisibility(true)
-                    lifecycleScope.launch {
+                    comment_send.isVisible = false
+                    comment_send_progress_bar.isVisible = true
+                        lifecycleScope.launch {
                         when (
                             val result = repo.createComment(
                                 url = getCreateCommentUrl(postId),
@@ -152,9 +153,9 @@ class CommentActivity : KodeinActivity() {
                                 Toast.makeText(this@CommentActivity, result.errorMsg, Toast.LENGTH_LONG).show()
                             }
                         }
-                        comment_send_progress_bar.toVisibility(false)
-                        comment_send.toVisibility(true)
-                    }
+                            comment_send_progress_bar.isVisible = false
+                            comment_send.isVisible = true
+                        }
                 } else {
                     comment_edit.error = getString(R.string.msg_minimum_two_characters)
                 }

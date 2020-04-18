@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -19,7 +20,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.chrisbanes.photoview.PhotoView
-import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.Settings
@@ -36,7 +38,6 @@ import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.widget.DismissFrameLayout
 import org.kodein.di.erased.instance
 import java.io.File
-import java.util.concurrent.Executor
 
 class DetailFragment : KodeinFragment() {
 
@@ -53,8 +54,6 @@ class DetailFragment : KodeinFragment() {
 
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
-    private val ioExecutor by instance<Executor>()
-    private val picasso by instance<Picasso>()
 
     private lateinit var detailViewModel: DetailViewModel
     private var postId = -1
@@ -92,8 +91,8 @@ class DetailFragment : KodeinFragment() {
                 is NetResult.Success -> {
                     val url = it.data.getDetailUrl()
                     if (it.data.ext == ".gif") {
-                        subsamplingScaleImageView.toVisibility(false)
-                        photoView.toVisibility(true)
+                        subsamplingScaleImageView.isVisible = false
+                        photoView.isVisible = true
                         photoView.setOnClickListener {
                             (activity as? DetailActivity)?.setVisibility()
                         }
@@ -109,7 +108,7 @@ class DetailFragment : KodeinFragment() {
                                     target: Target<GifDrawable>?,
                                     isFirstResource: Boolean
                                 ): Boolean {
-                                    progressBar.toVisibility(false)
+                                    progressBar.isVisible = false
                                     return false
                                 }
                                 override fun onResourceReady(
@@ -119,18 +118,18 @@ class DetailFragment : KodeinFragment() {
                                     dataSource: DataSource?,
                                     isFirstResource: Boolean
                                 ): Boolean {
-                                    progressBar.toVisibility(false)
+                                    progressBar.isVisible = false
                                     return false
                                 }
                             })
                             .into(photoView)
                     } else {
-                        photoView.toVisibility(false)
-                        subsamplingScaleImageView.toVisibility(true)
+                        photoView.isVisible = false
+                        subsamplingScaleImageView.isVisible = true
                         subsamplingScaleImageView.apply {
-                            setExecutor(ioExecutor)
+                            setExecutor(Dispatchers.IO.asExecutor())
                             setBitmapDecoderFactory{
-                                CustomDecoder(picasso)
+                                CustomDecoder(GlideApp.with(this))
                             }
                             setRegionDecoderFactory {
                                 CustomRegionDecoder()
@@ -147,7 +146,7 @@ class DetailFragment : KodeinFragment() {
                                 override fun onLoadCleared(placeholder: Drawable?) {}
                                 override fun onResourceReady(resource: File, transition: Transition<in File>?) {
                                     subsamplingScaleImageView.setImage(ImageSource.uri(resource.toUri()))
-                                    progressBar.toVisibility(false)
+                                    progressBar.isVisible = false
                                 }
                             })
                     }

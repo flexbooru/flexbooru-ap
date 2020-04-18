@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
 import androidx.paging.toLiveData
+import androidx.room.withTransaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -102,11 +103,9 @@ class PostRepositoryImpl(
             }) {
                 is NetResult.Success -> {
                     networkState.postValue(NetworkState.LOADED)
-                    withContext(Dispatchers.IO) {
-                        db.runInTransaction {
-                            db.postDao().deletePosts(search.query)
-                            insertResultIntoDb(search.query, result.data)
-                        }
+                    db.withTransaction {
+                        db.postDao().deletePosts(search.query)
+                        insertResultIntoDb(search.query, result.data)
                     }
                 }
                 is NetResult.Error -> networkState.value = NetworkState.error(result.errorMsg)

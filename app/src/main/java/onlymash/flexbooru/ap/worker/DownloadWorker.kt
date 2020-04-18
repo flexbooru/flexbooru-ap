@@ -65,7 +65,7 @@ class DownloadWorker(
             return Result.failure()
         }
 
-        val desUri = getFileUriByDocId(docId) ?: return Result.failure()
+        val desUri = applicationContext.contentResolver.getFileUriByDocId(docId) ?: return Result.failure()
 
         val channelId = applicationContext.packageName + ".download"
 

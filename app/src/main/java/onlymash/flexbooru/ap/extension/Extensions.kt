@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.text.StaticLayout
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import androidx.core.view.postDelayed
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_BIG
@@ -81,27 +79,27 @@ fun Activity.getSanCount(): Int {
     return if (count < 1) 1 else count
 }
 
-fun Window.initFullTransparentBar() {
-    addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
-            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-    statusBarColor = Color.TRANSPARENT
-    navigationBarColor = Color.TRANSPARENT
-    showBar()
-}
-
-fun Window.showBar() {
-    val uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+fun View.toFullscreenStable() {
+    systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-    decorView.systemUiVisibility = uiFlags
 }
 
-fun Window.hideBar() {
-    val uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+fun View.toFullscreenImmersive() {
+    systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
             View.SYSTEM_UI_FLAG_FULLSCREEN or
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
             View.SYSTEM_UI_FLAG_IMMERSIVE
-    decorView.systemUiVisibility = uiFlags
 }
+
+
+inline var Window.isShowBar: Boolean
+    get() = (decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LAYOUT_STABLE) != 0
+    set(value) {
+        if (value) {
+            decorView.toFullscreenStable()
+        } else {
+            decorView.toFullscreenImmersive()
+        }
+    }

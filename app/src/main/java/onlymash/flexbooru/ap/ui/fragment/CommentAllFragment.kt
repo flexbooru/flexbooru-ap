@@ -6,6 +6,7 @@ import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,8 +30,6 @@ import onlymash.flexbooru.ap.data.Status
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.repository.comment.CommentAllRepositoryImpl
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.extension.isVisible
-import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.adapter.CommentAllAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
@@ -93,14 +92,14 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
             commentAllAdapter.submitList(it)
         })
         commentAllViewModel.networkState.observe(this.viewLifecycleOwner, Observer {
-            if (progress_bar.isVisible() && (it == NetworkState.LOADED || it.status == Status.FAILED)) {
+            if (progress_bar.isVisible && (it == NetworkState.LOADED || it.status == Status.FAILED)) {
                 progress_bar.visibility = View.GONE
             }
             if (it.status == Status.FAILED) {
-                status_container.toVisibility(true)
+                status_container.isVisible = true
                 error_msg.text = it.msg
             } else {
-                status_container.toVisibility(false)
+                status_container.isVisible = false
             }
         })
         commentAllViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
@@ -110,11 +109,11 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
         })
         commentAllViewModel.show(token)
         refresh.setOnRefreshListener {
-            status_container.toVisibility(false)
+            status_container.isVisible = false
             commentAllViewModel.refresh()
         }
         retry_button.setOnClickListener {
-            status_container.toVisibility(false)
+            status_container.isVisible = false
             commentAllViewModel.retry()
         }
     }

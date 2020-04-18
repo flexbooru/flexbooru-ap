@@ -7,10 +7,10 @@ buildscript {
         maven(url = "https://maven.fabric.io/public")
     }
     dependencies {
-        val kotlinVersion = "1.3.71"
+        val kotlinVersion = "1.3.72"
         classpath(kotlin("gradle-plugin", kotlinVersion))
         classpath(kotlin("serialization", kotlinVersion))
-        classpath("com.android.tools.build:gradle:4.0.0-beta03")
+        classpath("com.android.tools.build:gradle:4.0.0-beta04")
         classpath("com.github.ben-manes:gradle-versions-plugin:0.28.0")
         classpath("com.google.gms:google-services:4.3.3")
         classpath("io.fabric.tools:gradle:1.31.2")
@@ -30,7 +30,6 @@ allprojects {
         }
     }
 }
-
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)

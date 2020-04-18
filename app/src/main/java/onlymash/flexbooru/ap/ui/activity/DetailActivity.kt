@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -140,8 +141,8 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
 
     override fun finishAfterTransition() {
         if (fromWhere == FROM_POSTS) {
-            toolbar_container.toVisibility(false)
-            bottom_bar_container.toVisibility(false)
+            toolbar_container.isVisible = false
+            bottom_bar_container.isVisible = false
             colorDrawable.alpha = ALPHA_MIN
         }
         super.finishAfterTransition()
@@ -152,7 +153,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
-        window.initFullTransparentBar()
+        window.isShowBar = true
         setContentView(R.layout.activity_detail)
         findViewById<View>(android.R.id.content).setOnApplyWindowInsetsListener(this)
         intent?.apply {
@@ -461,28 +462,11 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
     }
 
     internal fun setVisibility() {
-        when (toolbar.visibility) {
-            View.VISIBLE -> {
-                hideBar()
-                toolbar.visibility = View.GONE
-                bottom_bar_container.visibility = View.GONE
-                shadow.visibility = View.GONE
-            }
-            else -> {
-                showBar()
-                toolbar.visibility = View.VISIBLE
-                bottom_bar_container.visibility = View.VISIBLE
-                shadow.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun showBar() {
-        window.showBar()
-    }
-
-    private fun hideBar() {
-        window.hideBar()
+        val isVisible = !toolbar.isVisible
+        window.isShowBar = isVisible
+        toolbar.isVisible = isVisible
+        bottom_bar_container.isVisible = isVisible
+        shadow.isVisible = isVisible
     }
 
     inner class DetailAdapter(fm: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fm, lifecycle) {

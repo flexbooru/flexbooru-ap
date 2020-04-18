@@ -7,6 +7,7 @@ plugins {
     kotlin("android.extensions")
     kotlin("kapt")
     kotlin("plugin.serialization")
+    id("com.google.gms.google-services")
     id("io.fabric")
 }
 
@@ -85,13 +86,13 @@ dependencies {
     val materialVersion = "1.2.0-alpha05"
     val lifecycleVersion = "2.3.0-alpha01"
     val navVersion = "2.3.0-alpha04"
-    val workVersion = "2.4.0-alpha01"
+    val workVersion = "2.4.0-alpha02"
     val roomVersion = "2.2.5"
-    val okhttpVersion = "4.4.1"
+    val okhttpVersion = "4.5.0"
     val retrofitVersion = "2.8.1"
     val glideVersion = "4.11.0"
     val markwonVersion = "4.3.1"
-    val kodeinVersion = "6.5.4"
+    val kodeinVersion = "6.5.5"
     val coroutinesVersion = "1.3.5"
     val serializationVersion = "0.20.0"
 
@@ -107,11 +108,11 @@ dependencies {
     implementation("com.google.android.material:material:$materialVersion")
     implementation("androidx.annotation:annotation:1.1.0")
     implementation("androidx.appcompat:appcompat:1.2.0-beta01")
-    implementation("androidx.preference:preference-ktx:1.1.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
     implementation("androidx.fragment:fragment-ktx:1.3.0-alpha03")
-    implementation("androidx.core:core-ktx:1.3.0-beta01")
+    implementation("androidx.core:core-ktx:1.3.0-rc01")
     implementation("androidx.recyclerview:recyclerview:1.2.0-alpha02")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-beta01")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01")
     implementation("androidx.cardview:cardview:1.0.0")
 //    implementation("androidx.multidex:multidex:2.0.1"
     implementation("androidx.browser:browser:1.3.0-alpha01")
@@ -149,7 +150,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")
     implementation("com.squareup.okio:okio:2.5.0")
-    implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0")
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     implementation("com.github.bumptech.glide:okhttp3-integration:$glideVersion")
@@ -166,8 +166,4 @@ dependencies {
     androidTestImplementation("androidx.work:work-testing:$workVersion")
     androidTestImplementation("androidx.test:runner:1.3.0-alpha05")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0-alpha05")
-}
-
-apply {
-    plugin("com.google.gms.google-services")
 }

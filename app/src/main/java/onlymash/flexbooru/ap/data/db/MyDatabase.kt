@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
 import onlymash.flexbooru.ap.data.db.dao.*
 import onlymash.flexbooru.ap.data.model.*
 
@@ -25,22 +25,6 @@ import onlymash.flexbooru.ap.data.model.*
 abstract class MyDatabase : RoomDatabase() {
 
     companion object {
-        private val MIGRATION_1_2 by lazy {
-            object : Migration(1,2) {
-                override fun migrate(database: SupportSQLiteDatabase) {
-                    database.execSQL("CREATE TABLE IF NOT EXISTS `tags_filter` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)")
-                    database.execSQL("CREATE UNIQUE INDEX `index_tags_filter_name` ON `tags_filter` (`name`)")
-                }
-            }
-        }
-        private val MIGRATION_2_3 by lazy {
-            object : Migration(2,3) {
-                override fun migrate(database: SupportSQLiteDatabase) {
-                    database.execSQL("CREATE TABLE IF NOT EXISTS `tags_blacklist` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)")
-                    database.execSQL("CREATE UNIQUE INDEX `index_tags_blacklist_name` ON `tags_blacklist` (`name`)")
-                }
-            }
-        }
         private var instance: MyDatabase? = null
         private val LOCK = Any()
         operator fun invoke(context: Context): MyDatabase = instance ?: synchronized(LOCK) {
@@ -51,9 +35,11 @@ abstract class MyDatabase : RoomDatabase() {
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addMigrations(
-                        MIGRATION_1_2,
-                        MIGRATION_2_3
+                        MyMigration(1, 2),
+                        MyMigration(2, 3)
                     )
+                    .setQueryExecutor(Dispatchers.IO.asExecutor())
+                    .setTransactionExecutor(Dispatchers.IO.asExecutor())
                     .build()
     }
 

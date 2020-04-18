@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.activity_user.*
@@ -24,7 +25,6 @@ import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.db.dao.PostDao
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.extension.getLogoutUrl
-import onlymash.flexbooru.ap.extension.toVisibility
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.widget.setupInsets
@@ -131,14 +131,14 @@ class UserActivity : KodeinActivity() {
                     .setMessage(R.string.user_logout_content)
                     .setPositiveButton(R.string.dialog_yes) { _, _ ->
                         user?.let { user ->
-                            progress_bar.toVisibility(true)
-                            lifecycleScope.launch {
+                            progress_bar.isVisible = true
+                                lifecycleScope.launch {
                                 if (logout(user)) {
                                     Settings.userUid = -1L
                                     Settings.userToken = ""
                                     finish()
                                 } else {
-                                    progress_bar.toVisibility(false)
+                                    progress_bar.isVisible = false
                                 }
                             }
                         }
