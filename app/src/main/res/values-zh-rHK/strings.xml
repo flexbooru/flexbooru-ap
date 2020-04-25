@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Flex/AP</string>
-    <string name="app_description">An app for anime-pictures.net</string>
+    <string name="app_description">一個為 anime-pictures.net 而設的應用程式</string>
     <string name="title_posts">帖子</string>
     <string name="title_history">記錄</string>
     <string name="title_settings">設定</string>
     <string name="title_login">登入</string>
-    <string name="title_register">Sign up</string>
+    <string name="title_register">註冊</string>
     <string name="title_account">帳號</string>
     <string name="title_about">關於</string>
     <string name="title_copyright">版權</string>
@@ -15,7 +15,7 @@
     <string name="title_setup_wizard">設定精靈</string>
     <string name="title_comments">留言</string>
     <string name="posts_search">搜尋</string>
-    <string name="posts_open_filter">Open filter</string>
+    <string name="posts_open_filter">開啟過濾器</string>
     <string name="posts_more_options">更多選項</string>
     <string name="posts_order">排序</string>
     <string name="posts_order_date">日期</string>
@@ -34,8 +34,8 @@
     <string name="posts_extension_jpg">jpeg/jpg</string>
     <string name="posts_extension_png">png</string>
     <string name="posts_extension_gif">gif</string>
-    <string name="posts_muzei_set">Pin to Muzei</string>
-    <string name="history_clear_all">清除全部</string>
+    <string name="posts_muzei_set">釘選到 Muzei</string>
+    <string name="history_clear_all">全部清除</string>
     <string name="history_clear_all_content">所有記錄將會被清除。</string>
     <string name="dialog_ok">確定</string>
     <string name="dialog_cancel">取消</string>
@@ -49,7 +49,7 @@
     <string name="settings_night_mode_system">跟隨系統</string>
     <string name="settings_night_mode_battery">跟隨省電模式</string>
     <string name="settings_page_limit">每頁限制</string>
-    <string name="settings_muzei_limit">Muzei limit</string>
+    <string name="settings_muzei_limit">Muzei 限制</string>
     <string name="settings_preview_size">預覽大小</string>
     <string name="settings_preview_size_small">小</string>
     <string name="settings_preview_size_medium">中</string>
@@ -78,9 +78,9 @@
     <string name="search_posts_hint">搜尋帖子...</string>
     <string name="add_tag_filter_hint">新增標籤...</string>
     <string name="set_up_server">設定伺服器</string>
-    <string name="set_up_server_scheme">協定：</string>
-    <string name="set_up_server_host">主機：</string>
-    <string name="tags_filter_clear_all">清除全部</string>
+    <string name="set_up_server_scheme">協定:</string>
+    <string name="set_up_server_host">主機:</string>
+    <string name="tags_filter_clear_all">全部清除</string>
     <string name="tags_filter_clear_all_content">所有標籤將會被清除。</string>
     <string name="tags_blacklist_add">新增標籤</string>
     <string name="tags_blacklist_add_hint">新增標籤...</string>
