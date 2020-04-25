@@ -36,7 +36,7 @@ android {
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = verCode
-        versionName = "1.2.1"
+        versionName = "1.3.0"
         versionNameSuffix = ".c$verCode"
         resConfigs(listOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
