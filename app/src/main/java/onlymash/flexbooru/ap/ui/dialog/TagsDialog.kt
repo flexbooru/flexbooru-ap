@@ -2,11 +2,8 @@ package onlymash.flexbooru.ap.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -27,12 +24,15 @@ import onlymash.flexbooru.ap.data.model.TagBlacklist
 import onlymash.flexbooru.ap.data.model.TagFilter
 import onlymash.flexbooru.ap.data.model.TagsFull
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
+import onlymash.flexbooru.ap.databinding.FastRecyclerviewBinding
+import onlymash.flexbooru.ap.databinding.ItemTagBinding
 import onlymash.flexbooru.ap.extension.NetResult
 import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.activity.SearchActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import org.kodein.di.erased.instance
 
 class TagsDialog : BaseBottomSheetDialogFragment() {
@@ -51,6 +51,8 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
     private val detailDao by instance<DetailDao>()
     private val tagFilterDao by instance<TagFilterDao>()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
+    private var _binding: FastRecyclerviewBinding? = null
+    private val binding get() = _binding!!
 
     private var postId = -1
     private var detail: Detail? = null
@@ -66,17 +68,25 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        val view = View.inflate(requireContext(), R.layout.dialog_tags, null)
+        _binding = FastRecyclerviewBinding.inflate(layoutInflater)
+        dialog.setContentView(binding.root)
+        behavior = BottomSheetBehavior.from(binding.root.parent as View)
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    dismiss()
+                }
+            }
+        })
         tagAdapter = TagAdapter()
-        view.findViewById<RecyclerView>(R.id.list).apply {
+        binding.list.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = tagAdapter
         }
-        detailViewModel = getViewModel(
-            DetailViewModel(
-                repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
-            )
-        )
+        detailViewModel = getViewModel(DetailViewModel(repo = DetailRepositoryImpl(api = api, detailDao = detailDao)))
         detailViewModel.detail.observe(this, Observer {
             if (it is NetResult.Success) {
                 detail = it.data
@@ -88,18 +98,6 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
         } else {
             dismiss()
         }
-        dialog.setContentView(view)
-        behavior = BottomSheetBehavior.from(view.parent as View)
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    dismiss()
-                }
-            }
-        })
         return dialog
     }
 
@@ -116,24 +114,27 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
             (holder as TagViewHolder).bind(detail?.tagsFull?.get(position))
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            TagViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_tag, parent, false))
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int): RecyclerView.ViewHolder = TagViewHolder(parent)
 
-        inner class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class TagViewHolder(binding: ItemTagBinding) : RecyclerView.ViewHolder(binding.root) {
 
-            private val tagDot: AppCompatImageView = itemView.findViewById(R.id.tag_dot)
-            private val tagName: AppCompatTextView = itemView.findViewById(R.id.tag_name)
-            private val tagCount: AppCompatTextView = itemView.findViewById(R.id.tag_count)
-            private val tagAddToFilter: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_filter)
-            private val tagAddToBlacklist: AppCompatImageView = itemView.findViewById(R.id.tag_add_to_blacklist)
+            constructor(parent: ViewGroup): this(parent.viewBinding(ItemTagBinding::inflate))
+
+            private val tagDot = binding.tagDot
+            private val tagName = binding.tagName
+            private val tagCount = binding.tagCount
+            private val tagAddToFilter = binding.tagAddToFilter
+            private val tagAddToBlacklist = binding.tagAddToBlacklist
 
             private var tagFull: TagsFull? = null
 
             init {
                 itemView.setOnClickListener {
-                    val query = tagFull?.name ?: return@setOnClickListener
-                    SearchActivity.startSearchActivity(itemView.context, query)
+                    tagFull?.name?.let { query ->
+                        SearchActivity.startSearchActivity(itemView.context, query)
+                    }
                 }
                 itemView.setOnLongClickListener {
                     itemView.context.copyText(tagFull?.name)

@@ -33,7 +33,7 @@ class MuzeiArtWorker(
     }
 
     override suspend fun doWork(): Result {
-        val postDao: PostDao by App.app.instance()
+        val postDao by App.app.instance<PostDao>()
         val query = Settings.muzeiQuery
         val posts = postDao.getPostsLimit(query, Settings.muzeiLimit)
         val attributionString = applicationContext.getString(R.string.muzei_attribution)
