@@ -106,6 +106,11 @@ class TagsDialog : BaseBottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
     inner class TagAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun getItemCount(): Int = detail?.tagsFull?.size ?: 0
