@@ -1,53 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activity.DetailActivity">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.DetailActivity">
 
     <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/posts_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/posts_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <FrameLayout
-            android:id="@+id/shadow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <View
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:layout_gravity="top"
-                android:background="@drawable/background_detail_top"/>
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_gravity="top"
+            android:background="@drawable/background_detail_top"/>
 
         <View
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/background_detail_bottom"/>
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_detail_bottom"/>
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/toolbar_container"
-            android:layout_gravity="top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?android:attr/actionBarSize">
+        android:id="@+id/toolbar_container"
+        android:layout_gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                android:background="@android:color/transparent"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:menu="@menu/detail"
-                app:navigationIcon="?android:attr/homeAsUpIndicator"/>
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            android:background="@android:color/transparent"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:menu="@menu/detail"
+            app:navigationIcon="?android:attr/homeAsUpIndicator"/>
 
     </FrameLayout>
 
-    <include layout="@layout/bottom_shortcut_bar"/>
+    <include
+        layout="@layout/bottom_shortcut_bar"
+        android:id="@+id/shortcut"/>
 
-</merge>
+</FrameLayout>

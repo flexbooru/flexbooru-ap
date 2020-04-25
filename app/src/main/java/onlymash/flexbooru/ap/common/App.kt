@@ -31,7 +31,7 @@ class App : Application(), KodeinAware {
         bind() from singleton { instance<MyDatabase>().userDao() }
         bind() from singleton { instance<MyDatabase>().tagFilterDao() }
         bind() from singleton { instance<MyDatabase>().tagBlacklistDao() }
-        bind() from singleton { Api() }
+        bind() from singleton { Api.invoke() }
     }
 
     override fun onCreate() {

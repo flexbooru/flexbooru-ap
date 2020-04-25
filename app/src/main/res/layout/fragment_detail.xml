@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <onlymash.flexbooru.ap.widget.DismissFrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detail_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <com.github.chrisbanes.photoview.PhotoView
-            android:id="@+id/post_gif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
+        android:id="@+id/post_gif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:visibility="gone"/>
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-            android:id="@+id/post_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    <include layout="@layout/progress_bar"/>
+        android:id="@+id/post_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <include
+        layout="@layout/progress_bar"
+        android:id="@+id/layout_progress"/>
 </onlymash.flexbooru.ap.widget.DismissFrameLayout>

@@ -41,31 +41,38 @@ private fun Activity.getFileUri(dirName: String, fileName: String): Uri? {
         return null
     }
     val treeDir = DocumentFile.fromTreeUri(this, treeUri)
-    if (treeDir == null || !treeDir.canWrite()) {
+    if (treeDir == null || !treeDir.exists() || treeDir.isFile ||
+        !treeDir.canRead() || !treeDir.canWrite()) {
         Toast.makeText(this, getString(R.string.msg_path_denied), Toast.LENGTH_LONG).show()
         openDocumentTree()
         return null
     }
     val treeId = DocumentsContract.getTreeDocumentId(treeUri)
     val dirId = getDocumentFileId(treeId, dirName)
-    val dirUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, dirId)
+    val dirUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, dirId) ?: return null
     val dir = DocumentFile.fromSingleUri(this, dirUri)
+    var tmpUri: Uri? = null
     try {
         if (dir == null || !dir.exists()) {
-            treeDir.createDirectory(dirName) ?: return null
+            tmpUri = treeDir.createDirectory(dirName)?.uri ?: return null
         } else if (dir.isFile) {
             dir.delete()
-            treeDir.createDirectory(dirName) ?: return null
+            tmpUri = treeDir.createDirectory(dirName)?.uri ?: return null
         }
-    } catch (_: IOException) {
+    } catch (_: Exception) {
+        return null
+    }
+    if (tmpUri != null && tmpUri != dirUri) {
+        Toast.makeText(this, getString(R.string.msg_path_denied), Toast.LENGTH_LONG).show()
+        openDocumentTree()
         return null
     }
     val fileId= getDocumentFileId(dirId, fileName)
-    val fileUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, fileId)
-    val file = DocumentFile.fromSingleUri(this, fileUri)
+    var fileUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, fileId)
+    var file = DocumentFile.fromSingleUri(this, fileUri)
     try {
         if (file == null || !file.exists()) {
-            DocumentsContract.createDocument(
+            fileUri = DocumentsContract.createDocument(
                 contentResolver,
                 dirUri,
                 fileName.getMimeType(),
@@ -73,14 +80,18 @@ private fun Activity.getFileUri(dirName: String, fileName: String): Uri? {
             ) ?: return null
         } else if (file.isDirectory) {
             file.delete()
-            DocumentsContract.createDocument(
+            fileUri = DocumentsContract.createDocument(
                 contentResolver,
                 dirUri,
                 fileName.getMimeType(),
                 fileName
             ) ?: return null
         }
-    } catch (_: IOException) {
+    } catch (_: Exception) {
+        return null
+    }
+    file = DocumentFile.fromSingleUri(this, fileUri)
+    if (file == null || !file.exists() || !file.canWrite()) {
         return null
     }
     return fileUri

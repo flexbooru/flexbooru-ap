@@ -8,7 +8,7 @@ plugins {
     kotlin("kapt")
     kotlin("plugin.serialization")
     id("com.google.gms.google-services")
-    id("io.fabric")
+    id("com.google.firebase.crashlytics")
 }
 
 val properties = Properties()
@@ -70,7 +70,7 @@ android {
         )
     }
     compileOptions {
-        coreLibraryDesugaringEnabled = true
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -79,6 +79,9 @@ android {
         arguments {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -160,10 +163,10 @@ dependencies {
     implementation("io.noties.markwon:ext-strikethrough:$markwonVersion")
     implementation("io.noties.markwon:linkify:$markwonVersion")
     implementation("me.saket:better-link-movement-method:2.2.0")
-    implementation("com.google.firebase:firebase-core:17.3.0")
-    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
+    implementation("com.google.firebase:firebase-analytics-ktx:17.4.0")
+    implementation("com.google.firebase:firebase-crashlytics:17.0.0")
     testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.work:work-testing:$workVersion")
-    androidTestImplementation("androidx.test:runner:1.3.0-alpha05")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0-alpha05")
+    androidTestImplementation("androidx.test:runner:1.3.0-beta01")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0-beta01")
 }

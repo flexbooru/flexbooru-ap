@@ -18,10 +18,10 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.okhttp.OkHttpDownloader
 import onlymash.flexbooru.ap.okhttp.ProgressInterceptor
-import onlymash.flexbooru.ap.okhttp.ProgressListener
 import java.io.IOException
 import java.io.InputStream
 
+const val INPUT_DATA_KEY = "input_data"
 private const val DOWNLOAD_URL_KEY = "url"
 private const val DOWNLOAD_POST_ID_KEY = "post_id"
 private const val DOWNLOAD_DOC_ID_KEY = "doc_id"
@@ -35,23 +35,22 @@ class DownloadWorker(
         fun download(activity: Activity, detail: Detail) {
             val uri = activity.getDownloadUri(detail.fileUrl.fileName()) ?: return
             val docId = DocumentsContract.getDocumentId(uri) ?: return
-            val workerManager = WorkManager.getInstance(App.app)
-            workerManager.enqueue(
-                OneTimeWorkRequestBuilder<DownloadWorker>()
-                    .setInputData(
-                        workDataOf(
-                            DOWNLOAD_URL_KEY to detail.fileUrl.toEncodedUrl(),
-                            DOWNLOAD_DOC_ID_KEY to docId,
-                            DOWNLOAD_POST_ID_KEY to detail.id
-                        )
-                    )
-                    .setConstraints(
-                        Constraints.Builder()
-                            .setRequiredNetworkType(NetworkType.CONNECTED)
-                            .build()
-                    )
-                    .build()
+            val data = workDataOf(
+                DOWNLOAD_URL_KEY to detail.fileUrl.toEncodedUrl(),
+                DOWNLOAD_DOC_ID_KEY to docId,
+                DOWNLOAD_POST_ID_KEY to detail.id
             )
+            runWork(data)
+        }
+        fun runWork(data: Data) {
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val work = OneTimeWorkRequestBuilder<DownloadWorker>()
+                .setInputData(data)
+                .setConstraints(constraints)
+                .build()
+            WorkManager.getInstance(App.app).enqueue(work)
         }
     }
 
@@ -80,23 +79,13 @@ class DownloadWorker(
             url = url,
             channelId = channelId)
 
-        var startTime = 0L
-        var elapsedTime = 400L
-
-        ProgressInterceptor.addListener(
-            url,
-            object : ProgressListener {
-                override fun onProgress(progress: Int) {
-                    if (elapsedTime >= 400L) {
-                        downloadingNotificationBuilder.setProgress(100, progress, false)
-                        notificationManager.notify(postId, downloadingNotificationBuilder.build())
-                        startTime = System.currentTimeMillis()
-                        elapsedTime = 0L
-                    } else {
-                        elapsedTime = System.currentTimeMillis() - startTime
-                    }
-                }
-            })
+        ProgressInterceptor.bindUrlWithInterval(
+            url = url,
+            interval = 500L
+        ) { progress ->
+            downloadingNotificationBuilder.setProgress(100, progress, false)
+            notificationManager.notify(postId, downloadingNotificationBuilder.build())
+        }
 
         var `is`: InputStream? = null
         val os = applicationContext.contentResolver.openOutputStream(desUri)
@@ -156,7 +145,12 @@ class DownloadWorker(
     private fun getDownloadedNotificationBuilder(title: String, channelId: String, desUri: Uri): NotificationCompat.Builder {
         val intent = Intent(applicationContext, DownloadNotificationClickReceiver::class.java)
         intent.data = desUri
-        val pendingIntent = PendingIntent.getBroadcast(applicationContext, System.currentTimeMillis().toInt(), intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            System.currentTimeMillis().toInt(),
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
         return NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
             .setContentTitle(title)
@@ -167,11 +161,24 @@ class DownloadWorker(
     }
 
     private fun getDownloadErrorNotificationBuilder(title: String, channelId: String): NotificationCompat.Builder {
+        val intent = Intent(applicationContext, DownloadNotificationClickReceiver::class.java)
+        intent.putExtra(INPUT_DATA_KEY, inputData.toByteArray())
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            System.currentTimeMillis().toInt(),
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
         return NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(android.R.drawable.stat_sys_warning)
             .setContentTitle(title)
             .setContentText(applicationContext.getString(R.string.msg_download_failed))
             .setOngoing(false)
             .setAutoCancel(true)
+            .addAction(
+                android.R.drawable.stat_sys_download,
+                applicationContext.getString(R.string.retry),
+                pendingIntent
+            )
     }
 }

@@ -5,14 +5,14 @@ import androidx.lifecycle.Transformations
 import androidx.paging.Config
 import androidx.paging.toLiveData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
 import onlymash.flexbooru.ap.data.Listing
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.model.CommentAll
-import java.util.concurrent.Executor
 
 class CommentAllRepositoryImpl(
-    private val api: Api,
-    private val networkExecutor: Executor
+    private val api: Api
 ) : CommentAllRepository {
 
     @MainThread
@@ -30,7 +30,7 @@ class CommentAllRepositoryImpl(
                 pageSize = 30,
                 enablePlaceholders = true
             ),
-            fetchExecutor = networkExecutor)
+            fetchExecutor = Dispatchers.IO.asExecutor())
         val refreshState = Transformations.switchMap(sourceFactory.sourceLiveData) { it.initialLoad }
         return Listing(
             pagedList = livePagedList,

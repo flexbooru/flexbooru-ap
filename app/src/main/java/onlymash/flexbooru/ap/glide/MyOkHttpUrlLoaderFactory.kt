@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019. by onlymash <im@fiepi.me>, All rights reserved
+ * Copyright (C) 2020. by onlymash <im@fiepi.me>, All rights reserved
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -13,19 +13,20 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package onlymash.flexbooru.ap.data
+package onlymash.flexbooru.ap.glide
 
-@Suppress("DataClassPrivateConstructor")
-data class NetworkState private constructor(
-    val status: Status,
-    val msg: String? = null
-) {
-    companion object {
-        val LOADED = NetworkState(Status.SUCCESS)
-        val LOADING = NetworkState(Status.RUNNING)
-        fun error(msg: String?) = NetworkState(Status.FAILED, msg)
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.ModelLoader
+import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import okhttp3.OkHttpClient
+import java.io.InputStream
+
+class MyOkHttpUrlLoaderFactory(
+    private val client: OkHttpClient
+) : OkHttpUrlLoader.Factory(client) {
+    override fun build(
+        multiFactory: MultiModelLoaderFactory): ModelLoader<GlideUrl, InputStream> {
+        return MyOkHttpUrlLoader(client)
     }
 }
-fun NetworkState?.isLoading() = this?.status == Status.RUNNING
-fun NetworkState?.isLoaded() = this?.status == Status.SUCCESS
-fun NetworkState?.isFailed() = this?.status == Status.FAILED

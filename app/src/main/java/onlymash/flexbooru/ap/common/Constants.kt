@@ -1,8 +1,8 @@
 package onlymash.flexbooru.ap.common
 
-const val REFERER_KEY = "referer"
-const val USER_AGENT_KEY = "user-agent"
-const val COOKIE_KEY = "cookie"
+const val REFERER_KEY = "Referer"
+const val USER_AGENT_KEY = "User-Agent"
+const val COOKIE_KEY = "Cookie"
 
 const val SCHEME_HTTP = "http"
 const val SCHEME_HTTPS = "https"

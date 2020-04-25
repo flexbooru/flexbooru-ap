@@ -32,7 +32,7 @@ class PostBoundaryCallback(
         scope.launch {
             when (val result = withContext(Dispatchers.IO) {
                 try {
-                    val response = api.getPosts(search.getPostsUrl(page = page))
+                    val response = api.getPosts(url = search.getPostsUrl(page = page))
                     if (response.isSuccessful) {
                         NetResult.Success(response.body()?.posts ?: listOf())
                     } else {

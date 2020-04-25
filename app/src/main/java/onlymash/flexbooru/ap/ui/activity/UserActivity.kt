@@ -10,9 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.activity_user.*
-import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.android.synthetic.main.progress_bar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,9 +21,11 @@ import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.db.dao.PostDao
 import onlymash.flexbooru.ap.data.model.User
+import onlymash.flexbooru.ap.databinding.ActivityUserBinding
 import onlymash.flexbooru.ap.extension.getLogoutUrl
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 import kotlin.Exception
@@ -51,6 +50,8 @@ class UserActivity : KodeinActivity() {
         }
     }
 
+    private val binding by viewBinding(ActivityUserBinding::inflate)
+
     private var user: User? = null
     private val api by instance<Api>()
     private val postDao by instance<PostDao>()
@@ -58,12 +59,13 @@ class UserActivity : KodeinActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user)
+        setContentView(binding.root)
         setupInsets { insets ->
-            container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
-            scroll_container.updatePadding(bottom = insets.systemWindowInsetBottom)
+            binding.layoutAppBar.containerToolbar.minimumHeight =
+                binding.layoutAppBar.toolbar.minimumHeight + insets.systemWindowInsetTop
+            binding.scrollContainer.updatePadding(bottom = insets.systemWindowInsetBottom)
         }
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.layoutAppBar.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.title_account)
@@ -89,11 +91,11 @@ class UserActivity : KodeinActivity() {
                 .load(avatarUrl)
                 .centerCrop()
                 .placeholder(ContextCompat.getDrawable(this, R.drawable.avatar_user))
-                .into(user_avatar)
+                .into(binding.userAvatar)
         }
-        user_id.text = userId.toString()
-        username.text = name
-        votes_button.setOnClickListener {
+        binding.userId.text = userId.toString()
+        binding.username.text = name
+        binding.votesButton.setOnClickListener {
             SearchActivity.startSearchActivity(
                 context = this,
                 query = "stars_by:$name",
@@ -101,7 +103,7 @@ class UserActivity : KodeinActivity() {
                 searchType = SearchType.FAVORITE
             )
         }
-        posts_button.setOnClickListener {
+        binding.postsButton.setOnClickListener {
             SearchActivity.startSearchActivity(
                 context = this,
                 query = "user:$name",
@@ -131,14 +133,14 @@ class UserActivity : KodeinActivity() {
                     .setMessage(R.string.user_logout_content)
                     .setPositiveButton(R.string.dialog_yes) { _, _ ->
                         user?.let { user ->
-                            progress_bar.isVisible = true
+                            binding.layoutProgress.progressBar.isVisible = true
                                 lifecycleScope.launch {
                                 if (logout(user)) {
                                     Settings.userUid = -1L
                                     Settings.userToken = ""
                                     finish()
                                 } else {
-                                    progress_bar.isVisible = false
+                                    binding.layoutProgress.progressBar.isVisible = false
                                 }
                             }
                         }
@@ -155,9 +157,7 @@ class UserActivity : KodeinActivity() {
         return withContext(Dispatchers.IO) {
             try {
                 try {
-                    api.logout(getLogoutUrl(
-                        token = user.token
-                    ))
+                    api.logout(url = getLogoutUrl(token = user.token))
                 } catch (_: Exception) {}
                 UserManager.deleteByUid(user.uid)
                 postDao.deleteAll()

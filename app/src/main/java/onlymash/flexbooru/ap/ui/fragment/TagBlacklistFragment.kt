@@ -12,41 +12,44 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_tag_blacklist.*
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
 import onlymash.flexbooru.ap.data.model.TagBlacklist
+import onlymash.flexbooru.ap.databinding.FragmentTagBlacklistBinding
+import onlymash.flexbooru.ap.databinding.ItemTagBlacklistBinding
 import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.TagBlacklistDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
 
 class TagBlacklistFragment : KodeinFragment() {
 
-    private val tagsBlacklist: MutableList<TagBlacklist> = mutableListOf()
+    private var _binding: FragmentTagBlacklistBinding? = null
+    private val binding get() = _binding!!
 
+    private val tagsBlacklist: MutableList<TagBlacklist> = mutableListOf()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private lateinit var tagBlacklistViewModel: TagBlacklistViewModel
     private lateinit var tagBlacklistAdapter: TagBlacklistAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_tag_blacklist, container, false)
+    ): View? {
+        tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
+        _binding = FragmentTagBlacklistBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tagBlacklistAdapter = TagBlacklistAdapter()
-        tags_blacklist_list.apply {
+        binding.tagsBlacklistList.apply {
             setOnApplyWindowInsetsListener(ListListener)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = tagBlacklistAdapter
@@ -63,10 +66,16 @@ class TagBlacklistFragment : KodeinFragment() {
         tagBlacklistViewModel.loadAll()
     }
 
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
     inner class TagBlacklistAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            TagBlacklistViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_tag_blacklist, parent, false))
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int): RecyclerView.ViewHolder = TagBlacklistViewHolder(parent)
 
         override fun getItemCount(): Int = tagsBlacklist.size
 
@@ -74,10 +83,12 @@ class TagBlacklistFragment : KodeinFragment() {
             (holder as TagBlacklistViewHolder).bind(tagsBlacklist[position])
         }
 
-        inner class TagBlacklistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class TagBlacklistViewHolder(binding: ItemTagBlacklistBinding) : RecyclerView.ViewHolder(binding.root) {
 
-            private val name: AppCompatTextView = itemView.findViewById(R.id.name)
-            private val actionMenuView: ActionMenuView = itemView.findViewById(R.id.menu_view)
+            constructor(parent: ViewGroup): this(parent.viewBinding(ItemTagBlacklistBinding::inflate))
+
+            private val name = binding.name
+            private val actionMenuView = binding.menuView
 
             private var tag: TagBlacklist? = null
 

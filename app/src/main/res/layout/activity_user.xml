@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/app_bar"/>
+        <include
+            layout="@layout/app_bar"
+            android:id="@+id/layout_app_bar"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_container"
@@ -71,6 +73,7 @@
                             android:id="@+id/votes_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@null"
                             app:tint="@android:color/white"
                             app:srcCompat="@drawable/ic_star_24dp"
                             style="@style/Widget.MaterialComponents.FloatingActionButton"/>
@@ -94,6 +97,7 @@
                             android:id="@+id/posts_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@null"
                             app:tint="@android:color/white"
                             app:srcCompat="@drawable/ic_photo_24dp"
                             style="@style/Widget.MaterialComponents.FloatingActionButton"/>
@@ -112,5 +116,6 @@
 
     <include
         layout="@layout/progress_bar"
+        android:id="@+id/layout_progress"
         android:visibility="gone"/>
-</merge>
+</FrameLayout>

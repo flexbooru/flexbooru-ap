@@ -10,24 +10,26 @@ import android.view.Menu
 import android.view.WindowInsets
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.updateLayoutParams
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.android.synthetic.main.floating_action_button.*
+import androidx.navigation.NavController
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.model.Tag
 import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
+import onlymash.flexbooru.ap.databinding.ActivitySearchBinding
+import onlymash.flexbooru.ap.extension.findNavController
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_ACTION_FILTER_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 
@@ -43,8 +45,7 @@ class SearchActivity : PostActivity() {
             color: String = ""
         ) {
             context.startActivity(
-                Intent(context, SearchActivity::class.java)
-                .apply {
+                Intent(context, SearchActivity::class.java).apply {
                     putExtra(QUERY_KEY, query)
                     putExtra(SEARCH_TYPE_KEY, searchType)
                     putExtra(USER_ID_KEY, userId)
@@ -56,6 +57,12 @@ class SearchActivity : PostActivity() {
     }
 
     override var query = ""
+
+    private val binding by viewBinding(ActivitySearchBinding::inflate)
+    private val toolbarContainer get() = binding.layoutAppBar.containerToolbar
+    private val toolbar get() = binding.layoutAppBar.toolbar
+    private val fab get() = binding.layoutFab.fab
+
     private var searchType = SearchType.NORMAL
     private var userId: Int = -1
     private var uploaderId: Int = -1
@@ -66,9 +73,11 @@ class SearchActivity : PostActivity() {
     private val suggestions: MutableList<String> = mutableListOf()
     private var suggestionAdapter: CursorAdapter? = null
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(binding.root)
         setupInsets { insets ->
             applyInsets(insets)
         }
@@ -80,7 +89,8 @@ class SearchActivity : PostActivity() {
             color = getStringExtra(COLOR_KEY) ?: ""
         }
 
-        findNavController(R.id.search_nav_host_fragment).setGraph(
+        navController = findNavController(R.id.nav_host_fragment)
+        navController.setGraph(
             R.navigation.search_navigation,
             Bundle().apply {
                 putString(QUERY_KEY, query)
@@ -157,9 +167,10 @@ class SearchActivity : PostActivity() {
     }
 
     private fun applyInsets(insets: WindowInsets) {
-        container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
-        val fabMarginBottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
-        (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = fabMarginBottom
+        toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+        fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+            bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+        }
     }
 
     private fun fetchSuggestions(tag: String) {
@@ -194,7 +205,7 @@ class SearchActivity : PostActivity() {
     }
 
     private fun search(query: String) {
-        findNavController(R.id.search_nav_host_fragment).navigate(
+        navController.navigate(
             R.id.nav_search,
             Bundle().apply {
                 putString(QUERY_KEY, query)

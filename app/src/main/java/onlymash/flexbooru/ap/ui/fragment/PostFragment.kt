@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.app.SharedElementCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import kotlinx.android.synthetic.main.fast_recyclerview.*
-import kotlinx.android.synthetic.main.refreshable_list.*
-import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Search
@@ -20,6 +18,8 @@ import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
+import onlymash.flexbooru.ap.data.isLoading
+import onlymash.flexbooru.ap.databinding.FragmentListRefreshableBinding
 import onlymash.flexbooru.ap.extension.getSanCount
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
@@ -49,10 +49,17 @@ class PostFragment : KodeinFragment(),
     private lateinit var tagBlacklistViewModel: TagBlacklistViewModel
 
     private val sp by instance<SharedPreferences>()
-
     private val db by instance<MyDatabase>()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
+
+    private var _binding: FragmentListRefreshableBinding? = null
+    private val binding get() = _binding!!
+
+    private val list get() = binding.layoutList.layoutRv.list
+    private val refresh get() = binding.layoutList.refresh
+    private val progressBar get() = binding.layoutProgress.progressBar
+
     private lateinit var search: Search
     private lateinit var postAdapter: PostAdapter
 
@@ -124,21 +131,16 @@ class PostFragment : KodeinFragment(),
             token = Settings.userToken,
             color = color
         )
-        postViewModel = getViewModel(
-            PostViewModel(
-                db = db,
-                api = api
-            )
-        )
-        tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
-        sp.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.refreshable_list, container, false)
+        savedInstanceState: Bundle?): View? {
+        postViewModel = getViewModel(PostViewModel(db = db, api = api))
+        tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
+        _binding = FragmentListRefreshableBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -158,9 +160,7 @@ class PostFragment : KodeinFragment(),
                     )
                 }
             },
-            retryCallback = {
-                postViewModel.retry()
-            }
+            retryCallback = { postViewModel.retry() }
         )
         list.apply {
             setOnApplyWindowInsetsListener(ListListener)
@@ -180,19 +180,28 @@ class PostFragment : KodeinFragment(),
             postViewModel.load(search)
         })
         tagBlacklistViewModel.loadAll()
-        postViewModel.posts.observe(this.viewLifecycleOwner, Observer {
-            postAdapter.submitList(it)
+        postViewModel.posts.observe(this.viewLifecycleOwner, Observer { posts ->
+            if (posts != null) {
+                if (posts.size > 0) {
+                    progressBar.isVisible = false
+                }
+                postAdapter.submitList(posts)
+            }
         })
         postViewModel.networkState.observe(this.viewLifecycleOwner, Observer {
+            progressBar.isVisible = it.isLoading() && postAdapter.itemCount == 0
             postAdapter.setNetworkState(it)
         })
         initSwipeToRefresh()
         postViewModel.load(search)
+        sp.registerOnSharedPreferenceChangeListener(this)
     }
 
     private fun initSwipeToRefresh() {
         postViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
-            refresh.isRefreshing = it == NetworkState.LOADING
+            if (!it.isLoading()) {
+                refresh.isRefreshing = false
+            }
         })
         refresh.setOnRefreshListener {
             postViewModel.refresh()
@@ -243,7 +252,7 @@ class PostFragment : KodeinFragment(),
 
     override fun onStart() {
         super.onStart()
-        requireActivity().apply {
+        activity?.apply {
             ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback)
             registerReceiver(broadcastReceiver, IntentFilter(JUMP_TO_TOP_ACTION_FILTER_KEY))
             registerReceiver(positionReceiver, IntentFilter(JUMP_TO_POSITION_ACTION_FILTER_KEY))
@@ -252,16 +261,17 @@ class PostFragment : KodeinFragment(),
 
     override fun onStop() {
         super.onStop()
-        requireActivity().apply {
+        activity?.apply {
             ActivityCompat.setExitSharedElementCallback(this, null)
             unregisterReceiver(broadcastReceiver)
             unregisterReceiver(positionReceiver)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
         sp.unregisterOnSharedPreferenceChangeListener(this)
+        _binding = null
+        super.onDestroyView()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

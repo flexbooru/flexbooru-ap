@@ -43,9 +43,8 @@ class CommentAllDataSource(
         scope.launch {
             when (val result = withContext(Dispatchers.IO) {
                 try {
-                    val response = api.getAllComments(getAllCommentsUrl(
-                        page = 0,
-                        token = token))
+                    val response = api.getAllComments(
+                        url = getAllCommentsUrl(page = 0, token = token))
                     val data = response.body()?.comments
                     if (data != null) {
                         NetResult.Success(data)
@@ -83,9 +82,8 @@ class CommentAllDataSource(
         scope.launch {
             when (val result = withContext(Dispatchers.IO) {
                 try {
-                    val response = api.getAllComments(getAllCommentsUrl(
-                        page = page,
-                        token = token))
+                    val response = api.getAllComments(
+                        url = getAllCommentsUrl(page = page, token = token))
                     val data = response.body()?.comments
                     if (data != null) {
                         NetResult.Success(data)

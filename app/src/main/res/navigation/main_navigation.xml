@@ -30,13 +30,13 @@
             android:id="@+id/nav_history"
             android:name="onlymash.flexbooru.ap.ui.fragment.HistoryFragment"
             android:label="@string/title_history"
-            tools:layout="@layout/fragment_history"/>
+            tools:layout="@layout/fragment_list"/>
 
     <fragment
         android:id="@+id/nav_comments"
         android:name="onlymash.flexbooru.ap.ui.fragment.CommentAllFragment"
         android:label="@string/title_comments"
-        tools:layout="@layout/fragment_comment_all"/>
+        tools:layout="@layout/fragment_list_refreshable"/>
 
     <fragment
         android:id="@+id/nav_tags_blacklist"

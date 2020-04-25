@@ -86,7 +86,7 @@ class PostRepositoryImpl(
         scope.launch {
             when (val result = withContext(Dispatchers.IO) {
                 try {
-                    val response = api.getPosts(search.getPostsUrl(0))
+                    val response = api.getPosts(url = search.getPostsUrl(0))
                     if (response.isSuccessful) {
                         val posts = response.body()?.posts ?: listOf()
                         NetResult.Success(posts)

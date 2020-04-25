@@ -22,12 +22,14 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -38,10 +40,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.android.synthetic.main.drawer_tags.*
-import kotlinx.android.synthetic.main.floating_action_button.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -57,7 +55,9 @@ import onlymash.flexbooru.ap.data.model.TagBlacklist
 import onlymash.flexbooru.ap.data.model.TagFilter
 import onlymash.flexbooru.ap.data.model.User
 import onlymash.flexbooru.ap.data.repository.suggestion.SuggestionRepositoryImpl
+import onlymash.flexbooru.ap.databinding.ActivityMainBinding
 import onlymash.flexbooru.ap.extension.copyText
+import onlymash.flexbooru.ap.extension.findNavController
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.PostActivity
@@ -65,6 +65,7 @@ import onlymash.flexbooru.ap.ui.diffcallback.TagFilterDiffCallback
 import onlymash.flexbooru.ap.ui.fragment.*
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagFilterViewModel
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
 import org.kodein.di.erased.instance
 
@@ -80,6 +81,15 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private val tagFilterDao by instance<TagFilterDao>()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
+
+    private val binding by viewBinding(ActivityMainBinding::inflate)
+    private val drawerTagsBinding get() = binding.layoutDrawerTags
+    private val appBarMainBinding get() = binding.layoutAppBarMain
+    private val appBarBinding get() = appBarMainBinding.layoutAppBar
+    private val toolbarContainer get() = appBarBinding.containerToolbar
+    private val drawerLayout get() = binding.drawerLayout
+    private val toolbar get() = appBarBinding.toolbar
+    private val fab get() = appBarMainBinding.layoutFab.fab
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var suggestionViewModel: SuggestionViewModel
@@ -102,6 +112,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private var user: User? = null
 
     private lateinit var headerView: View
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
@@ -117,7 +128,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 Rect(windowWidth - gestureWidth, windowHeight - gestureHeight - gestureOffset, windowWidth, windowHeight - gestureOffset)
             )
         }
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         setupInsets { insets ->
             applyInsets(insets)
         }
@@ -132,22 +143,23 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 R.id.nav_settings,
                 R.id.nav_about
             ),
-            drawer_layout
+            drawerLayout
         )
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        nav_view.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             currentFragmentId = destination.id
-            val lp = container_toolbar.layoutParams as AppBarLayout.LayoutParams
-            when (currentFragmentId) {
-                R.id.nav_posts -> {
-                    lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-                    fab.visibility = View.VISIBLE
-                }
-                else -> {
-                    lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
-                    fab.visibility = View.GONE
+            toolbarContainer.updateLayoutParams<AppBarLayout.LayoutParams> {
+                scrollFlags = when (currentFragmentId) {
+                    R.id.nav_posts -> {
+                        fab.isVisible = true
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    }
+                    else -> {
+                        fab.isVisible = false
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
+                    }
                 }
             }
             delegate.invalidateOptionsMenu()
@@ -169,7 +181,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 }
             }
         }
-        headerView = nav_view.getHeaderView(0)
+        headerView = binding.navView.getHeaderView(0)
         loadUser()
         headerView.setOnClickListener {
             if (user == null) {
@@ -186,9 +198,9 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private fun initTagFilter() {
-        toolbar_drawer.apply {
+        drawerTagsBinding.toolbarDrawer.apply {
             setNavigationOnClickListener {
-                drawer_layout.closeDrawer(GravityCompat.END)
+                drawerLayout.closeDrawer(GravityCompat.END)
             }
             menu?.findItem(R.id.action_add_tag_filter)?.let {
                 val searchView = it.actionView as SearchView
@@ -215,7 +227,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             }
         }
         tagFilterAdapter = TagFilterAdapter()
-        tags_filter_list.apply {
+        drawerTagsBinding.tagsFilterList.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
             adapter = tagFilterAdapter
             addItemDecoration(DividerItemDecoration(this@MainActivity, RecyclerView.VERTICAL))
@@ -225,7 +237,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             handleTagFilter(it)
         })
         tagFilterViewModel.loadAll()
-        fab_search.setOnClickListener {
+        drawerTagsBinding.fabSearch.setOnClickListener {
             if (tagsSearch.isEmpty()) {
                 return@setOnClickListener
             }
@@ -443,20 +455,19 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
                     .create()
                     .show()
             }
-            R.id.action_open_filter -> drawer_layout.openDrawer(GravityCompat.END)
+            R.id.action_open_filter -> drawerLayout.openDrawer(GravityCompat.END)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     override fun onBackPressed() {
         when {
-            drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
-            drawer_layout.isDrawerOpen(GravityCompat.END) -> drawer_layout.closeDrawer(GravityCompat.END)
+            drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
+            drawerLayout.isDrawerOpen(GravityCompat.END) -> drawerLayout.closeDrawer(GravityCompat.END)
             else -> super.onBackPressed()
         }
     }
@@ -469,9 +480,14 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private fun applyInsets(insets: WindowInsets) {
-        container_tags_filter.updatePadding(top = insets.systemWindowInsetTop, bottom = insets.systemWindowInsetBottom)
-        container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
-        (fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+        drawerTagsBinding.root.updatePadding(
+            top = insets.systemWindowInsetTop,
+            bottom = insets.systemWindowInsetBottom
+        )
+        toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+        fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+            bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+        }
     }
 
     override fun onDestroy() {

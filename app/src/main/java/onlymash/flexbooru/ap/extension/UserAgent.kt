@@ -19,7 +19,9 @@ import android.os.Build
 import onlymash.flexbooru.ap.BuildConfig
 import java.util.*
 
-fun getUserAgent(): String {
+val userAgent by lazy { createUserAgent() }
+
+private fun createUserAgent(): String {
 
     val builder = StringBuilder().apply {
         append("Mozilla/5.0 (Linux; U; Android ")

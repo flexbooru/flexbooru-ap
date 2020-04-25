@@ -123,6 +123,7 @@
                     style="@style/Widget.Button.OutlinedButton"/>
             <include
                 layout="@layout/progress_bar"
+                android:id="@+id/progress"
                 android:visibility="invisible"/>
         </FrameLayout>
         <TextView

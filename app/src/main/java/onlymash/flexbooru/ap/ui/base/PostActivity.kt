@@ -66,6 +66,9 @@ abstract class PostActivity : DirPickerActivity() {
     }
 
     private fun changeAspectRatio() {
+        if (isFinishing) {
+            return
+        }
         val layout = FrameLayout(this)
         val editText = EditText(this)
         layout.addView(editText)

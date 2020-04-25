@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,4 +8,8 @@
         layout="@layout/fast_recyclerview"
         android:id="@+id/layout_rv"/>
 
-</onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout>
+    <include
+        layout="@layout/progress_bar"
+        android:id="@+id/layout_progress"/>
+
+</FrameLayout>

@@ -14,10 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:visibility="gone"/>
-
-    <include layout="@layout/progress_bar"/>
+        android:paddingEnd="20dp"/>
 
     <Button
         android:id="@+id/retry_button"
@@ -25,6 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/retry"
-        android:visibility="gone"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+        style="?materialButtonOutlinedStyle"/>
 </LinearLayout>

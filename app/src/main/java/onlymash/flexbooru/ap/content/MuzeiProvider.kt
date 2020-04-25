@@ -35,7 +35,7 @@ class MuzeiProvider : MuzeiArtProvider() {
             if (detail == null) {
                 try {
                     val response = api.getDetailNoSuspend(
-                        getPostDetailUrl(
+                        url = getPostDetailUrl(
                             postId = postId,
                             token = Settings.userToken
                         )

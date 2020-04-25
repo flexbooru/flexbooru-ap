@@ -25,8 +25,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        preferenceManager.sharedPreferencesName = PREFERENCE_NAME
-        preferenceManager.sharedPreferencesMode = Context.MODE_PRIVATE
+        preferenceManager.apply {
+            sharedPreferencesName = PREFERENCE_NAME
+            sharedPreferencesMode = Context.MODE_PRIVATE
+        }
         setPreferencesFromResource(R.xml.pref_settings, "settings_screen")
         Settings.pathString = context?.contentResolver?.getTreeUri()?.toString()?.decode()
         initPathSummary()

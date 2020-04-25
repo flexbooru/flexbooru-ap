@@ -45,7 +45,7 @@ data class Detail(
 
     @ColumnInfo(name = "favorite_folder")
     @SerialName("favorite_folder")
-    val favoriteFolder: String?,
+    val favoriteFolder: String? = null,
 
     @ColumnInfo(name = "file_url")
     @SerialName("file_url")
@@ -57,7 +57,7 @@ data class Detail(
 
     @ColumnInfo(name = "is_favorites")
     @SerialName("is_favorites")
-    val isFavorites: Boolean,
+    val isFavorites: Boolean = false,
 
     @ColumnInfo(name = "md5")
     @SerialName("md5")
@@ -97,7 +97,7 @@ data class Detail(
 
     @ColumnInfo(name = "star_it")
     @SerialName("star_it")
-    var starIt: Boolean,
+    var starIt: Boolean = false,
 
     @ColumnInfo(name = "status")
     @SerialName("status")

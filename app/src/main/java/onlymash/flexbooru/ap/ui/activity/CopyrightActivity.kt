@@ -12,19 +12,24 @@ import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.text.parseAsHtml
 import androidx.core.view.updatePadding
-import kotlinx.android.synthetic.main.activity_copyright.*
-import kotlinx.android.synthetic.main.app_bar.*
 import onlymash.flexbooru.ap.R
+import onlymash.flexbooru.ap.databinding.ActivityCopyrightBinding
 import onlymash.flexbooru.ap.extension.launchUrl
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
 
 class CopyrightActivity : AppCompatActivity() {
 
+    private val binding by viewBinding(ActivityCopyrightBinding::inflate)
+    private val toolbar get() = binding.layoutAppBar.toolbar
+    private val toolbarContainer get() = binding.layoutAppBar.containerToolbar
+    private val copyright get() = binding.copyright
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_copyright)
+        setContentView(binding.root)
         setupInsets { insets ->
-            container_toolbar.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+            toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
             copyright.updatePadding(bottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.copyright_padding))
         }
         setSupportActionBar(toolbar)

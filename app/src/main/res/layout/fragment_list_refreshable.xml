@@ -4,8 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/fast_recyclerview"/>
+    <include
+        layout="@layout/refreshable_list"
+        android:id="@+id/layout_list"/>
 
-    <include layout="@layout/progress_bar"/>
+    <include
+        layout="@layout/progress_bar"
+        android:id="@+id/layout_progress"/>
 
 </FrameLayout>

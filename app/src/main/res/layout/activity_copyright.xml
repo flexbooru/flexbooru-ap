@@ -19,7 +19,9 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <include layout="@layout/app_bar"/>
+    <include
+        layout="@layout/app_bar"
+        android:id="@+id/layout_app_bar"/>
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

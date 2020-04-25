@@ -26,11 +26,7 @@ class DetailRepositoryImpl(private val api: Api,
             } else {
                 try {
                     val response = api.getDetail(
-                        getPostDetailUrl(
-                            postId = postId,
-                            token = token
-                        )
-                    )
+                        url = getPostDetailUrl(postId = postId, token = token))
                     if (response.isSuccessful) {
                         detail = response.body()
                         if (detail == null) {

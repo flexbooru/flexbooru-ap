@@ -13,7 +13,9 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <include layout="@layout/app_bar"/>
+        <include
+            layout="@layout/app_bar"
+            android:id="@+id/layout_app_bar"/>
 
         <onlymash.flexbooru.ap.widget.ColoredSwipeRefreshLayout
             android:id="@+id/comments_refresh"

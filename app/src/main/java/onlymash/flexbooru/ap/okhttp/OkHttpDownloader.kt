@@ -24,7 +24,7 @@ import android.os.StatFs
 import androidx.annotation.VisibleForTesting
 import okhttp3.*
 import onlymash.flexbooru.ap.common.USER_AGENT_KEY
-import onlymash.flexbooru.ap.extension.getUserAgent
+import onlymash.flexbooru.ap.extension.userAgent
 import kotlin.math.max
 import kotlin.math.min
 
@@ -145,7 +145,7 @@ class OkHttpDownloader : Downloader {
                     it.request()
                         .newBuilder()
                         .removeHeader(USER_AGENT_KEY)
-                        .addHeader(USER_AGENT_KEY, getUserAgent())
+                        .addHeader(USER_AGENT_KEY, userAgent)
                         .build()
                 )
             }

@@ -22,8 +22,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.bottom_shortcut_bar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,6 +37,7 @@ import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.model.Post
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
 import onlymash.flexbooru.ap.data.repository.local.LocalRepositoryImpl
+import onlymash.flexbooru.ap.databinding.ActivityDetailBinding
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.DirPickerActivity
@@ -50,6 +49,7 @@ import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_POSITION_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_POSITION_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.DismissFrameLayout
 import org.kodein.di.erased.instance
 import java.io.File
@@ -104,7 +104,12 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
     private val postDao by instance<PostDao>()
-
+    
+    private val binding by viewBinding(ActivityDetailBinding::inflate)
+    private val postsPager get() = binding.postsPager
+    private val toolbar get() = binding.toolbar
+    private val shortcut get() = binding.shortcut
+    
     private lateinit var localPostViewModel: LocalPostViewModel
     private lateinit var localDetailViewModel: DetailViewModel
     private lateinit var detailAdapter: DetailAdapter
@@ -120,8 +125,8 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
 
     val onDismissListener = object : DismissFrameLayout.OnDismissListener {
         override fun onStart() {
-            posts_pager.isUserInputEnabled = false
-            posts_pager
+            postsPager.isUserInputEnabled = false
+            postsPager
             colorDrawable.alpha = ALPHA_MIN
         }
 
@@ -134,15 +139,15 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         }
 
         override fun onCancel() {
-            posts_pager.isUserInputEnabled = true
+            postsPager.isUserInputEnabled = true
             colorDrawable.alpha = ALPHA_MAX
         }
     }
 
     override fun finishAfterTransition() {
         if (fromWhere == FROM_POSTS) {
-            toolbar_container.isVisible = false
-            bottom_bar_container.isVisible = false
+            binding.toolbarContainer.isVisible = false
+            shortcut.bottomBarContainer.isVisible = false
             colorDrawable.alpha = ALPHA_MIN
         }
         super.finishAfterTransition()
@@ -154,7 +159,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
             window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
         window.isShowBar = true
-        setContentView(R.layout.activity_detail)
+        setContentView(binding.root)
         findViewById<View>(android.R.id.content).setOnApplyWindowInsetsListener(this)
         intent?.apply {
             val url = data
@@ -186,8 +191,8 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
     private fun initView() {
         colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.black))
         detailAdapter = DetailAdapter(supportFragmentManager, lifecycle)
-        posts_pager.background = colorDrawable
-        posts_pager.adapter = detailAdapter
+        postsPager.background = colorDrawable
+        postsPager.adapter = detailAdapter
         toolbar.apply {
             setNavigationOnClickListener {
                 onBackPressed()
@@ -212,7 +217,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
                 title = getString(R.string.placeholder_post_id, currentPostId)
             }
         }
-        posts_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        postsPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 pos = position
                 when (fromWhere) {
@@ -230,33 +235,31 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
                 initVoteIcon()
             }
         })
-        post_tags.setOnClickListener {
+        shortcut.postTags.setOnClickListener {
             if (currentPostId > 0) {
                 TagsDialog.newInstance(currentPostId).show(supportFragmentManager, "tags")
             }
         }
-        post_info.setOnClickListener {
+        shortcut.postInfo.setOnClickListener {
             if (currentPostId > 0) {
                 InfoDialog.newInstance(currentPostId).show(supportFragmentManager, "info")
             }
         }
-        post_save.setOnClickListener {
-            saveFile()
-        }
-        TooltipCompat.setTooltipText(post_tags, post_tags.contentDescription)
-        TooltipCompat.setTooltipText(post_info, post_info.contentDescription)
-        TooltipCompat.setTooltipText(post_save, post_save.contentDescription)
-        TooltipCompat.setTooltipText(post_vote, post_vote.contentDescription)
+        shortcut.postSave.setOnClickListener { saveFile() }
+        TooltipCompat.setTooltipText(shortcut.postTags, shortcut.postTags.contentDescription)
+        TooltipCompat.setTooltipText(shortcut.postInfo, shortcut.postInfo.contentDescription)
+        TooltipCompat.setTooltipText(shortcut.postSave, shortcut.postSave.contentDescription)
+        TooltipCompat.setTooltipText(shortcut.postVote, shortcut.postVote.contentDescription)
     }
 
     override fun onApplyWindowInsets(v: View?, insets: WindowInsets): WindowInsets {
-        toolbar_container.minimumHeight = toolbar.height + insets.systemWindowInsetTop
-        toolbar_container.updatePadding(
+        binding.toolbarContainer.minimumHeight = toolbar.height + insets.systemWindowInsetTop
+        binding.toolbarContainer.updatePadding(
             left = insets.systemWindowInsetLeft,
             top = insets.systemWindowInsetTop,
             right = insets.systemWindowInsetRight
         )
-        space_nav_bar.minimumHeight = insets.systemWindowInsetBottom
+        shortcut.spaceNavBar.minimumHeight = insets.systemWindowInsetBottom
         return insets
     }
 
@@ -267,7 +270,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
                 posts.clear()
                 posts.addAll(data)
                 detailAdapter.notifyDataSetChanged()
-                posts_pager.setCurrentItem(pos, false)
+                postsPager.setCurrentItem(pos, false)
                 currentPostId = data[pos].id
                 toolbar.title = getString(R.string.placeholder_post_id, currentPostId)
                 localPostViewModel.posts.removeObservers(this)
@@ -289,7 +292,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
                 toolbar.title = getString(R.string.placeholder_post_id, currentPostId)
                 details.addAll(it)
                 detailAdapter.notifyDataSetChanged()
-                posts_pager.setCurrentItem(pos, false)
+                postsPager.setCurrentItem(pos, false)
             }
             initVoteIcon()
         })
@@ -304,7 +307,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
                 }
             }
         })
-        post_vote.setOnClickListener {
+        shortcut.postVote.setOnClickListener {
             val token = Settings.userToken
             if (token.isEmpty()) {
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -440,14 +443,14 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
 
     private fun initVoteIcon() {
         if (currentPostId.isVoted()) {
-            post_vote.setImageDrawable(
+            shortcut.postVote.setImageDrawable(
                 ContextCompat.getDrawable(
                     this@DetailActivity,
                     R.drawable.ic_star_24dp
                 )
             )
         } else {
-            post_vote.setImageDrawable(
+            shortcut.postVote.setImageDrawable(
                 ContextCompat.getDrawable(
                     this@DetailActivity,
                     R.drawable.ic_star_border_24dp
@@ -465,8 +468,8 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         val isVisible = !toolbar.isVisible
         window.isShowBar = isVisible
         toolbar.isVisible = isVisible
-        bottom_bar_container.isVisible = isVisible
-        shadow.isVisible = isVisible
+        shortcut.bottomBarContainer.isVisible = isVisible
+        binding.shadow.isVisible = isVisible
     }
 
     inner class DetailAdapter(fm: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fm, lifecycle) {

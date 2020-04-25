@@ -9,17 +9,13 @@ import android.text.format.Formatter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fast_recyclerview.*
-import kotlinx.android.synthetic.main.progress_bar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,6 +24,8 @@ import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
 import onlymash.flexbooru.ap.data.model.Detail
 import onlymash.flexbooru.ap.data.repository.detail.DetailRepositoryImpl
+import onlymash.flexbooru.ap.databinding.FragmentListBinding
+import onlymash.flexbooru.ap.databinding.ItemHistoryBinding
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
@@ -36,6 +34,7 @@ import onlymash.flexbooru.ap.ui.activity.UserActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
+import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.ListListener
 import org.kodein.di.erased.instance
 
@@ -47,6 +46,10 @@ class HistoryFragment : KodeinFragment() {
 
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
+    private val list get() = binding.layoutRv.list
+    private val progressBar get() = binding.layoutProgress.progressBar
 
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var historyAdapter: HistoryAdapter
@@ -66,24 +69,21 @@ class HistoryFragment : KodeinFragment() {
 
     override fun onStart() {
         super.onStart()
-        requireActivity().registerReceiver(broadcastReceiver, IntentFilter(HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY))
+        activity?.registerReceiver(broadcastReceiver, IntentFilter(HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY))
     }
 
     override fun onStop() {
         super.onStop()
-        requireActivity().unregisterReceiver(broadcastReceiver)
+        activity?.unregisterReceiver(broadcastReceiver)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        detailViewModel = getViewModel(
-            DetailViewModel(
-                repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
-            )
-        )
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        detailViewModel = getViewModel(DetailViewModel(repo = DetailRepositoryImpl(api = api, detailDao = detailDao)))
+        _binding = FragmentListBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,39 +104,47 @@ class HistoryFragment : KodeinFragment() {
                     DiffUtil.calculateDiff(DetailDiffCallback(oldItems, details))
                 }
                 result.dispatchUpdatesTo(historyAdapter)
-                progress_bar.visibility = View.GONE
+                progressBar.isVisible = false
             }
         })
         detailViewModel.loadAll()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     inner class HistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun getItemCount(): Int = details.size
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            HistoryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false))
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int): RecyclerView.ViewHolder = HistoryViewHolder(parent)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             (holder as HistoryViewHolder).bind(details[position])
-            holder.itemView.setOnClickListener {
-                DetailActivity.startDetailActivity(
-                    context = requireContext(),
-                    fromWhere = FROM_HISTORY,
-                    position = position
-                )
-            }
         }
 
-        inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val postPreview: AppCompatImageView = itemView.findViewById(R.id.post_preview)
-            private val postId: AppCompatTextView = itemView.findViewById(R.id.post_id)
-            private val postRes: AppCompatTextView = itemView.findViewById(R.id.post_res)
-            private val postSize: AppCompatTextView = itemView.findViewById(R.id.post_size)
-            private val userAvatar: CircleImageView = itemView.findViewById(R.id.user_avatar)
+        inner class HistoryViewHolder(binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
+            constructor(parent: ViewGroup): this(parent.viewBinding(ItemHistoryBinding::inflate))
+
+            private val postPreview = binding.postPreview
+            private val postId = binding.postId
+            private val postRes = binding.postRes
+            private val postSize = binding.postSize
+            private val userAvatar = binding.userAvatar
             private var detail: Detail? = null
 
             init {
+                itemView.setOnClickListener {
+                    DetailActivity.startDetailActivity(
+                        context = itemView.context,
+                        fromWhere = FROM_HISTORY,
+                        position = layoutPosition
+                    )
+                }
                 userAvatar.setOnClickListener {
                     detail?.let {
                         UserActivity.startUserActivity(

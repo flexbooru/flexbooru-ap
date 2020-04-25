@@ -13,7 +13,7 @@ class CommentRepositoryImpl(private val api: Api) : CommentRepository {
     override suspend fun getComments(url: HttpUrl): NetResult<List<Comment>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.getComments(url)
+                val response = api.getComments(url = url)
                 val data  = response.body()
                 if (data != null) {
                     NetResult.Success(data.comments)
@@ -37,7 +37,7 @@ class CommentRepositoryImpl(private val api: Api) : CommentRepository {
     ): NetResult<Boolean> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.createComment(url, text, token)
+                val response = api.createComment(url = url, text = text, token = token)
                 val success = response.body()?.success ?: false
                 if (success) {
                     NetResult.Success(true)
