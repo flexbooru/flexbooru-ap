@@ -6,7 +6,7 @@
     <string name="title_history">История</string>
     <string name="title_settings">Настройки</string>
     <string name="title_login">Войти</string>
-    <string name="title_register">Sign up</string>
+    <string name="title_register">Регистрация</string>
     <string name="title_account">Aккаунт</string>
     <string name="title_about">О программе</string>
     <string name="title_copyright">Авторские права</string>
@@ -15,7 +15,7 @@
     <string name="title_setup_wizard">Мастер установки</string>
     <string name="title_comments">Комментарии</string>
     <string name="posts_search">Поиск</string>
-    <string name="posts_open_filter">Open filter</string>
+    <string name="posts_open_filter">Открыть фильтр</string>
     <string name="posts_more_options">Ещё опции</string>
     <string name="posts_order">Порядок</string>
     <string name="posts_order_date">Дата</string>
