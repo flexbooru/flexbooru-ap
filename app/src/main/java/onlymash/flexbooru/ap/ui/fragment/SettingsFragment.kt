@@ -32,7 +32,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         setPreferencesFromResource(R.xml.pref_settings, "settings_screen")
         Settings.pathString = context?.contentResolver?.getTreeUri()?.toString()?.decode()
         initPathSummary()
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
     }
 
     private fun initPathSummary() {
@@ -45,11 +45,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onDestroyView() {
         super.onDestroyView()
-        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if (preference?.key == PATH_KEY) {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == PATH_KEY) {
             activity?.openDocumentTree()
         }
         return super.onPreferenceTreeClick(preference)

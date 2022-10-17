@@ -81,7 +81,7 @@ class DownloadWorker(
 
         ProgressInterceptor.bindUrlWithInterval(
             url = url,
-            interval = 500L
+            interval = 1000L
         ) { progress ->
             downloadingNotificationBuilder.setProgress(100, progress, false)
             notificationManager.notify(postId, downloadingNotificationBuilder.build())
@@ -91,8 +91,8 @@ class DownloadWorker(
         val os = applicationContext.contentResolver.openOutputStream(desUri)
         try {
             `is` = OkHttpDownloader(applicationContext)
-                .load(url).body?.source()?.inputStream()
-            `is`?.copyTo(os)
+                .load(url).body.source().inputStream()
+            `is`.copyTo(os)
         } catch (_: IOException) {
             notificationManager.notify(
                 postId,
@@ -145,12 +145,19 @@ class DownloadWorker(
     private fun getDownloadedNotificationBuilder(title: String, channelId: String, desUri: Uri): NotificationCompat.Builder {
         val intent = Intent(applicationContext, DownloadNotificationClickReceiver::class.java)
         intent.data = desUri
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            System.currentTimeMillis().toInt(),
-            intent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(
+                applicationContext,
+                System.currentTimeMillis().toInt(),
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getBroadcast(
+                applicationContext,
+                System.currentTimeMillis().toInt(),
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT)
+        }
         return NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
             .setContentTitle(title)
@@ -163,12 +170,19 @@ class DownloadWorker(
     private fun getDownloadErrorNotificationBuilder(title: String, channelId: String): NotificationCompat.Builder {
         val intent = Intent(applicationContext, DownloadNotificationClickReceiver::class.java)
         intent.putExtra(INPUT_DATA_KEY, inputData.toByteArray())
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            System.currentTimeMillis().toInt(),
-            intent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(
+                applicationContext,
+                System.currentTimeMillis().toInt(),
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getBroadcast(
+                applicationContext,
+                System.currentTimeMillis().toInt(),
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT)
+        }
         return NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(android.R.drawable.stat_sys_warning)
             .setContentTitle(title)

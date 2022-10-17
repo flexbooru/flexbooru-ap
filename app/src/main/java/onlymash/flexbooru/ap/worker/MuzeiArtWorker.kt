@@ -11,7 +11,7 @@ import onlymash.flexbooru.ap.common.HOST
 import onlymash.flexbooru.ap.common.SCHEME_HTTPS
 import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.data.db.dao.PostDao
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class MuzeiArtWorker(
     context: Context,
@@ -39,14 +39,14 @@ class MuzeiArtWorker(
         val attributionString = applicationContext.getString(R.string.muzei_attribution)
         val providerClient = ProviderContract.getProviderClient(applicationContext, applicationContext.packageName + ".muzei")
         providerClient.setArtwork(posts.map {  post ->
-            Artwork().apply {
-                token = post.id.toString()
-                title = applicationContext.getString(R.string.placeholder_post_id, post.id)
-                byline = query
-                attribution = attributionString
-                webUri = "$SCHEME_HTTPS://$HOST/pictures/view_post/${post.id}?lang=en".toUri()
-                persistentUri = "$SCHEME_HTTPS://$HOST".toUri()
-            }
+            Artwork(
+                token = post.id.toString(),
+                title = applicationContext.getString(R.string.placeholder_post_id, post.id),
+                byline = query,
+                attribution = attributionString,
+                webUri = "$SCHEME_HTTPS://$HOST/pictures/view_post/${post.id}?lang=en".toUri(),
+                persistentUri = "$SCHEME_HTTPS://$HOST".toUri(),
+            )
         })
         return Result.success()
     }

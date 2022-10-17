@@ -36,7 +36,7 @@ import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 
 const val HISTORY_JUMP_TO_TOP_KEY = "history_jump_to_top"

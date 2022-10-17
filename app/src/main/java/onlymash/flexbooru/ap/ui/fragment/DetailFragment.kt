@@ -32,7 +32,7 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 import java.io.File
 
 class DetailFragment : KodeinFragment() {

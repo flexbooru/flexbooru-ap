@@ -12,7 +12,7 @@ import onlymash.flexbooru.ap.extension.getPostDetailUrl
 import onlymash.flexbooru.ap.extension.toEncodedUrl
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.worker.MuzeiArtWorker
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 import java.io.FileInputStream
 import java.io.InputStream
 

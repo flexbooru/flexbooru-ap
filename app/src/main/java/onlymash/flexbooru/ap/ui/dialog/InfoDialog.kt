@@ -27,7 +27,7 @@ import onlymash.flexbooru.ap.ui.activity.UserActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.worker.DownloadWorker
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class InfoDialog : BaseBottomSheetDialogFragment() {
     companion object {

@@ -31,7 +31,7 @@ import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class SearchActivity : PostActivity() {
 

@@ -2,7 +2,7 @@ package onlymash.flexbooru.ap.common
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 
 const val SETTINGS_NIGHT_MODE_KEY = "settings_night_mode"

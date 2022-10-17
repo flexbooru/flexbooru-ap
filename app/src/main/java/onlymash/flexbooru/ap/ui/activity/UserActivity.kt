@@ -27,7 +27,7 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 import kotlin.Exception
 
 private const val USER_ID_KEY = "user_id"

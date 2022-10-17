@@ -67,7 +67,7 @@ import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagFilterViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.setupInsets
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 private const val SUGGESTION_FOR_NORMAL = 0
 private const val SUGGESTION_FOR_FILTER = 1

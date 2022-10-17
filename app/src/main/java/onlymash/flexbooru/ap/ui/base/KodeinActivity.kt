@@ -1,10 +1,10 @@
 package onlymash.flexbooru.ap.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.kodein
+import org.kodein.di.DI
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
 
-abstract class KodeinActivity : AppCompatActivity(), KodeinAware {
-    override val kodein: Kodein by kodein()
+abstract class KodeinActivity : AppCompatActivity(), DIAware {
+    override val di: DI by closestDI()
 }

@@ -28,7 +28,7 @@ import onlymash.flexbooru.ap.ui.adapter.CommentAllAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.CommentAllViewModel
 import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 

@@ -24,7 +24,7 @@ import onlymash.flexbooru.ap.ui.diffcallback.TagBlacklistDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class TagBlacklistFragment : KodeinFragment() {
 

@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt")
     kotlin("plugin.serialization")
     id("com.google.gms.google-services")
@@ -29,20 +28,19 @@ android {
             storePassword = properties.getProperty("STORE_PASS")
         }
     }
-    compileSdkVersion(29)
-    buildToolsVersion = "29.0.3"
+    compileSdk = 33
     defaultConfig {
         applicationId = "onlymash.flexbooru.ap"
-        minSdkVersion(21)
-        targetSdkVersion(29)
+        minSdk = 21
+        targetSdk = 33
         versionCode = verCode
         versionName = "1.3.0"
         versionNameSuffix = ".c$verCode"
-        resConfigs(listOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR"))
+        resourceConfigurations += setOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf("room.incremental" to "true")
+                arguments += mapOf("room.incremental" to "true")
             }
         }
     }
@@ -61,18 +59,22 @@ android {
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=kotlinx.serialization.UnstableDefault",
-            "-Xopt-in=kotlinx.serialization.ImplicitReflectionSerializer"
+            "-opt-in=kotlinx.serialization.UnstableDefault",
+            "-opt-in=kotlinx.serialization.ImplicitReflectionSerializer",
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
         )
     }
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+//        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kapt {
         useBuildCache = true
@@ -83,47 +85,47 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "onlymash.flexbooru.ap"
 }
 
 dependencies { 
-    val materialVersion = "1.2.0-alpha06"
-    val lifecycleVersion = "2.3.0-alpha01"
-    val navVersion = "2.3.0-alpha05"
-    val workVersion = "2.4.0-alpha02"
-    val roomVersion = "2.2.5"
-    val okhttpVersion = "4.5.0"
-    val retrofitVersion = "2.8.1"
-    val glideVersion = "4.11.0"
-    val markwonVersion = "4.3.1"
-    val kodeinVersion = "6.5.5"
-    val coroutinesVersion = "1.3.5"
-    val serializationVersion = "0.20.0"
+    val materialVersion = "1.8.0-alpha01"
+    val lifecycleVersion = "2.6.0-alpha02"
+    val navVersion = "2.6.0-alpha02"
+    val workVersion = "2.8.0-beta01"
+    val roomVersion = "2.5.0-beta01"
+    val okhttpVersion = "5.0.0-alpha.10"
+    val retrofitVersion = "2.9.0"
+    val glideVersion = "4.14.2"
+    val markwonVersion = "4.6.2"
+    val kodeinVersion = "7.15.0"
+    val coroutinesVersion = "1.6.4"
+    val serializationVersion = "1.4.0"
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.5")
+//    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.0")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.1.0")
-    implementation("org.kodein.di:kodein-di-erased-jvm:$kodeinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    implementation("org.kodein.di:kodein-di-framework-android-core:$kodeinVersion")
     implementation("org.kodein.di:kodein-di-framework-android-x:$kodeinVersion")
+    implementation("org.kodein.di:kodein-di-framework-android-x-viewmodel-savedstate:$kodeinVersion")
     implementation("com.google.android.material:material:$materialVersion")
-    implementation("androidx.annotation:annotation:1.1.0")
-    implementation("androidx.appcompat:appcompat:1.2.0-beta01")
-    implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha03")
-    implementation("androidx.core:core-ktx:1.3.0-rc01")
-    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha02")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01")
-    implementation("androidx.cardview:cardview:1.0.0")
-//    implementation("androidx.multidex:multidex:2.0.1"
-    implementation("androidx.browser:browser:1.3.0-alpha01")
-    implementation("androidx.drawerlayout:drawerlayout:1.1.0-beta01")
+    implementation("androidx.annotation:annotation:1.5.0")
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha01")
+    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.0-alpha03")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0-rc01")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation("androidx.browser:browser:1.4.0")
+    implementation("androidx.drawerlayout:drawerlayout:1.2.0-alpha01")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta4")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha04")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     // LiveData
@@ -143,17 +145,17 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$navVersion")
-    implementation("androidx.viewpager2:viewpager2:1.1.0-alpha01")
+    implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("com.github.onlymash:subsampling-scale-image-view:3.10.3")
-    implementation("com.google.android.apps.muzei:muzei-api:3.2.0")
+    implementation("com.google.android.apps.muzei:muzei-api:3.4.1")
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")
-    implementation("com.squareup.okio:okio:2.5.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0")
+    implementation("com.squareup.okio:okio:3.2.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     implementation("com.github.bumptech.glide:okhttp3-integration:$glideVersion")
     kapt("com.github.bumptech.glide:compiler:$glideVersion")
@@ -163,10 +165,10 @@ dependencies {
     implementation("io.noties.markwon:ext-strikethrough:$markwonVersion")
     implementation("io.noties.markwon:linkify:$markwonVersion")
     implementation("me.saket:better-link-movement-method:2.2.0")
-    implementation("com.google.firebase:firebase-analytics-ktx:17.4.0")
-    implementation("com.google.firebase:firebase-crashlytics:17.0.0")
-    testImplementation("junit:junit:4.13")
+    implementation("com.google.firebase:firebase-analytics-ktx:21.2.0")
+    implementation("com.google.firebase:firebase-crashlytics:18.3.0")
+    testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.work:work-testing:$workVersion")
-    androidTestImplementation("androidx.test:runner:1.3.0-beta01")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0-beta01")
+    androidTestImplementation("androidx.test:runner:1.5.0-beta01")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0-beta01")
 }

@@ -32,7 +32,7 @@ import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
 const val JUMP_TO_TOP_QUERY_KEY = "jump_to_top_query"

@@ -46,7 +46,7 @@ import onlymash.flexbooru.ap.ui.viewmodel.CommentViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.LinkTransformationMethod
 import onlymash.flexbooru.ap.widget.setupInsets
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class CommentActivity : KodeinActivity() {
 

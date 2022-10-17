@@ -9,12 +9,13 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
-import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -51,7 +52,7 @@ import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.DismissFrameLayout
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -66,7 +67,7 @@ const val FROM_POST = 2
 private const val ALPHA_MAX = 0xFF
 private const val ALPHA_MIN = 0x00
 
-class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
+class DetailActivity : DirPickerActivity() {
 
     companion object {
         private const val TAG = "DetailActivity"
@@ -160,7 +161,17 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         }
         window.isShowBar = true
         setContentView(binding.root)
-        findViewById<View>(android.R.id.content).setOnApplyWindowInsetsListener(this)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBarInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbarContainer.minimumHeight = toolbar.height + systemBarInsets.top
+            binding.toolbarContainer.updatePadding(
+                left = systemBarInsets.left,
+                top = systemBarInsets.top,
+                right = systemBarInsets.right
+            )
+            shortcut.spaceNavBar.minimumHeight = systemBarInsets.bottom
+            insets
+        }
         intent?.apply {
             val url = data
             val postId = getIntExtra(POST_ID_KEY, -1)
@@ -250,17 +261,6 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         TooltipCompat.setTooltipText(shortcut.postInfo, shortcut.postInfo.contentDescription)
         TooltipCompat.setTooltipText(shortcut.postSave, shortcut.postSave.contentDescription)
         TooltipCompat.setTooltipText(shortcut.postVote, shortcut.postVote.contentDescription)
-    }
-
-    override fun onApplyWindowInsets(v: View?, insets: WindowInsets): WindowInsets {
-        binding.toolbarContainer.minimumHeight = toolbar.height + insets.systemWindowInsetTop
-        binding.toolbarContainer.updatePadding(
-            left = insets.systemWindowInsetLeft,
-            top = insets.systemWindowInsetTop,
-            right = insets.systemWindowInsetRight
-        )
-        shortcut.spaceNavBar.minimumHeight = insets.systemWindowInsetBottom
-        return insets
     }
 
     private fun initViewModel() {

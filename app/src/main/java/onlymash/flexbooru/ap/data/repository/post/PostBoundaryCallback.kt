@@ -30,7 +30,7 @@ class PostBoundaryCallback(
 
     private fun execute(page: Int, callback: PagingRequestHelper.Callback) {
         scope.launch {
-            when (val result = withContext(Dispatchers.IO) {
+            when (val result: NetResult<List<Post>> = withContext(Dispatchers.IO) {
                 try {
                     val response = api.getPosts(url = search.getPostsUrl(page = page))
                     if (response.isSuccessful) {

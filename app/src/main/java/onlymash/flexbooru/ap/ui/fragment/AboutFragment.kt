@@ -25,8 +25,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         findPreference<Preference>("about_app_version")?.summary = BuildConfig.VERSION_NAME
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        when (preference?.key) {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        when (preference.key) {
             "about_author_website" -> {
                 context?.launchUrl("https://blog.fiepi.com")
             }

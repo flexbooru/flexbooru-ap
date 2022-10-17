@@ -3,7 +3,6 @@ package onlymash.flexbooru.ap.data.api
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.HttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -37,12 +36,14 @@ interface Api {
                 builder.addInterceptor(logger)
             }
             val contentType = "application/json".toMediaType()
+            val json = Json {
+                ignoreUnknownKeys = true
+            }
             return Retrofit.Builder()
                 .baseUrl("https://fiepi.me")
                 .client(builder.build())
                 .addConverterFactory(
-                    Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
-                        .asConverterFactory(contentType)
+                    json.asConverterFactory(contentType)
                 )
                 .build()
                 .create(Api::class.java)
