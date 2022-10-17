@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.ActionMenuView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,7 +21,7 @@ import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.TagBlacklistDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.ListListener
+import onlymash.flexbooru.ap.extension.setupBottomPadding
 import org.kodein.di.instance
 
 class TagBlacklistFragment : KodeinFragment() {
@@ -50,7 +48,7 @@ class TagBlacklistFragment : KodeinFragment() {
         super.onViewCreated(view, savedInstanceState)
         tagBlacklistAdapter = TagBlacklistAdapter()
         binding.tagsBlacklistList.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPadding()
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = tagBlacklistAdapter
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))

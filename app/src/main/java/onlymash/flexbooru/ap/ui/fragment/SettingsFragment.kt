@@ -13,7 +13,8 @@ import onlymash.flexbooru.ap.common.Settings
 import onlymash.flexbooru.ap.extension.decode
 import onlymash.flexbooru.ap.extension.getTreeUri
 import onlymash.flexbooru.ap.extension.openDocumentTree
-import onlymash.flexbooru.ap.widget.ListListener
+import onlymash.flexbooru.ap.extension.setupBottomPadding
+import onlymash.flexbooru.ap.ui.base.DirPickerActivity
 
 private const val PATH_KEY = "settings_download_path"
 
@@ -21,7 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listView.setOnApplyWindowInsetsListener(ListListener)
+        listView.setupBottomPadding()
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -50,7 +51,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == PATH_KEY) {
-            activity?.openDocumentTree()
+            (activity as? DirPickerActivity)?.openDocumentTree()
         }
         return super.onPreferenceTreeClick(preference)
     }

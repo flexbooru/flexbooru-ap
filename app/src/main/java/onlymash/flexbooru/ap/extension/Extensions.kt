@@ -5,10 +5,15 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.text.StaticLayout
 import android.util.DisplayMetrics
-import android.view.View
 import android.view.Window
+import android.view.WindowInsets
+import android.view.WindowManager
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.postDelayed
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.SETTINGS_GRID_WIDTH_BIG
@@ -67,39 +72,67 @@ private val gridWidthResId: Int
         else -> R.dimen.grid_width_normal
     }
 
-fun Activity.getWindowWidth(): Int {
-    val outMetrics = DisplayMetrics()
-    windowManager.defaultDisplay.getMetrics(outMetrics)
-    return outMetrics.widthPixels
-}
-
 fun Activity.getSanCount(): Int {
     val itemWidth = resources.getDimensionPixelSize(gridWidthResId)
-    val count = (getWindowWidth().toFloat() / itemWidth.toFloat()).roundToInt()
+    val count = (windowWidth.toFloat() / itemWidth.toFloat()).roundToInt()
     return if (count < 1) 1 else count
 }
 
-fun View.toFullscreenStable() {
-    systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+fun Window.showSystemBars() {
+    WindowCompat.getInsetsController(this, decorView).show(WindowInsetsCompat.Type.systemBars())
 }
 
-fun View.toFullscreenImmersive() {
-    systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-            View.SYSTEM_UI_FLAG_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-            View.SYSTEM_UI_FLAG_IMMERSIVE
+fun Window.hideSystemBars() {
+    WindowCompat.getInsetsController(this, decorView).apply {
+        hide(WindowInsetsCompat.Type.systemBars())
+        systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    }
 }
 
 
-inline var Window.isShowBar: Boolean
-    get() = (decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LAYOUT_STABLE) != 0
-    set(value) {
-        if (value) {
-            decorView.toFullscreenStable()
+@Suppress("DEPRECATION")
+inline val Window.isStatusBarShown: Boolean
+    get() {
+        val flags = attributes.flags
+        val newFlags = flags and WindowManager.LayoutParams.FLAG_FULLSCREEN.inv()
+        return flags == newFlags
+    }
+
+
+inline val Activity.windowHeight: Int
+    get() {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val metrics = windowManager.currentWindowMetrics
+            val insets = metrics.windowInsets.getInsets(WindowInsets.Type.systemBars())
+            metrics.bounds.height() - insets.bottom - insets.top
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val view = window.decorView
+            val insets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view).getInsets(
+                WindowInsetsCompat.Type.systemBars())
+            resources.displayMetrics.heightPixels - insets.bottom - insets.top
         } else {
-            decorView.toFullscreenImmersive()
+            val dm = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            windowManager.defaultDisplay.getMetrics(dm)
+            dm.heightPixels
+        }
+    }
+
+inline val Activity.windowWidth: Int
+    get() {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val metrics = windowManager.currentWindowMetrics
+            val insets = metrics.windowInsets.getInsets(WindowInsets.Type.systemBars())
+            metrics.bounds.width() - insets.left - insets.right
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val view = window.decorView
+            val insets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view).getInsets(
+                WindowInsetsCompat.Type.systemBars())
+            resources.displayMetrics.widthPixels - insets.left - insets.right
+        } else {
+            val dm = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            windowManager.defaultDisplay.getMetrics(dm)
+            dm.widthPixels
         }
     }

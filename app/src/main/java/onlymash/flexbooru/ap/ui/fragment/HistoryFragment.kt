@@ -35,7 +35,7 @@ import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.ListListener
+import onlymash.flexbooru.ap.extension.setupBottomPadding
 import org.kodein.di.instance
 
 
@@ -90,7 +90,7 @@ class HistoryFragment : KodeinFragment() {
         super.onViewCreated(view, savedInstanceState)
         historyAdapter = HistoryAdapter()
         list.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPadding()
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = historyAdapter
         }

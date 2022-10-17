@@ -16,7 +16,7 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.databinding.ActivityCopyrightBinding
 import onlymash.flexbooru.ap.extension.launchUrl
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.setupInsets
+import onlymash.flexbooru.ap.extension.setupInsets
 
 class CopyrightActivity : AppCompatActivity() {
 
@@ -29,8 +29,8 @@ class CopyrightActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupInsets { insets ->
-            toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
-            copyright.updatePadding(bottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.copyright_padding))
+            toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.top
+            copyright.updatePadding(bottom = insets.bottom + resources.getDimensionPixelSize(R.dimen.copyright_padding))
         }
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -58,7 +58,7 @@ class CopyrightActivity : AppCompatActivity() {
         }
     }
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 }

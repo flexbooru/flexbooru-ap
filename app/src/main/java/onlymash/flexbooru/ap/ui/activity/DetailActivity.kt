@@ -9,13 +9,12 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -52,6 +51,7 @@ import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.DismissFrameLayout
+import onlymash.flexbooru.ap.extension.setupInsets
 import org.kodein.di.instance
 import java.io.File
 import java.io.FileInputStream
@@ -154,6 +154,16 @@ class DetailActivity : DirPickerActivity() {
         super.finishAfterTransition()
     }
 
+    private var Window.isShowBar: Boolean
+        get() = isStatusBarShown
+        set(value) {
+            if (value) {
+                showSystemBars()
+            } else {
+                hideSystemBars()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -161,16 +171,14 @@ class DetailActivity : DirPickerActivity() {
         }
         window.isShowBar = true
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
-            val systemBarInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.toolbarContainer.minimumHeight = toolbar.height + systemBarInsets.top
+        setupInsets { insets ->
+            binding.toolbarContainer.minimumHeight = toolbar.height + insets.top
             binding.toolbarContainer.updatePadding(
-                left = systemBarInsets.left,
-                top = systemBarInsets.top,
-                right = systemBarInsets.right
+                left = insets.left,
+                top = insets.top,
+                right = insets.right
             )
-            shortcut.spaceNavBar.minimumHeight = systemBarInsets.bottom
-            insets
+            shortcut.spaceNavBar.minimumHeight = insets.bottom
         }
         intent?.apply {
             val url = data
@@ -206,7 +214,7 @@ class DetailActivity : DirPickerActivity() {
         postsPager.adapter = detailAdapter
         toolbar.apply {
             setNavigationOnClickListener {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
             }
             setOnMenuItemClickListener {
                 when (it?.itemId) {

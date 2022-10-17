@@ -4,12 +4,13 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.database.MatrixCursor
+import android.os.Build
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.Menu
-import android.view.WindowInsets
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.Insets
 import androidx.core.view.updateLayoutParams
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
@@ -30,7 +31,7 @@ import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_KEY
 import onlymash.flexbooru.ap.ui.fragment.JUMP_TO_TOP_QUERY_KEY
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.setupInsets
+import onlymash.flexbooru.ap.extension.setupInsets
 import org.kodein.di.instance
 
 class SearchActivity : PostActivity() {
@@ -83,7 +84,12 @@ class SearchActivity : PostActivity() {
         }
         intent?.apply {
             query = getStringExtra(QUERY_KEY) ?: ""
-            searchType = getSerializableExtra(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
+            searchType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getSerializableExtra(SEARCH_TYPE_KEY, SearchType::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                getSerializableExtra(SEARCH_TYPE_KEY)
+            } as? SearchType ?: SearchType.NORMAL
             userId = getIntExtra(USER_ID_KEY, -1)
             uploaderId = getIntExtra(UPLOADER_ID_KEY, -1)
             color = getStringExtra(COLOR_KEY) ?: ""
@@ -119,7 +125,7 @@ class SearchActivity : PostActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 
@@ -166,10 +172,10 @@ class SearchActivity : PostActivity() {
         }
     }
 
-    private fun applyInsets(insets: WindowInsets) {
-        toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+    private fun applyInsets(insets: Insets) {
+        toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.top
         fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-            bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+            bottomMargin = insets.bottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
         }
     }
 

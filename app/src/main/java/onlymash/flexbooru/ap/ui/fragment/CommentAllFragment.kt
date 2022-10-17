@@ -27,7 +27,7 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.adapter.CommentAllAdapter
 import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.CommentAllViewModel
-import onlymash.flexbooru.ap.widget.ListListener
+import onlymash.flexbooru.ap.extension.setupBottomPadding
 import org.kodein.di.instance
 
 class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -74,7 +74,7 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
             .build()
         commentAllAdapter = CommentAllAdapter(glide, markdown) { commentAllViewModel.retry() }
         list.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPadding()
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             adapter = commentAllAdapter

@@ -2,7 +2,6 @@ package onlymash.flexbooru.ap.common
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import onlymash.flexbooru.ap.crash.CrashHandler
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 
@@ -17,7 +16,6 @@ class App : Application(), DIAware {
     override fun onCreate() {
         super.onCreate()
         app = this
-        CrashHandler.getInstance().init(this)
         AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
     }
 }

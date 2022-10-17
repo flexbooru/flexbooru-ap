@@ -1,6 +1,7 @@
 package onlymash.flexbooru.ap.ui.fragment
 
 import android.content.*
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import onlymash.flexbooru.ap.common.*
-import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
@@ -31,7 +31,7 @@ import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
-import onlymash.flexbooru.ap.widget.ListListener
+import onlymash.flexbooru.ap.extension.setupBottomPadding
 import org.kodein.di.instance
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
@@ -117,7 +117,12 @@ class PostFragment : KodeinFragment(),
         var color = ""
         arguments?.apply {
             query = getString(QUERY_KEY) ?: ""
-            searchType = getSerializable(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
+            searchType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getSerializable(SEARCH_TYPE_KEY, SearchType::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                getSerializable(SEARCH_TYPE_KEY)
+            } as? SearchType ?: SearchType.NORMAL
             userId = getInt(USER_ID_KEY, -1)
             uploaderId = getInt(UPLOADER_ID_KEY, -1)
             color = getString(COLOR_KEY) ?: ""
@@ -135,7 +140,7 @@ class PostFragment : KodeinFragment(),
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         postViewModel = getViewModel(PostViewModel(db = db, api = api))
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
         _binding = FragmentListRefreshableBinding.inflate(layoutInflater, container, false)
@@ -163,7 +168,7 @@ class PostFragment : KodeinFragment(),
             retryCallback = { postViewModel.retry() }
         )
         list.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPadding()
             layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
             adapter = postAdapter
         }

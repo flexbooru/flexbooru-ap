@@ -18,6 +18,7 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.okhttp.OkHttpDownloader
 import onlymash.flexbooru.ap.okhttp.ProgressInterceptor
+import onlymash.flexbooru.ap.ui.base.DirPickerActivity
 import java.io.IOException
 import java.io.InputStream
 
@@ -32,7 +33,7 @@ class DownloadWorker(
 ) : Worker(context, workerParameters) {
 
     companion object {
-        fun download(activity: Activity, detail: Detail) {
+        fun download(activity: DirPickerActivity, detail: Detail) {
             val uri = activity.getDownloadUri(detail.fileUrl.fileName()) ?: return
             val docId = DocumentsContract.getDocumentId(uri) ?: return
             val data = workDataOf(

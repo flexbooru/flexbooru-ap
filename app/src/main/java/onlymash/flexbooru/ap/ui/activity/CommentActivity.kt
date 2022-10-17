@@ -45,7 +45,7 @@ import onlymash.flexbooru.ap.ui.diffcallback.CommentDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.CommentViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.LinkTransformationMethod
-import onlymash.flexbooru.ap.widget.setupInsets
+import onlymash.flexbooru.ap.extension.setupInsets
 import org.kodein.di.instance
 
 class CommentActivity : KodeinActivity() {
@@ -73,8 +73,8 @@ class CommentActivity : KodeinActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupInsets { insets ->
-            toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
-            binding.containerCommentBox.updatePadding(bottom = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.elevation))
+            toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.top
+            binding.containerCommentBox.updatePadding(bottom = insets.bottom + resources.getDimensionPixelSize(R.dimen.elevation))
         }
         val postId = intent?.getIntExtra(POST_ID_KEY, -1) ?: -1
         toolbarContainer.updateLayoutParams<AppBarLayout.LayoutParams> {
@@ -175,7 +175,7 @@ class CommentActivity : KodeinActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 

@@ -26,7 +26,7 @@ import onlymash.flexbooru.ap.extension.getLogoutUrl
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.setupInsets
+import onlymash.flexbooru.ap.extension.setupInsets
 import org.kodein.di.instance
 import kotlin.Exception
 
@@ -62,8 +62,8 @@ class UserActivity : KodeinActivity() {
         setContentView(binding.root)
         setupInsets { insets ->
             binding.layoutAppBar.containerToolbar.minimumHeight =
-                binding.layoutAppBar.toolbar.minimumHeight + insets.systemWindowInsetTop
-            binding.scrollContainer.updatePadding(bottom = insets.systemWindowInsetBottom)
+                binding.layoutAppBar.toolbar.minimumHeight + insets.top
+            binding.scrollContainer.updatePadding(bottom = insets.bottom)
         }
         setSupportActionBar(binding.layoutAppBar.toolbar)
         supportActionBar?.apply {
@@ -114,7 +114,7 @@ class UserActivity : KodeinActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 

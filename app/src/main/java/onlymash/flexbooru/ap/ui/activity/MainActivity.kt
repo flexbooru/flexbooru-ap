@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.*
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,12 +22,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.Insets
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -66,7 +69,7 @@ import onlymash.flexbooru.ap.ui.fragment.*
 import onlymash.flexbooru.ap.ui.viewmodel.SuggestionViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagFilterViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.setupInsets
+import onlymash.flexbooru.ap.extension.setupInsets
 import org.kodein.di.instance
 
 private const val SUGGESTION_FOR_NORMAL = 0
@@ -134,36 +137,7 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         }
         sp.registerOnSharedPreferenceChangeListener(this)
         setSupportActionBar(toolbar)
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_posts,
-                R.id.nav_history,
-                R.id.nav_comments,
-                R.id.nav_tags_blacklist,
-                R.id.nav_settings,
-                R.id.nav_about
-            ),
-            drawerLayout
-        )
-        navController = findNavController(R.id.nav_host_fragment)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            currentFragmentId = destination.id
-            toolbarContainer.updateLayoutParams<AppBarLayout.LayoutParams> {
-                scrollFlags = when (currentFragmentId) {
-                    R.id.nav_posts -> {
-                        fab.isVisible = true
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-                    }
-                    else -> {
-                        fab.isVisible = false
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
-                    }
-                }
-            }
-            delegate.invalidateOptionsMenu()
-        }
+        initNav()
         fab.setOnClickListener {
             when (currentFragmentId) {
                 R.id.nav_posts -> {
@@ -195,6 +169,59 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             handleSuggestions(it)
         })
         initTagFilter()
+    }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            when {
+                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
+                drawerLayout.isDrawerOpen(GravityCompat.END) -> drawerLayout.closeDrawer(GravityCompat.END)
+            }
+        }
+    }
+
+    private fun initNav() {
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_posts,
+                R.id.nav_history,
+                R.id.nav_comments,
+                R.id.nav_tags_blacklist,
+                R.id.nav_settings,
+                R.id.nav_about
+            ),
+            drawerLayout
+        )
+        navController = findNavController(R.id.nav_host_fragment)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            currentFragmentId = destination.id
+            toolbarContainer.updateLayoutParams<AppBarLayout.LayoutParams> {
+                scrollFlags = when (currentFragmentId) {
+                    R.id.nav_posts -> {
+                        fab.isVisible = true
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    }
+                    else -> {
+                        fab.isVisible = false
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
+                    }
+                }
+            }
+            delegate.invalidateOptionsMenu()
+        }
+        drawerLayout.addDrawerListener(object : DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) { }
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { }
+            override fun onDrawerClosed(drawerView: View) {
+                onBackPressedCallback.isEnabled = false
+            }
+            override fun onDrawerOpened(drawerView: View) {
+                onBackPressedCallback.isEnabled = true
+            }
+        })
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun initTagFilter() {
@@ -464,14 +491,6 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    override fun onBackPressed() {
-        when {
-            drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
-            drawerLayout.isDrawerOpen(GravityCompat.END) -> drawerLayout.closeDrawer(GravityCompat.END)
-            else -> super.onBackPressed()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             SETTINGS_NIGHT_MODE_KEY -> AppCompatDelegate.setDefaultNightMode(Settings.nightMode)
@@ -479,14 +498,14 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
         }
     }
 
-    private fun applyInsets(insets: WindowInsets) {
+    private fun applyInsets(insets: Insets) {
         drawerTagsBinding.root.updatePadding(
-            top = insets.systemWindowInsetTop,
-            bottom = insets.systemWindowInsetBottom
+            top = insets.top,
+            bottom = insets.bottom
         )
-        toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.systemWindowInsetTop
+        toolbarContainer.minimumHeight = toolbar.minimumHeight + insets.top
         fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-            bottomMargin = insets.systemWindowInsetBottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
+            bottomMargin = insets.bottom + resources.getDimensionPixelSize(R.dimen.fab_margin)
         }
     }
 
