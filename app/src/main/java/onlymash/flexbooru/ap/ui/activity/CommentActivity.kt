@@ -28,8 +28,6 @@ import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.common.POST_ID_KEY
 import onlymash.flexbooru.ap.common.Settings
-import onlymash.flexbooru.ap.data.NetworkState
-import onlymash.flexbooru.ap.data.Status
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.UserManager
 import onlymash.flexbooru.ap.data.model.Comment
@@ -114,19 +112,31 @@ class CommentActivity : KodeinActivity() {
             val result = DiffUtil.calculateDiff(CommentDiffCallback(oldItems, comments))
             result.dispatchUpdatesTo(commentAdapter)
         })
-        commentViewModel.status.observe(this, Observer {
-            binding.apply {
-                commentsRefresh.isRefreshing = it == NetworkState.LOADING
-                if (it != NetworkState.LOADED) {
-                    statusContainer.isVisible = true
-                    retryButton.isVisible = it.status == Status.FAILED
-                    errorMsg.isVisible = it.msg != null
-                    errorMsg.text = it.msg
-                } else {
-                    statusContainer.isVisible = false
+        commentViewModel.status.observe(this) {
+            when (it) {
+                is States.Loading -> {
+                    binding.apply {
+                        statusContainer.isVisible = true
+                        retryButton.isVisible = false
+                        errorMsg.isVisible = false
+                        commentsRefresh.isRefreshing = true
+                    }
+                }
+                is States.Success -> {
+                    binding.statusContainer.isVisible = false
+                    binding.commentsRefresh.isRefreshing = false
+                }
+                is States.Error -> {
+                    binding.apply {
+                        statusContainer.isVisible = true
+                        retryButton.isVisible = true
+                        errorMsg.isVisible = it.errorMsg.isNotEmpty()
+                        errorMsg.text = it.errorMsg
+                        commentsRefresh.isRefreshing = false
+                    }
                 }
             }
-        })
+        }
         if (postId > 0) {
             commentViewModel.loadComments(postId)
         }

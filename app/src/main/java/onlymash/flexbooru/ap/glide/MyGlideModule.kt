@@ -15,7 +15,7 @@ import onlymash.flexbooru.ap.okhttp.ProgressInterceptor
 import java.io.InputStream
 
 @GlideModule
-class MyGildeModule : AppGlideModule() {
+class MyGlideModule : AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         val requestOptions = RequestOptions

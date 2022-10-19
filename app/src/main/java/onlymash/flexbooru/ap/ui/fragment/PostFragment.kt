@@ -9,19 +9,20 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import kotlinx.coroutines.flow.*
 import onlymash.flexbooru.ap.common.*
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
-import onlymash.flexbooru.ap.data.isLoading
 import onlymash.flexbooru.ap.databinding.FragmentListRefreshableBinding
-import onlymash.flexbooru.ap.extension.getSanCount
-import onlymash.flexbooru.ap.extension.getViewModel
+import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.FROM_POSTS
@@ -31,7 +32,7 @@ import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
-import onlymash.flexbooru.ap.extension.setupBottomPadding
+import onlymash.flexbooru.ap.ui.adapter.NetworkLoadStateAdapter
 import org.kodein.di.instance
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
@@ -57,8 +58,8 @@ class PostFragment : KodeinFragment(),
     private val binding get() = _binding!!
 
     private val list get() = binding.layoutList.layoutRv.list
-    private val refresh get() = binding.layoutList.refresh
-    private val progressBar get() = binding.layoutProgress.progressBar
+    private val swipeRefresh get() = binding.layoutList.refresh
+    private val progressBarHorizontal get() = binding.layoutProgressHorizontal.progressBarHorizontal
 
     private lateinit var search: Search
     private lateinit var postAdapter: PostAdapter
@@ -164,15 +165,14 @@ class PostFragment : KodeinFragment(),
                         transitionName = name
                     )
                 }
-            },
-            retryCallback = { postViewModel.retry() }
+            }
         )
         list.apply {
-            setupBottomPadding()
+            setupBottomPaddingWithProgressBar(progressBarHorizontal)
             layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
-            adapter = postAdapter
+            adapter = postAdapter.withLoadStateFooterSafe(NetworkLoadStateAdapter(postAdapter))
         }
-        tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner, Observer { tagsBlacklist ->
+        tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner) { tagsBlacklist ->
             var tagsString = ""
             tagsBlacklist.forEach { tag ->
                 tagsString = if (tagsString.isEmpty()) {
@@ -183,52 +183,49 @@ class PostFragment : KodeinFragment(),
             }
             search.deniedTags = tagsString
             postViewModel.load(search)
-        })
+        }
         tagBlacklistViewModel.loadAll()
-        postViewModel.posts.observe(this.viewLifecycleOwner, Observer { posts ->
-            if (posts != null) {
-                if (posts.size > 0) {
-                    progressBar.isVisible = false
-                }
-                postAdapter.submitList(posts)
+        postAdapter.addLoadStateListener { handleNetworkState(it) }
+        lifecycleScope.launchWhenCreated {
+            postViewModel.posts.collectLatest {
+                postAdapter.submitData(it)
             }
-        })
-        postViewModel.networkState.observe(this.viewLifecycleOwner, Observer {
-            progressBar.isVisible = it.isLoading() && postAdapter.itemCount == 0
-            postAdapter.setNetworkState(it)
-        })
-        initSwipeToRefresh()
+        }
+        lifecycleScope.launchWhenCreated {
+            postAdapter.loadStateFlow
+                .asMergedLoadStates()
+                .distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { list.scrollToPosition(0) }
+        }
+        swipeRefresh.setOnRefreshListener { postAdapter.refresh() }
         postViewModel.load(search)
         sp.registerOnSharedPreferenceChangeListener(this)
     }
 
-    private fun initSwipeToRefresh() {
-        postViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
-            if (!it.isLoading()) {
-                refresh.isRefreshing = false
-            }
-        })
-        refresh.setOnRefreshListener {
-            postViewModel.refresh()
-        }
+    private fun handleNetworkState(loadStates: CombinedLoadStates) {
+        val refresh = loadStates.mediator?.refresh
+        val append = loadStates.mediator?.append
+        swipeRefresh.isRefreshing = refresh is LoadState.Loading
+        progressBarHorizontal.isVisible = append is LoadState.Loading
     }
 
     override fun onOrderChange(order: String) {
         search.order = order
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onDateRangeChange(dateRange: Int) {
         search.dateRange = dateRange
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onAspectRatioChange(aspect: String) {
         search.aspect = aspect
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onExtensionChange(
@@ -242,7 +239,7 @@ class PostFragment : KodeinFragment(),
             extGif = isCheckedGif
         }
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onAttach(context: Context) {
@@ -288,7 +285,7 @@ class PostFragment : KodeinFragment(),
             USER_TOKEN_KEY -> {
                 search.token = Settings.userToken
                 postViewModel.load(search)
-                postViewModel.refresh()
+                postAdapter.refresh()
             }
         }
     }

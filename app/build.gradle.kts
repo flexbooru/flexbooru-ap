@@ -36,7 +36,7 @@ android {
         versionCode = verCode
         versionName = "1.4.0"
         versionNameSuffix = ".c$verCode"
-        resourceConfigurations += setOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR")
+        resourceConfigurations += setOf("en", "zh-rCN", "ru-rRU", "zh-rHK", "pt-rBR", "es-rES", "nl-rNL")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -66,9 +66,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=kotlinx.serialization.UnstableDefault",
-            "-opt-in=kotlinx.serialization.ImplicitReflectionSerializer",
-            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+            "-opt-in=androidx.paging.ExperimentalPagingApi",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlinx.coroutines.FlowPreview"
         )
     }
     compileOptions {
@@ -100,7 +101,7 @@ dependencies {
     val markwonVersion = "4.6.2"
     val kodeinVersion = "7.15.0"
     val coroutinesVersion = "1.6.4"
-    val serializationVersion = "1.4.0"
+    val serializationVersion = "1.4.1"
 
 //    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.0")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
@@ -124,6 +125,7 @@ dependencies {
     implementation("androidx.drawerlayout:drawerlayout:1.2.0-alpha01")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-paging:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha04")
     // ViewModel
@@ -140,7 +142,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-service:$lifecycleVersion")
     // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
     implementation("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
-    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
     implementation("androidx.work:work-runtime-ktx:$workVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
@@ -167,6 +169,7 @@ dependencies {
     implementation("me.saket:better-link-movement-method:2.2.0")
     implementation("com.google.firebase:firebase-analytics-ktx:21.2.0")
     implementation("com.google.firebase:firebase-crashlytics:18.3.0")
+    implementation("com.google.android.datatransport:transport-runtime:3.1.8")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.work:work-testing:$workVersion")
     androidTestImplementation("androidx.test:runner:1.5.0-beta01")

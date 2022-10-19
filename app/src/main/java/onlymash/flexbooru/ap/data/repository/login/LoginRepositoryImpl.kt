@@ -18,21 +18,16 @@ class LoginRepositoryImpl(private val api: Api) : LoginRepository {
 
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.login(
+                val user = api.login(
                     url = getLoginUrl(),
                     username = username,
                     password = password,
                     timeZone = TimeZone.getDefault().id
                 )
-                val user = response.body()
-                if (response.isSuccessful && user != null) {
-                    if (user.success) {
-                        NetResult.Success(UserManager.createUser(user))
-                    } else {
-                        NetResult.Error("Username or Password is wrong.")
-                    }
+                if (user.success) {
+                    NetResult.Success(UserManager.createUser(user))
                 } else {
-                    NetResult.Error("code: ${response.code()}")
+                    NetResult.Error("Username or Password is wrong.")
                 }
             } catch (e: Exception) {
                 NetResult.Error(e.message.toString())

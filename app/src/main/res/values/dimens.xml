@@ -33,4 +33,5 @@
     <dimen name="gesture_exclusion_offset">60dp</dimen>
 
     <dimen name="copyright_padding">10dp</dimen>
+    <dimen name="margin_vertical_progressbar">-6.5dp</dimen>
 </resources>

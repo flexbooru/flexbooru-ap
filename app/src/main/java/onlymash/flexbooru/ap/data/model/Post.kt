@@ -22,9 +22,9 @@ data class Post(
     @Transient
     var query: String = "",
 
-    @ColumnInfo(name = "index_in_response")
+    @ColumnInfo(name = "index")
     @Transient
-    var indexInResponse: Int = -1,
+    var index: Int = -1,
 
     @ColumnInfo(name = "id")
     @SerialName("id")

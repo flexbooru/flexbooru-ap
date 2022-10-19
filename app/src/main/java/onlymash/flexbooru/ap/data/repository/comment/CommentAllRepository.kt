@@ -1,13 +1,10 @@
 package onlymash.flexbooru.ap.data.repository.comment
 
-import kotlinx.coroutines.CoroutineScope
-import onlymash.flexbooru.ap.data.Listing
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import onlymash.flexbooru.ap.data.model.CommentAll
 
 interface CommentAllRepository {
 
-    fun getComments(
-        scope: CoroutineScope,
-        token: String
-    ): Listing<CommentAll>
+    fun getComments(token: String): Flow<PagingData<CommentAll>>
 }

@@ -1,8 +1,10 @@
 package onlymash.flexbooru.ap.ui.activity
 
+import android.Manifest
 import android.app.SearchManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.database.MatrixCursor
 import android.graphics.Color
 import android.graphics.Rect
@@ -13,6 +15,7 @@ import android.provider.BaseColumns
 import android.view.*
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -117,6 +120,10 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private lateinit var headerView: View
     private lateinit var navController: NavController
 
+    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
@@ -169,6 +176,10 @@ class MainActivity : PostActivity(), SharedPreferences.OnSharedPreferenceChangeL
             handleSuggestions(it)
         })
         initTagFilter()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     private val onBackPressedCallback = object : OnBackPressedCallback(false) {

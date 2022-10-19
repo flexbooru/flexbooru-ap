@@ -13,13 +13,8 @@ class CommentRepositoryImpl(private val api: Api) : CommentRepository {
     override suspend fun getComments(url: HttpUrl): NetResult<List<Comment>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.getComments(url = url)
-                val data  = response.body()
-                if (data != null) {
-                    NetResult.Success(data.comments)
-                } else {
-                    NetResult.Error("code: ${response.code()}")
-                }
+                val data = api.getComments(url = url)
+                NetResult.Success(data.comments)
             } catch (e: Exception) {
                 if (e is HttpException) {
                     NetResult.Error("code: ${e.code()}")
@@ -38,11 +33,10 @@ class CommentRepositoryImpl(private val api: Api) : CommentRepository {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.createComment(url = url, text = text, token = token)
-                val success = response.body()?.success ?: false
-                if (success) {
+                if (response.success) {
                     NetResult.Success(true)
                 } else {
-                    NetResult.Error("code: ${response.code()}")
+                    NetResult.Error("Failed")
                 }
             } catch (e: Exception) {
                 NetResult.Error(e.message.toString())

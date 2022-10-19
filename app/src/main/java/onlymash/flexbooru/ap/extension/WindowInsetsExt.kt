@@ -1,5 +1,6 @@
 package onlymash.flexbooru.ap.extension
 
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
@@ -24,6 +25,15 @@ fun AppCompatActivity.setupInsets(insetsCallback: (insets: Insets) -> Unit) {
 fun RecyclerView.setupBottomPadding() {
     ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
         updatePadding(bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom)
+        insets
+    }
+}
+
+fun RecyclerView.setupBottomPaddingWithProgressBar(progressBar: ProgressBar) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+        val bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+        updatePadding(bottom = bottom)
+        progressBar.updatePadding(bottom = bottom)
         insets
     }
 }

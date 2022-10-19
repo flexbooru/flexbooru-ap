@@ -2,6 +2,10 @@ package onlymash.flexbooru.ap.ui.adapter
 
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.noties.markwon.Markwon
@@ -14,15 +18,13 @@ import onlymash.flexbooru.ap.extension.formatDate
 import onlymash.flexbooru.ap.glide.GlideRequests
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.UserActivity
-import onlymash.flexbooru.ap.ui.base.BaseAdapter
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.LinkTransformationMethod
 
 class CommentAllAdapter(
     private val glide: GlideRequests,
-    private val markwon: Markwon,
-    retryCallback: () -> Unit
-) : BaseAdapter<CommentAll>(COMMENT_ALL_COMPARATOR, retryCallback) {
+    private val markwon: Markwon
+) : PagingDataAdapter<CommentAll, CommentAllAdapter.CommentAllViewHolder>(COMMENT_ALL_COMPARATOR) {
 
     companion object {
         val COMMENT_ALL_COMPARATOR = object : DiffUtil.ItemCallback<CommentAll>() {
@@ -33,12 +35,12 @@ class CommentAllAdapter(
         }
     }
 
-    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentAllViewHolder {
         return CommentAllViewHolder(parent)
     }
 
-    override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as CommentAllViewHolder).bind(getItem(position))
+    override fun onBindViewHolder(holder: CommentAllViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
     inner class CommentAllViewHolder(binding: ItemCommentAllBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -94,5 +96,21 @@ class CommentAllAdapter(
                 .placeholder(ContextCompat.getDrawable(context, R.drawable.background_placeholder))
                 .into(postPreview)
         }
+    }
+
+    fun withLoadStateFooterSafe(
+        footer: LoadStateAdapter<*>
+    ): ConcatAdapter {
+        val containerAdapter = ConcatAdapter(this)
+        addLoadStateListener { loadStates ->
+            footer.loadState = loadStates.append
+            if (loadStates.append is LoadState.Error && !containerAdapter.adapters.contains(footer)) {
+                containerAdapter.addAdapter(footer)
+                footer.loadState = loadStates.append
+            } else if (containerAdapter.adapters.contains(footer)){
+                containerAdapter.removeAdapter(footer)
+            }
+        }
+        return containerAdapter
     }
 }

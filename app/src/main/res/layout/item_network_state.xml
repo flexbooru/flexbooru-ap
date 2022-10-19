@@ -7,7 +7,7 @@
     android:id="@+id/network_state_container"
     android:padding="8dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/error_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

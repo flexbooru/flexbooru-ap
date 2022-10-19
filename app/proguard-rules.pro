@@ -111,3 +111,6 @@
 -keepclasseswithmembers class onlymash.flexbooru.ap.data.model.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+-keep class com.google.android.datatransport.runtime.ForcedSender
+-dontwarn com.google.android.datatransport.runtime.ForcedSender
