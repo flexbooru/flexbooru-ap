@@ -11,13 +11,13 @@ import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.extension.launchUrl
 import onlymash.flexbooru.ap.extension.openAppInMarket
 import onlymash.flexbooru.ap.ui.activity.CopyrightActivity
-import onlymash.flexbooru.ap.widget.ListListener
+import onlymash.flexbooru.ap.extension.setupBottomPadding
 
 class AboutFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listView.setOnApplyWindowInsetsListener(ListListener)
+        listView.setupBottomPadding()
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -25,8 +25,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         findPreference<Preference>("about_app_version")?.summary = BuildConfig.VERSION_NAME
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        when (preference?.key) {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        when (preference.key) {
             "about_author_website" -> {
                 context?.launchUrl("https://blog.fiepi.com")
             }

@@ -1,22 +1,19 @@
 package onlymash.flexbooru.ap.extension
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ContentResolver
-import android.content.Intent
 import android.net.Uri
 import android.provider.DocumentsContract
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
-import okio.IOException
 import onlymash.flexbooru.ap.R
-import onlymash.flexbooru.ap.common.*
+import onlymash.flexbooru.ap.ui.base.DirPickerActivity
 import java.util.*
 
-fun Activity.getSaveUri(fileName: String): Uri? = getFileUri("save", fileName)
+fun DirPickerActivity.getSaveUri(fileName: String): Uri? = getFileUri("save", fileName)
 
-fun Activity.getDownloadUri(fileName: String): Uri? = getFileUri("download", fileName)
+fun DirPickerActivity.getDownloadUri(fileName: String): Uri? = getFileUri("download", fileName)
 
 fun ContentResolver.getFileUriByDocId(docId: String): Uri? {
     val treeUri = getTreeUri() ?: return null
@@ -34,7 +31,7 @@ fun ContentResolver.getTreeUri(): Uri? {
     return permissions[index].uri
 }
 
-private fun Activity.getFileUri(dirName: String, fileName: String): Uri? {
+private fun DirPickerActivity.getFileUri(dirName: String, fileName: String): Uri? {
     val treeUri = contentResolver.getTreeUri()
     if (treeUri == null) {
         openDocumentTree()
@@ -97,16 +94,9 @@ private fun Activity.getFileUri(dirName: String, fileName: String): Uri? {
     return fileUri
 }
 
-fun Activity.openDocumentTree() {
+fun DirPickerActivity.openDocumentTree() {
     try {
-        startActivityForResult(
-            Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                        or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
-                        or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            },
-            REQUEST_CODE_OPEN_DIRECTORY)
+        dirPickerLauncher.launch(null)
     } catch (_: ActivityNotFoundException) {}
 }
 
@@ -130,7 +120,7 @@ private fun closeQuietly(closeable: AutoCloseable?) {
 fun String.getMimeType(): String {
     var extension = this.fileExt()
     // Convert the URI string to lower case to ensure compatibility with MimeTypeMap (see CB-2185).
-    extension = extension.toLowerCase(Locale.getDefault())
+    extension = extension.lowercase(Locale.getDefault())
     if (extension == "3ga") {
         return "audio/3gpp"
     } else if (extension == "js") {

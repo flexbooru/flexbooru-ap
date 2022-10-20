@@ -1,5 +1,6 @@
 package onlymash.flexbooru.ap.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,7 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.View
-import android.view.WindowInsets
+import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
@@ -51,7 +52,8 @@ import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.LocalPostViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.widget.DismissFrameLayout
-import org.kodein.di.erased.instance
+import onlymash.flexbooru.ap.extension.setupInsets
+import org.kodein.di.instance
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -66,7 +68,7 @@ const val FROM_POST = 2
 private const val ALPHA_MAX = 0xFF
 private const val ALPHA_MIN = 0x00
 
-class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
+class DetailActivity : DirPickerActivity() {
 
     companion object {
         private const val TAG = "DetailActivity"
@@ -153,6 +155,16 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         super.finishAfterTransition()
     }
 
+    private var Window.isShowBar: Boolean
+        get() = isStatusBarShown
+        set(value) {
+            if (value) {
+                showSystemBars()
+            } else {
+                hideSystemBars()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -160,7 +172,15 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         }
         window.isShowBar = true
         setContentView(binding.root)
-        findViewById<View>(android.R.id.content).setOnApplyWindowInsetsListener(this)
+        setupInsets { insets ->
+            binding.toolbarContainer.minimumHeight = toolbar.height + insets.top
+            binding.toolbarContainer.updatePadding(
+                left = insets.left,
+                top = insets.top,
+                right = insets.right
+            )
+            shortcut.spaceNavBar.minimumHeight = insets.bottom
+        }
         intent?.apply {
             val url = data
             val postId = getIntExtra(POST_ID_KEY, -1)
@@ -195,7 +215,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         postsPager.adapter = detailAdapter
         toolbar.apply {
             setNavigationOnClickListener {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
             }
             setOnMenuItemClickListener {
                 when (it?.itemId) {
@@ -252,17 +272,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
         TooltipCompat.setTooltipText(shortcut.postVote, shortcut.postVote.contentDescription)
     }
 
-    override fun onApplyWindowInsets(v: View?, insets: WindowInsets): WindowInsets {
-        binding.toolbarContainer.minimumHeight = toolbar.height + insets.systemWindowInsetTop
-        binding.toolbarContainer.updatePadding(
-            left = insets.systemWindowInsetLeft,
-            top = insets.systemWindowInsetTop,
-            right = insets.systemWindowInsetRight
-        )
-        shortcut.spaceNavBar.minimumHeight = insets.systemWindowInsetBottom
-        return insets
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
     private fun initViewModel() {
         if (fromWhere == FROM_POSTS) {
             localPostViewModel = getViewModel(LocalPostViewModel(LocalRepositoryImpl(postDao)))
@@ -284,7 +294,7 @@ class DetailActivity : DirPickerActivity(), View.OnApplyWindowInsetsListener {
                 repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
-        localDetailViewModel.details.observe(this, Observer {
+        localDetailViewModel.allDetails.observe(this, Observer {
             allDetails.clear()
             allDetails.addAll(it)
             if (fromWhere == FROM_HISTORY && details.isEmpty()) {

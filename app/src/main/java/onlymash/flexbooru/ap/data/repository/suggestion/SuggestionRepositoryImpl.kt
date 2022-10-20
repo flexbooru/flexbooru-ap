@@ -18,7 +18,7 @@ class SuggestionRepositoryImpl(private val api: Api) : SuggestionRepository {
                     url = getSuggestionUrl(),
                     tag = tag,
                     token = token
-                ).body()?.tagsList
+                ).tagsList
             } catch (_: Exception) {
                 null
             }

@@ -1,117 +1,31 @@
 package onlymash.flexbooru.ap.data.repository.post
 
-import androidx.annotation.MainThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.Config
-import androidx.paging.toLiveData
-import androidx.room.withTransaction
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import onlymash.flexbooru.ap.data.Listing
-import onlymash.flexbooru.ap.data.NetworkState
+import kotlinx.coroutines.flow.Flow
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.data.model.Post
-import onlymash.flexbooru.ap.extension.NetResult
-import onlymash.flexbooru.ap.extension.getPostsUrl
-import retrofit2.HttpException
-import java.lang.Exception
 
 class PostRepositoryImpl(
-    private val scope: CoroutineScope,
     private val db: MyDatabase,
     private val api: Api
 ) : PostRepository {
 
-    private var boundaryCallback: PostBoundaryCallback? = null
-
-    //IO thread
-    private fun insertResultIntoDb(query: String, posts: List<Post>) {
-        if (posts.isEmpty()) return
-        val start = db.postDao().getNextIndex(query)
-        val items = posts.mapIndexed { index, post ->
-            post.query = query
-            post.indexInResponse = start + index
-            post
-        }
-        db.postDao().insert(items)
+    override fun getPosts(search: Search): Flow<PagingData<Post>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = search.limit,
+                initialLoadSize = search.limit,
+                enablePlaceholders = true
+            ),
+            remoteMediator = PostRemoteMediator(api, search, db),
+            initialKey = 0
+        ) {
+            db.postDao().getPosts(search.query)
+        }.flow
     }
-
-    @MainThread
-    override fun getPosts(search: Search): Listing<Post> {
-        boundaryCallback = PostBoundaryCallback(
-            api = api,
-            handleResponse = this::insertResultIntoDb,
-            scope = scope,
-            search = search
-        )
-        val refreshTrigger = MutableLiveData<Unit>()
-        val refreshState = Transformations.switchMap(refreshTrigger) {
-            refresh(search)
-        }
-        val livePagedList = db.postDao()
-            .getPosts(search.query)
-            .toLiveData(
-                config = Config(
-                    pageSize = search.limit,
-                    enablePlaceholders = true
-                ),
-                boundaryCallback = boundaryCallback
-            )
-        return Listing(
-            pagedList = livePagedList,
-            networkState = boundaryCallback!!.networkState,
-            retry = {
-                scope.launch {
-                    boundaryCallback!!.helper.retryAllFailed()
-                }
-            },
-            refresh = {
-                refreshTrigger.value = null
-            },
-            refreshState = refreshState
-        )
-    }
-
-    @MainThread
-    private fun refresh(search: Search): LiveData<NetworkState> {
-        boundaryCallback?.lastResponseSize = search.limit
-        val networkState = MutableLiveData<NetworkState>()
-        networkState.value = NetworkState.LOADING
-        scope.launch {
-            when (val result = withContext(Dispatchers.IO) {
-                try {
-                    val response = api.getPosts(url = search.getPostsUrl(0))
-                    if (response.isSuccessful) {
-                        val posts = response.body()?.posts ?: listOf()
-                        NetResult.Success(posts)
-                    } else {
-                        NetResult.Error("code: ${response.code()}")
-                    }
-                } catch (e: Exception) {
-                    if (e is HttpException) {
-                        NetResult.Error("code: ${e.code()}")
-                    } else {
-                        NetResult.Error(e.message.toString())
-                    }
-                }
-            }) {
-                is NetResult.Success -> {
-                    networkState.postValue(NetworkState.LOADED)
-                    db.withTransaction {
-                        db.postDao().deletePosts(search.query)
-                        insertResultIntoDb(search.query, result.data)
-                    }
-                }
-                is NetResult.Error -> networkState.value = NetworkState.error(result.errorMsg)
-            }
-        }
-        return networkState
-    }
-
 }

@@ -1,6 +1,7 @@
 package onlymash.flexbooru.ap.data.db.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 import onlymash.flexbooru.ap.data.model.Detail
 
@@ -17,7 +18,10 @@ interface DetailDao {
     fun getAllDetails() : List<Detail>
 
     @Query("SELECT * FROM `details` ORDER BY `uid` DESC")
-    fun getAllDetailsLivaData() : LiveData<List<Detail>>
+    fun getPagingDetails() : PagingSource<Int, Detail>
+
+    @Query("SELECT * FROM `details` ORDER BY `uid` DESC")
+    fun getAllDetailsLiveData() : LiveData<List<Detail>>
 
     @Query("SELECT * FROM `details` WHERE `id` = :id")
     fun getDetailById(id: Int) : Detail?

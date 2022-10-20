@@ -1,6 +1,7 @@
 package onlymash.flexbooru.ap.ui.fragment
 
 import android.content.*
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,31 +9,31 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import kotlinx.coroutines.flow.*
 import onlymash.flexbooru.ap.common.*
-import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.SearchType
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
 import onlymash.flexbooru.ap.data.db.dao.TagBlacklistDao
-import onlymash.flexbooru.ap.data.isLoading
 import onlymash.flexbooru.ap.databinding.FragmentListRefreshableBinding
-import onlymash.flexbooru.ap.extension.getSanCount
-import onlymash.flexbooru.ap.extension.getViewModel
+import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.FROM_POSTS
 import onlymash.flexbooru.ap.ui.base.QueryListener
 import onlymash.flexbooru.ap.ui.adapter.PostAdapter
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
-import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import onlymash.flexbooru.ap.ui.adapter.NetworkLoadStateAdapter
+import onlymash.flexbooru.ap.ui.base.BaseFragment
+import org.kodein.di.instance
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
 const val JUMP_TO_TOP_QUERY_KEY = "jump_to_top_query"
@@ -42,7 +43,7 @@ const val JUMP_TO_POSITION_KEY = "jump_to_position"
 const val JUMP_TO_POSITION_QUERY_KEY = "jump_to_position_query"
 const val JUMP_TO_POSITION_ACTION_FILTER_KEY = "jump_to_position_action_filter"
 
-class PostFragment : KodeinFragment(),
+class PostFragment : BaseFragment<FragmentListRefreshableBinding>(),
     SharedPreferences.OnSharedPreferenceChangeListener, QueryListener {
 
     private lateinit var postViewModel: PostViewModel
@@ -53,12 +54,9 @@ class PostFragment : KodeinFragment(),
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
 
-    private var _binding: FragmentListRefreshableBinding? = null
-    private val binding get() = _binding!!
-
     private val list get() = binding.layoutList.layoutRv.list
-    private val refresh get() = binding.layoutList.refresh
-    private val progressBar get() = binding.layoutProgress.progressBar
+    private val swipeRefresh get() = binding.layoutList.refresh
+    private val progressBarHorizontal get() = binding.layoutProgressHorizontal.progressBarHorizontal
 
     private lateinit var search: Search
     private lateinit var postAdapter: PostAdapter
@@ -117,7 +115,12 @@ class PostFragment : KodeinFragment(),
         var color = ""
         arguments?.apply {
             query = getString(QUERY_KEY) ?: ""
-            searchType = getSerializable(SEARCH_TYPE_KEY) as? SearchType ?: SearchType.NORMAL
+            searchType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getSerializable(SEARCH_TYPE_KEY, SearchType::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                getSerializable(SEARCH_TYPE_KEY)
+            } as? SearchType ?: SearchType.NORMAL
             userId = getInt(USER_ID_KEY, -1)
             uploaderId = getInt(UPLOADER_ID_KEY, -1)
             color = getString(COLOR_KEY) ?: ""
@@ -133,13 +136,13 @@ class PostFragment : KodeinFragment(),
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentListRefreshableBinding {
         postViewModel = getViewModel(PostViewModel(db = db, api = api))
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
-        _binding = FragmentListRefreshableBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentListRefreshableBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -159,15 +162,14 @@ class PostFragment : KodeinFragment(),
                         transitionName = name
                     )
                 }
-            },
-            retryCallback = { postViewModel.retry() }
+            }
         )
         list.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPaddingWithProgressBar(progressBarHorizontal)
             layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
-            adapter = postAdapter
+            adapter = postAdapter.withLoadStateFooterSafe(NetworkLoadStateAdapter(postAdapter))
         }
-        tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner, Observer { tagsBlacklist ->
+        tagBlacklistViewModel.tags.observe(this.viewLifecycleOwner) { tagsBlacklist ->
             var tagsString = ""
             tagsBlacklist.forEach { tag ->
                 tagsString = if (tagsString.isEmpty()) {
@@ -178,52 +180,49 @@ class PostFragment : KodeinFragment(),
             }
             search.deniedTags = tagsString
             postViewModel.load(search)
-        })
+        }
         tagBlacklistViewModel.loadAll()
-        postViewModel.posts.observe(this.viewLifecycleOwner, Observer { posts ->
-            if (posts != null) {
-                if (posts.size > 0) {
-                    progressBar.isVisible = false
-                }
-                postAdapter.submitList(posts)
+        postAdapter.addLoadStateListener { handleNetworkState(it) }
+        lifecycleScope.launchWhenCreated {
+            postViewModel.posts.collectLatest {
+                postAdapter.submitData(it)
             }
-        })
-        postViewModel.networkState.observe(this.viewLifecycleOwner, Observer {
-            progressBar.isVisible = it.isLoading() && postAdapter.itemCount == 0
-            postAdapter.setNetworkState(it)
-        })
-        initSwipeToRefresh()
+        }
+        lifecycleScope.launchWhenCreated {
+            postAdapter.loadStateFlow
+                .asMergedLoadStates()
+                .distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { list.scrollToPosition(0) }
+        }
+        swipeRefresh.setOnRefreshListener { postAdapter.refresh() }
         postViewModel.load(search)
         sp.registerOnSharedPreferenceChangeListener(this)
     }
 
-    private fun initSwipeToRefresh() {
-        postViewModel.refreshState.observe(this.viewLifecycleOwner, Observer {
-            if (!it.isLoading()) {
-                refresh.isRefreshing = false
-            }
-        })
-        refresh.setOnRefreshListener {
-            postViewModel.refresh()
-        }
+    private fun handleNetworkState(loadStates: CombinedLoadStates) {
+        val refresh = loadStates.mediator?.refresh
+        val append = loadStates.mediator?.append
+        swipeRefresh.isRefreshing = refresh is LoadState.Loading
+        progressBarHorizontal.isVisible = append is LoadState.Loading
     }
 
     override fun onOrderChange(order: String) {
         search.order = order
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onDateRangeChange(dateRange: Int) {
         search.dateRange = dateRange
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onAspectRatioChange(aspect: String) {
         search.aspect = aspect
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onExtensionChange(
@@ -237,7 +236,7 @@ class PostFragment : KodeinFragment(),
             extGif = isCheckedGif
         }
         postViewModel.load(search)
-        postViewModel.refresh()
+        postAdapter.refresh()
     }
 
     override fun onAttach(context: Context) {
@@ -270,7 +269,6 @@ class PostFragment : KodeinFragment(),
 
     override fun onDestroyView() {
         sp.unregisterOnSharedPreferenceChangeListener(this)
-        _binding = null
         super.onDestroyView()
     }
 
@@ -283,7 +281,7 @@ class PostFragment : KodeinFragment(),
             USER_TOKEN_KEY -> {
                 search.token = Settings.userToken
                 postViewModel.load(search)
-                postViewModel.refresh()
+                postAdapter.refresh()
             }
         }
     }

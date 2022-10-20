@@ -15,3 +15,19 @@ sealed class NetResult<out T : Any> {
         }
     }
 }
+
+sealed class States {
+    data class Success(val end: Boolean = false) : States()
+    data class Error(val errorMsg: String): States()
+    data class Loading(val isRefreshing: Boolean = false) : States()
+    override fun toString(): String {
+        return when (this) {
+            is Success -> "Success"
+            is Error -> "Error[exception=$errorMsg]"
+            is Loading -> if (isRefreshing) "Refreshing" else "Loading"
+        }
+    }
+
+    val isLoading get() = this is Loading
+    val isFailed get() = this is Error
+}

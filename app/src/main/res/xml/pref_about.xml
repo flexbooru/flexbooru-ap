@@ -16,9 +16,6 @@
             app:key="about_app_translation"
             app:title="@string/about_app_translation"/>
 
-        <Preference
-            app:key="about_app_rate"
-            app:title="@string/about_app_rate"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -33,7 +30,7 @@
         <Preference
             app:key="about_author_email"
             app:title="@string/about_author_email"
-            app:summary="im@fiepi.me"/>
+            app:summary="fiepi.dev@gmail.com"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -50,10 +47,6 @@
             app:title="@string/about_feedback_telegram"
             app:summary="https://t.me/Flexbooru"/>
 
-        <Preference
-            app:key="about_feedback_email"
-            app:title="@string/about_feedback_email"
-            app:summary="feedback@fiepi.me"/>
     </PreferenceCategory>
 
     <PreferenceCategory

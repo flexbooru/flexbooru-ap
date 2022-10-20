@@ -9,7 +9,7 @@
         android:id="@+id/layout_list"/>
 
     <include
-        layout="@layout/progress_bar"
-        android:id="@+id/layout_progress"/>
+        layout="@layout/progress_bar_horizontal"
+        android:id="@+id/layout_progress_horizontal"/>
 
 </FrameLayout>

@@ -3,7 +3,6 @@ package onlymash.flexbooru.ap.data.api
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.HttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -37,12 +36,14 @@ interface Api {
                 builder.addInterceptor(logger)
             }
             val contentType = "application/json".toMediaType()
+            val json = Json {
+                ignoreUnknownKeys = true
+            }
             return Retrofit.Builder()
                 .baseUrl("https://fiepi.me")
                 .client(builder.build())
                 .addConverterFactory(
-                    Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
-                        .asConverterFactory(contentType)
+                    json.asConverterFactory(contentType)
                 )
                 .build()
                 .create(Api::class.java)
@@ -53,13 +54,13 @@ interface Api {
     suspend fun getPosts(
         @Header(USER_AGENT_KEY) ua: String = userAgent,
         @Url url: HttpUrl
-    ): Response<PostResponse>
+    ): PostResponse
 
     @GET
     suspend fun getDetail(
         @Header(USER_AGENT_KEY) ua: String = userAgent,
         @Url url: HttpUrl
-    ): Response<Detail>
+    ): Detail
 
     @GET
     fun getDetailNoSuspend(
@@ -75,7 +76,7 @@ interface Api {
         @Field("login") username: String,
         @Field("password") password: String,
         @Field("time_zone") timeZone: String
-    ): Response<User>
+    ): User
 
     @GET
     suspend fun logout(
@@ -91,7 +92,7 @@ interface Api {
         @Field("post") postId: Int,
         @Field("vote") vote: Int = 9, // 9: vote 0: remove vote
         @Field("token") token: String
-    ): Response<VoteResponse>
+    ): VoteResponse
 
     @POST
     @FormUrlEncoded
@@ -100,13 +101,13 @@ interface Api {
         @Url url: HttpUrl,
         @Field("tag") tag: String,
         @Field("token") token: String
-    ): Response<Suggestion>
+    ): Suggestion
 
     @GET
     suspend fun getComments(
         @Header(USER_AGENT_KEY) ua: String = userAgent,
         @Url url: HttpUrl
-    ): Response<CommentResponse>
+    ): CommentResponse
 
     @POST
     @FormUrlEncoded
@@ -115,12 +116,12 @@ interface Api {
         @Url url: HttpUrl,
         @Field("text") text: String,
         @Field("token") token: String
-    ): Response<CreateCommentResponse>
+    ): CreateCommentResponse
 
 
     @GET
     suspend fun getAllComments(
         @Header(USER_AGENT_KEY) ua: String = userAgent,
         @Url url: HttpUrl
-    ): Response<CommentAllResponse>
+    ): CommentAllResponse
 }

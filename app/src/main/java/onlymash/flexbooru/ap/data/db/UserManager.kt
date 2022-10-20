@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteException
 import onlymash.flexbooru.ap.common.App
 import onlymash.flexbooru.ap.data.db.dao.UserDao
 import onlymash.flexbooru.ap.data.model.User
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 object UserManager {
 

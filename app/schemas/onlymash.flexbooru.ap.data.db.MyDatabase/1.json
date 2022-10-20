@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6bafd3e20bc22708b84da58c65ff3cf1",
+    "identityHash": "c425c978c08a3f5a9effa1d1ba92eaef",
     "entities": [
       {
         "tableName": "posts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `query` TEXT NOT NULL, `index_in_response` INTEGER NOT NULL, `id` INTEGER NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `small_preview` TEXT NOT NULL, `big_preview` TEXT NOT NULL, `color` TEXT NOT NULL, `download_count` INTEGER NOT NULL, `erotics` INTEGER NOT NULL, `ext` TEXT NOT NULL, `md5` TEXT NOT NULL, `md5_pixels` TEXT NOT NULL, `medium_preview` TEXT NOT NULL, `pubtime` TEXT NOT NULL, `score` INTEGER NOT NULL, `score_number` INTEGER NOT NULL, `size` INTEGER NOT NULL, `spoiler` INTEGER NOT NULL, `status` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `query` TEXT NOT NULL, `index` INTEGER NOT NULL, `id` INTEGER NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `small_preview` TEXT NOT NULL, `big_preview` TEXT NOT NULL, `color` TEXT NOT NULL, `download_count` INTEGER NOT NULL, `erotics` INTEGER NOT NULL, `ext` TEXT NOT NULL, `md5` TEXT NOT NULL, `md5_pixels` TEXT NOT NULL, `medium_preview` TEXT NOT NULL, `pubtime` TEXT NOT NULL, `score` INTEGER NOT NULL, `score_number` INTEGER NOT NULL, `size` INTEGER NOT NULL, `spoiler` INTEGER NOT NULL, `status` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -21,8 +21,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "indexInResponse",
-            "columnName": "index_in_response",
+            "fieldPath": "index",
+            "columnName": "index",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -136,10 +136,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "uid"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [
           {
@@ -149,7 +149,8 @@
               "id",
               "query"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_posts_id_query` ON `${TABLE_NAME}` (`id`, `query`)"
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_posts_id_query` ON `${TABLE_NAME}` (`id`, `query`)"
           }
         ],
         "foreignKeys": []
@@ -328,10 +329,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "uid"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [
           {
@@ -340,7 +341,8 @@
             "columnNames": [
               "id"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_details_id` ON `${TABLE_NAME}` (`id`)"
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_details_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
@@ -393,10 +395,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "uid"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [
           {
@@ -405,7 +407,80 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_users_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_users_user_id` ON `${TABLE_NAME}` (`user_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tags_filter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uid"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_tags_filter_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tags_filter_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tags_blacklist",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uid"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_tags_blacklist_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tags_blacklist_name` ON `${TABLE_NAME}` (`name`)"
           }
         ],
         "foreignKeys": []
@@ -414,7 +489,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6bafd3e20bc22708b84da58c65ff3cf1\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c425c978c08a3f5a9effa1d1ba92eaef')"
     ]
   }
 }

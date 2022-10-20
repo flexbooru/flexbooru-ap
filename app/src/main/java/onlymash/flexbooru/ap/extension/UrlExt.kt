@@ -3,6 +3,7 @@ package onlymash.flexbooru.ap.extension
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import onlymash.flexbooru.ap.R
@@ -37,7 +38,9 @@ fun Detail.getDetailUrl(): String {
 
 private fun getCustomTabsIntent(context: Context): CustomTabsIntent {
     return CustomTabsIntent.Builder()
-        .setToolbarColor(ContextCompat.getColor(context, R.color.colorToolbar))
+        .setDefaultColorSchemeParams(CustomTabColorSchemeParams.Builder()
+            .setToolbarColor(ContextCompat.getColor(context, R.color.colorToolbar))
+            .build())
         .build()
 }
 

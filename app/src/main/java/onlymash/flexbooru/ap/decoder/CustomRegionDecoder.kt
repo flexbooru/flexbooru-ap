@@ -3,6 +3,7 @@ package onlymash.flexbooru.ap.decoder
 import android.content.Context
 import android.graphics.*
 import android.net.Uri
+import android.os.Build
 import androidx.core.net.toFile
 import com.davemorrissey.labs.subscaleview.decoder.ImageRegionDecoder
 import java.io.FileInputStream
@@ -17,7 +18,11 @@ class CustomRegionDecoder : ImageRegionDecoder {
 
     override fun init(context: Context?, uri: Uri): Point {
         val inputStream = FileInputStream(uri.toFile())
-        decoder = BitmapRegionDecoder.newInstance(inputStream, false)
+        decoder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            BitmapRegionDecoder.newInstance(inputStream)
+        else
+            @Suppress("DEPRECATION")
+            BitmapRegionDecoder.newInstance(inputStream, false)
         inputStream.close()
         return Point(decoder!!.width, decoder!!.height)
     }

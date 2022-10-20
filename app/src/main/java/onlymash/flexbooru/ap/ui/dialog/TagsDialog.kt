@@ -33,7 +33,7 @@ import onlymash.flexbooru.ap.ui.activity.SearchActivity
 import onlymash.flexbooru.ap.ui.base.BaseBottomSheetDialogFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 class TagsDialog : BaseBottomSheetDialogFragment() {
 

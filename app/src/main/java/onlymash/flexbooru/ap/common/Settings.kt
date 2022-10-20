@@ -2,7 +2,7 @@ package onlymash.flexbooru.ap.common
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 
 
 const val SETTINGS_NIGHT_MODE_KEY = "settings_night_mode"
@@ -36,7 +36,7 @@ private const val MUZEI_QUERY_KEY = "muzei_query"
 
 object Settings {
 
-    private val sp by App.app.instance<SharedPreferences>()
+    private val sp: SharedPreferences by App.app.instance()
 
     private val nightModeString: String
         get() = sp.getString(SETTINGS_NIGHT_MODE_KEY, SETTINGS_NIGHT_MODE_SYSTEM) ?: SETTINGS_NIGHT_MODE_SYSTEM

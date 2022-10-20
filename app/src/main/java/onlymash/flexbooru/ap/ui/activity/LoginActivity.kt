@@ -17,8 +17,8 @@ import onlymash.flexbooru.ap.extension.launchUrl
 import onlymash.flexbooru.ap.ui.base.KodeinActivity
 import onlymash.flexbooru.ap.ui.viewmodel.LoginViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.setupInsets
-import org.kodein.di.erased.instance
+import onlymash.flexbooru.ap.extension.setupInsets
+import org.kodein.di.instance
 
 class LoginActivity : KodeinActivity() {
 

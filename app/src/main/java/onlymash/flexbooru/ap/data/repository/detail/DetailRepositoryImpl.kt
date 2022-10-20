@@ -1,6 +1,7 @@
 package onlymash.flexbooru.ap.data.repository.detail
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.data.api.Api
@@ -25,19 +26,9 @@ class DetailRepositoryImpl(private val api: Api,
                 NetResult.Success(detail)
             } else {
                 try {
-                    val response = api.getDetail(
-                        url = getPostDetailUrl(postId = postId, token = token))
-                    if (response.isSuccessful) {
-                        detail = response.body()
-                        if (detail == null) {
-                            NetResult.Error("Empty")
-                        } else {
-                            detailDao.insert(detail)
-                            NetResult.Success(detail)
-                        }
-                    } else {
-                        NetResult.Error("code: ${response.code()}")
-                    }
+                    detail = api.getDetail(url = getPostDetailUrl(postId = postId, token = token))
+                    detailDao.insert(detail)
+                    NetResult.Success(detail)
                 } catch (e: Exception) {
                     if (e is HttpException) {
                         NetResult.Error("code: ${e.code()}")
@@ -49,9 +40,13 @@ class DetailRepositoryImpl(private val api: Api,
         }
     }
 
-    override suspend fun getLocalDetails(): LiveData<List<Detail>> {
+    override fun getLocalDetails(): PagingSource<Int, Detail> {
+        return detailDao.getPagingDetails()
+    }
+
+    override suspend fun getAllLocalDetails(): LiveData<List<Detail>> {
         return withContext(Dispatchers.IO) {
-            detailDao.getAllDetailsLivaData()
+            detailDao.getAllDetailsLiveData()
         }
     }
 
@@ -62,23 +57,16 @@ class DetailRepositoryImpl(private val api: Api,
     ): NetResult<VoteResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.vote(
+                val data = api.vote(
                     url = getVoteUrl(),
                     postId = detail.id,
                     vote = vote,
                     token = token
                 )
-                val data = response.body()
-                when {
-                    response.isSuccessful && data != null-> {
-                        detail.scoreNumber = data.scoreN
-                        detail.starIt = vote > 0
-                        detailDao.update(detail)
-                        NetResult.Success(data)
-                    }
-                    response.code() == 400 -> NetResult.Error("token error")
-                    else -> NetResult.Error("code: ${response.code()}")
-                }
+                detail.scoreNumber = data.scoreN
+                detail.starIt = vote > 0
+                detailDao.update(detail)
+                NetResult.Success(data)
             } catch (e: Exception) {
                 NetResult.Error(e.message.toString())
             }

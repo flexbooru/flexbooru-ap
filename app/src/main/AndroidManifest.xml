@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="onlymash.flexbooru.ap">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
-    <uses-permission
-        android:name="android.permission.RECEIVE_BOOT_COMPLETED"
-        tools:node="remove"/>
 
     <application
         android:name=".common.App"
@@ -21,13 +17,18 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:enableOnBackInvokedCallback="true"
+        android:localeConfig="@xml/locales_config"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:targetApi="n">
-        <activity android:name=".ui.activity.CommentActivity"/>
+        tools:targetApi="tiramisu">
+        <activity
+            android:name=".ui.activity.CommentActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.Launcher"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +43,8 @@
         <activity
             android:name=".ui.activity.DetailActivity"
             android:theme="@style/AppTheme.Detail"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -81,28 +83,14 @@
             </intent-filter>
         </provider>
 
-        <activity
-            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
-            tools:node="remove"/>
-        <activity
-            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
-            tools:node="remove"/>
-
-        <receiver
-            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
-            tools:node="remove"/>
-        <receiver
-            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
-            tools:node="remove"/>
-        <receiver
-            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
-            tools:node="remove"/>
-        <receiver
-            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
-            tools:node="remove"/>
-        <receiver
-            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
-            tools:node="remove"/>
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
     </application>
 
 </manifest>

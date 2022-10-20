@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.ActionMenuView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,38 +17,33 @@ import onlymash.flexbooru.ap.databinding.FragmentTagBlacklistBinding
 import onlymash.flexbooru.ap.databinding.ItemTagBlacklistBinding
 import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.TagBlacklistDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import onlymash.flexbooru.ap.extension.setupBottomPadding
+import onlymash.flexbooru.ap.ui.base.BaseFragment
+import org.kodein.di.instance
 
-class TagBlacklistFragment : KodeinFragment() {
-
-    private var _binding: FragmentTagBlacklistBinding? = null
-    private val binding get() = _binding!!
+class TagBlacklistFragment : BaseFragment<FragmentTagBlacklistBinding>() {
 
     private val tagsBlacklist: MutableList<TagBlacklist> = mutableListOf()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private lateinit var tagBlacklistViewModel: TagBlacklistViewModel
     private lateinit var tagBlacklistAdapter: TagBlacklistAdapter
 
-    override fun onCreateView(
+    override fun onCreateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        container: ViewGroup?
+    ): FragmentTagBlacklistBinding {
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
-        _binding = FragmentTagBlacklistBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentTagBlacklistBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tagBlacklistAdapter = TagBlacklistAdapter()
         binding.tagsBlacklistList.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPadding()
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = tagBlacklistAdapter
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
@@ -64,11 +57,6 @@ class TagBlacklistFragment : KodeinFragment() {
             result.dispatchUpdatesTo(tagBlacklistAdapter)
         })
         tagBlacklistViewModel.loadAll()
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     inner class TagBlacklistAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

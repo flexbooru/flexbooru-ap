@@ -1,6 +1,10 @@
 package onlymash.flexbooru.ap.ui.viewmodel
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import onlymash.flexbooru.ap.data.Search
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.MyDatabase
@@ -12,34 +16,25 @@ class PostViewModel(
 ) : ScopeViewModel() {
 
     private val repo = PostRepositoryImpl(
-        scope = viewModelScope,
         db = db,
         api = api
     )
 
     private val _search = MutableLiveData<Search>()
+    private val _clearListCh = Channel<Unit>(Channel.CONFLATED)
 
-    private val _result = Transformations.map(_search) {
-        repo.getPosts(it)
-    }
-
-    val posts = Transformations.switchMap(_result) { it.pagedList }
-
-    val networkState = Transformations.switchMap(_result) { it.networkState }
-
-    val refreshState = Transformations.switchMap(_result) { it.refreshState }
+    val posts = flowOf(
+        _clearListCh.receiveAsFlow().map { PagingData.empty() },
+        _search.asFlow()
+            .flatMapLatest { search ->
+                repo.getPosts(search)
+            }
+            .cachedIn(viewModelScope)
+    ).flattenMerge(2)
 
     fun load(search: Search) {
         if (_search.value != search) {
             _search.value = search
         }
-    }
-
-    fun refresh() {
-        _result.value?.refresh?.invoke()
-    }
-
-    fun retry() {
-        _result.value?.retry?.invoke()
     }
 }

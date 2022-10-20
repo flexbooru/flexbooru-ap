@@ -18,7 +18,7 @@ import onlymash.flexbooru.ap.data.model.*
         TagFilter::class,
         TagBlacklist::class
     ],
-    version = 3,
+    version = 1,
     exportSchema = true
 )
 @TypeConverters(MyConverters::class)
@@ -31,13 +31,9 @@ abstract class MyDatabase : RoomDatabase() {
             instance ?: buildDatabase(context).also { instance = it }
         }
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context, MyDatabase::class.java, "database.db")
+                Room.databaseBuilder(context, MyDatabase::class.java, "app.db")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
-                    .addMigrations(
-                        MyMigration(1, 2),
-                        MyMigration(2, 3)
-                    )
                     .setQueryExecutor(Dispatchers.IO.asExecutor())
                     .setTransactionExecutor(Dispatchers.IO.asExecutor())
                     .build()

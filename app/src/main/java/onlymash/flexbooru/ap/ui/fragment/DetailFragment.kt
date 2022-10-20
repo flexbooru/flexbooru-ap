@@ -30,12 +30,12 @@ import onlymash.flexbooru.ap.decoder.CustomRegionDecoder
 import onlymash.flexbooru.ap.extension.*
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
+import onlymash.flexbooru.ap.ui.base.BaseFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 import java.io.File
 
-class DetailFragment : KodeinFragment() {
+class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
     companion object {
         private const val TAG = "DetailFragment"
@@ -51,9 +51,6 @@ class DetailFragment : KodeinFragment() {
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
 
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
-
     private lateinit var detailViewModel: DetailViewModel
     private var postId = -1
 
@@ -63,14 +60,16 @@ class DetailFragment : KodeinFragment() {
         postId = args.getInt(POST_ID_KEY)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentDetailBinding {
         detailViewModel = getViewModel(
             DetailViewModel(
                 repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
-        _binding = FragmentDetailBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentDetailBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -156,10 +155,5 @@ class DetailFragment : KodeinFragment() {
             }
         })
         detailViewModel.load(postId, Settings.userToken)
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }

@@ -3,10 +3,10 @@ package onlymash.flexbooru.ap.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import onlymash.flexbooru.ap.data.NetworkState
 import onlymash.flexbooru.ap.data.model.Comment
 import onlymash.flexbooru.ap.data.repository.comment.CommentRepository
 import onlymash.flexbooru.ap.extension.NetResult
+import onlymash.flexbooru.ap.extension.States
 import onlymash.flexbooru.ap.extension.getCommentsUrl
 
 class CommentViewModel(
@@ -14,18 +14,18 @@ class CommentViewModel(
     private val token: String) : ScopeViewModel() {
 
     val comments = MutableLiveData<List<Comment>>()
-    val status = MutableLiveData<NetworkState>()
+    val status = MutableLiveData<States>()
 
     fun loadComments(postId: Int) {
-        status.postValue(NetworkState.LOADING)
+        status.postValue(States.Loading())
         viewModelScope.launch {
             when (val result = repo.getComments(getCommentsUrl(postId, token))) {
                 is NetResult.Success -> {
                     comments.postValue(result.data)
-                    status.postValue(NetworkState.LOADED)
+                    status.postValue(States.Success())
                 }
                 is NetResult.Error -> {
-                    status.postValue(NetworkState.error(result.errorMsg))
+                    status.postValue(States.Error(result.errorMsg))
                 }
             }
         }

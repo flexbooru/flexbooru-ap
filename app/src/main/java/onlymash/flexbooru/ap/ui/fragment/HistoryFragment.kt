@@ -11,14 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import onlymash.flexbooru.ap.R
 import onlymash.flexbooru.ap.data.api.Api
 import onlymash.flexbooru.ap.data.db.dao.DetailDao
@@ -31,30 +30,25 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.FROM_HISTORY
 import onlymash.flexbooru.ap.ui.activity.UserActivity
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
-import onlymash.flexbooru.ap.ui.diffcallback.DetailDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
-import onlymash.flexbooru.ap.widget.ListListener
-import org.kodein.di.erased.instance
+import onlymash.flexbooru.ap.extension.setupBottomPadding
+import onlymash.flexbooru.ap.ui.base.BaseFragment
+import org.kodein.di.instance
 
 
 const val HISTORY_JUMP_TO_TOP_KEY = "history_jump_to_top"
 const val HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY = "history_jump_to_top_action_filter"
 
-class HistoryFragment : KodeinFragment() {
+class HistoryFragment : BaseFragment<FragmentListBinding>() {
 
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
-    private var _binding: FragmentListBinding? = null
-    private val binding get() = _binding!!
     private val list get() = binding.layoutRv.list
     private val progressBar get() = binding.layoutProgress.progressBar
 
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var historyAdapter: HistoryAdapter
-
-    private var details: MutableList<Detail> = mutableListOf()
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -77,57 +71,55 @@ class HistoryFragment : KodeinFragment() {
         activity?.unregisterReceiver(broadcastReceiver)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentListBinding {
         detailViewModel = getViewModel(DetailViewModel(repo = DetailRepositoryImpl(api = api, detailDao = detailDao)))
-        _binding = FragmentListBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentListBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyAdapter = HistoryAdapter()
         list.apply {
-            setOnApplyWindowInsetsListener(ListListener)
+            setupBottomPadding()
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = historyAdapter
         }
-        detailViewModel.details.observe(this.viewLifecycleOwner, Observer {
-            lifecycleScope.launch {
-                val result = withContext(Dispatchers.IO) {
-                    val oldItems = mutableListOf<Detail>()
-                    oldItems.addAll(details)
-                    details.clear()
-                    details.addAll(it)
-                    DiffUtil.calculateDiff(DetailDiffCallback(oldItems, details))
+        lifecycleScope.launch {
+            detailViewModel.details.collectLatest {
+                if (progressBar.isVisible) {
+                    progressBar.isVisible = false
                 }
-                result.dispatchUpdatesTo(historyAdapter)
-                progressBar.isVisible = false
+                historyAdapter.submitData(it)
             }
-        })
-        detailViewModel.loadAll()
+        }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
+    class HistoryAdapter : PagingDataAdapter<Detail, HistoryAdapter.HistoryViewHolder>(DIFF_CALLBACK) {
 
-    inner class HistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        companion object {
+           private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Detail>() {
+                override fun areItemsTheSame(oldItem: Detail, newItem: Detail): Boolean {
+                    return oldItem.id == newItem.id
+                }
 
-        override fun getItemCount(): Int = details.size
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int): RecyclerView.ViewHolder = HistoryViewHolder(parent)
-
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            (holder as HistoryViewHolder).bind(details[position])
+                override fun areContentsTheSame(oldItem: Detail, newItem: Detail): Boolean {
+                    return oldItem.id == newItem.id && oldItem.fileUrl == newItem.fileUrl
+                }
+            }
         }
 
-        inner class HistoryViewHolder(binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+            return HistoryViewHolder(parent)
+        }
+
+        override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
+            holder.bind(getItem(position))
+        }
+
+        class HistoryViewHolder(binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
             constructor(parent: ViewGroup): this(parent.viewBinding(ItemHistoryBinding::inflate))
 
             private val postPreview = binding.postPreview
@@ -158,9 +150,9 @@ class HistoryFragment : KodeinFragment() {
 
             fun bind(data: Detail?) {
                 detail = data ?: return
-                postId.text = getString(R.string.placeholder_post_id, data.id)
+                postId.text = itemView.context.getString(R.string.placeholder_post_id, data.id)
                 postSize.text = Formatter.formatFileSize(itemView.context, data.size.toLong())
-                postRes.text = getString(R.string.placeholder_post_res, data.width, data.height)
+                postRes.text = itemView.context.getString(R.string.placeholder_post_res, data.width, data.height)
                 val context = itemView.context
                 GlideApp.with(context)
                     .load(data.smallPreview)
