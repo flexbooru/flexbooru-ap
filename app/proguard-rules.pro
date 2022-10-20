@@ -93,16 +93,15 @@
 
 # Serializer for classes with named companion objects are retrieved using `getDeclaredClasses`.
 # If you have any, uncomment and replace classes with those containing named companion objects.
-#-keepattributes InnerClasses # Needed for `getDeclaredClasses`.
-#-if @kotlinx.serialization.Serializable class
-#com.example.myapplication.HasNamedCompanion, # <-- List serializable classes with named companions.
-#com.example.myapplication.HasNamedCompanion2
-#{
-#    static **$* *;
-#}
-#-keepnames class <1>$$serializer { # -keepnames suffices; class is kept when serializer() is kept.
-#    static <1>$$serializer INSTANCE;
-#}
+-keepattributes InnerClasses # Needed for `getDeclaredClasses`.
+-if @kotlinx.serialization.Serializable class
+onlymash.flexbooru.ap.data.model.** # <-- List serializable classes with named companions.
+{
+    static **$* *;
+}
+-keepnames class <1>$$serializer { # -keepnames suffices; class is kept when serializer() is kept.
+    static <1>$$serializer INSTANCE;
+}
 
 -keep,includedescriptorclasses class onlymash.flexbooru.ap.data.model.**$$serializer { *; }
 -keepclassmembers class onlymash.flexbooru.ap.data.model.** {
@@ -114,3 +113,9 @@
 
 -keep class com.google.android.datatransport.runtime.ForcedSender
 -dontwarn com.google.android.datatransport.runtime.ForcedSender
+
+-keep, allowobfuscation, allowoptimization class org.kodein.type.TypeReference
+-keep, allowobfuscation, allowoptimization class org.kodein.type.JVMAbstractTypeToken$Companion$WrappingTest
+
+-keep, allowobfuscation, allowoptimization class * extends org.kodein.type.TypeReference
+-keep, allowobfuscation, allowoptimization class * extends org.kodein.type.JVMAbstractTypeToken$Companion$WrappingTest

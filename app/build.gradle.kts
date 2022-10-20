@@ -168,7 +168,7 @@ dependencies {
     implementation("io.noties.markwon:linkify:$markwonVersion")
     implementation("me.saket:better-link-movement-method:2.2.0")
     implementation("com.google.firebase:firebase-analytics-ktx:21.2.0")
-    implementation("com.google.firebase:firebase-crashlytics:18.3.0")
+    implementation("com.google.firebase:firebase-crashlytics:18.2.13")
     implementation("com.google.android.datatransport:transport-runtime:3.1.8")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.work:work-testing:$workVersion")
