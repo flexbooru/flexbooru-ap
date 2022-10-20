@@ -31,7 +31,7 @@ class AboutFragment : PreferenceFragmentCompat() {
                 context?.launchUrl("https://blog.fiepi.com")
             }
             "about_author_email" -> {
-                val email = "mailto:im@fiepi.me"
+                val email = "mailto:fiepi.dev@gmail.com"
                 context?.startActivity(Intent.createChooser(Intent().apply {
                     action = Intent.ACTION_SENDTO
                     data = email.toUri()
@@ -42,13 +42,6 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             "about_feedback_telegram" -> {
                 context?.launchUrl("https://t.me/Flexbooru")
-            }
-            "about_feedback_email" -> {
-                val email = "mailto:feedback@fiepi.me"
-                context?.startActivity(Intent.createChooser(Intent().apply {
-                    action = Intent.ACTION_SENDTO
-                    data = email.toUri()
-                }, getString(R.string.share_via)))
             }
             "about_app_rate" -> {
                 context?.run {
