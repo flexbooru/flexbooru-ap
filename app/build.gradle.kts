@@ -34,7 +34,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = verCode
-        versionName = "1.4.2"
+        versionName = "1.4.3"
         versionNameSuffix = ".c$verCode"
         resourceConfigurations += setOf("en", "zh-rCN", "zh-rHK", "zh-rTW", "ru-rRU", "pt-rBR", "es-rES", "nl-rNL")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
