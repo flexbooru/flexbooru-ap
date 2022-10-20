@@ -69,7 +69,7 @@
     <string name="settings_server">Server</string>
     <string name="settings_display">Weergave</string>
     <string name="settings_options">Opties</string>
-    <string name="retry">Opnieuw proberen</string>
+    <string name="action_retry">Opnieuw proberen</string>
     <string name="save_file">Bestand opslaan</string>
     <string name="tags">Tags</string>
     <string name="info">Informatie</string>
