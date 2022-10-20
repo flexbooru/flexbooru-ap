@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Flex/AP</string>
     <string name="app_description">An app for anime-pictures.net</string>
@@ -76,7 +77,7 @@
     <string name="settings_display">Display</string>
     <string name="settings_options">Options</string>
 
-    <string name="retry">Retry</string>
+    <string name="action_retry">Retry</string>
     <string name="save_file">Save file</string>
     <string name="tags">Tags</string>
     <string name="info">Information</string>
