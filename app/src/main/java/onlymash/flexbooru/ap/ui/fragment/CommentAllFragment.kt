@@ -105,10 +105,8 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
     }
 
     private fun handleNetworkState(loadStates: CombinedLoadStates) {
-        val refresh = loadStates.mediator?.refresh
-        val append = loadStates.mediator?.append
-        swipeRefresh.isRefreshing = refresh is LoadState.Loading
-        progressBarHorizontal.isVisible = append is LoadState.Loading
+        swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
+        progressBarHorizontal.isVisible = loadStates.append is LoadState.Loading
     }
 
     override fun onDestroyView() {
