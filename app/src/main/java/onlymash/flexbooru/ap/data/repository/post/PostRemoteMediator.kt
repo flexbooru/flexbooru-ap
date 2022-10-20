@@ -41,7 +41,7 @@ class PostRemoteMediator(
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 try {
-                    api.getPosts(url = search.getPostsUrl((indexNext + 1) / search.limit))
+                    api.getPosts(url = search.getPostsUrl(indexNext / search.limit))
                 } catch (e: Exception) {
                     return MediatorResult.Error(e)
                 }
@@ -49,6 +49,7 @@ class PostRemoteMediator(
         }
         lastResponseSize = data.posts.size
         data.posts.forEachIndexed { index, post ->
+            post.query = search.query
             post.index = index + indexNext
         }
         try {

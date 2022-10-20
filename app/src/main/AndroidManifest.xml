@@ -17,8 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:enableOnBackInvokedCallback="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:targetApi="n">
+        tools:targetApi="tiramisu">
         <activity android:name=".ui.activity.CommentActivity"/>
         <activity
             android:name=".ui.activity.MainActivity"
