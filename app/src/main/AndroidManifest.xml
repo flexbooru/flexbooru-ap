@@ -20,7 +20,9 @@
         android:enableOnBackInvokedCallback="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="tiramisu">
-        <activity android:name=".ui.activity.CommentActivity"/>
+        <activity
+            android:name=".ui.activity.CommentActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.Launcher"
