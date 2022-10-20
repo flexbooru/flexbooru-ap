@@ -69,7 +69,7 @@
     <string name="settings_server">服务器</string>
     <string name="settings_display">显示</string>
     <string name="settings_options">选项</string>
-    <string name="retry">重试</string>
+    <string name="action_retry">重试</string>
     <string name="save_file">保存文件</string>
     <string name="tags">标签</string>
     <string name="info">信息</string>

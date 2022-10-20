@@ -69,7 +69,7 @@
     <string name="settings_server">Servidor</string>
     <string name="settings_display">Exibição</string>
     <string name="settings_options">Opções</string>
-    <string name="retry">Tentar novamente</string>
+    <string name="action_retry">Tentar novamente</string>
     <string name="save_file">Salvar arquivo</string>
     <string name="tags">Marcadores</string>
     <string name="info">Informação</string>

@@ -69,7 +69,7 @@
     <string name="settings_server">伺服器</string>
     <string name="settings_display">顯示</string>
     <string name="settings_options">選項</string>
-    <string name="retry">重試</string>
+    <string name="action_retry">重試</string>
     <string name="save_file">儲存檔案</string>
     <string name="tags">標籤</string>
     <string name="info">資訊</string>

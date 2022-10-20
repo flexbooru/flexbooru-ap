@@ -69,7 +69,7 @@
     <string name="settings_server">Sunucu</string>
     <string name="settings_display">Görünüm</string>
     <string name="settings_options">Seçenekler</string>
-    <string name="retry">Tekrar dene</string>
+    <string name="action_retry">Tekrar dene</string>
     <string name="save_file">Dosyayı kaydet</string>
     <string name="tags">Etiketler</string>
     <string name="info">Bilgilendirme</string>
