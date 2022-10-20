@@ -8,4 +8,5 @@
     <locale android:name="pt-BR"/>
     <locale android:name="es-ES"/>
     <locale android:name="nl-NL"/>
+    <locale android:name="tr-TR"/>
 </locale-config>

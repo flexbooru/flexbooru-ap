@@ -36,7 +36,7 @@ android {
         versionCode = verCode
         versionName = "1.4.3"
         versionNameSuffix = ".c$verCode"
-        resourceConfigurations += setOf("en", "zh-rCN", "zh-rHK", "zh-rTW", "ru-rRU", "pt-rBR", "es-rES", "nl-rNL")
+        resourceConfigurations += setOf("en", "zh-rCN", "zh-rHK", "zh-rTW", "ru-rRU", "pt-rBR", "es-rES", "nl-rNL", "tr-rTR")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
