@@ -69,7 +69,7 @@
     <string name="settings_server">Имя сервера</string>
     <string name="settings_display">Отображение</string>
     <string name="settings_options">Настройки</string>
-    <string name="retry">Повторить</string>
+    <string name="action_retry">Повторить</string>
     <string name="save_file">Сохранить файл</string>
     <string name="tags">Теги</string>
     <string name="info">Информация</string>
