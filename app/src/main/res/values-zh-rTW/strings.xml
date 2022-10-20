@@ -12,7 +12,7 @@
     <string name="title_copyright">著作權</string>
     <string name="title_donation">捐助</string>
     <string name="title_tags_blacklist">標籤黑名單</string>
-    <string name="title_setup_wizard">設置精靈</string>
+    <string name="title_setup_wizard">設定精靈</string>
     <string name="title_comments">留言</string>
     <string name="posts_search">搜尋</string>
     <string name="posts_open_filter">開啟過濾器</string>
@@ -30,13 +30,13 @@
     <string name="posts_date_range_past_week">過去一週</string>
     <string name="posts_date_range_past_month">過去一個月</string>
     <string name="posts_aspect_ratio">長寬比</string>
-    <string name="posts_extension">擴充</string>
+    <string name="posts_extension">副檔名</string>
     <string name="posts_extension_jpg">jpeg/jpg</string>
     <string name="posts_extension_png">png</string>
     <string name="posts_extension_gif">gif</string>
     <string name="posts_muzei_set">釘選到 Muzei</string>
-    <string name="history_clear_all">全部刪除</string>
-    <string name="history_clear_all_content">所有歷史紀錄將被清除。</string>
+    <string name="history_clear_all">全部清除</string>
+    <string name="history_clear_all_content">所有歷史記錄將被清除。</string>
     <string name="dialog_ok">確定</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_yes">是</string>
@@ -60,7 +60,7 @@
     <string name="settings_detail_size_origin">原圖</string>
     <string name="settings_download_path">下載路徑</string>
     <string name="settings_unset">未設定</string>
-    <string name="settings_scheme">方案</string>
+    <string name="settings_scheme">配置</string>
     <string name="settings_host">主機</string>
     <string name="settings_grid_width">網格欄寬</string>
     <string name="settings_grid_width_small">小</string>
@@ -74,13 +74,13 @@
     <string name="tags">標籤</string>
     <string name="info">資訊</string>
     <string name="vote">投票</string>
-    <string name="share_via">經由</string>
+    <string name="share_via">透過</string>
     <string name="search_posts_hint">搜尋貼圖…</string>
     <string name="add_tag_filter_hint">新增標籤…</string>
     <string name="set_up_server">設定伺服器</string>
-    <string name="set_up_server_scheme">方案：</string>
+    <string name="set_up_server_scheme">配置：</string>
     <string name="set_up_server_host">主機：</string>
-    <string name="tags_filter_clear_all">全部刪除</string>
+    <string name="tags_filter_clear_all">全部清除</string>
     <string name="tags_filter_clear_all_content">所有標籤將被清除。</string>
     <string name="tags_blacklist_add">新增標籤</string>
     <string name="tags_blacklist_add_hint">新增標籤…</string>
@@ -105,15 +105,15 @@
     <string name="action_copy">複製</string>
     <string name="action_delete">刪除</string>
     <string name="action_add_tag_filter">新增標籤</string>
-    <string name="action_comment_send">送出</string>
+    <string name="action_comment_send">傳送</string>
     <string name="action_comment_hint">留言</string>
     <string name="user_votes">投票數</string>
     <string name="user_posts">貼圖</string>
     <string name="user_logout">登出</string>
     <string name="user_logout_content">是否確定登出？</string>
     <string name="about_app_version">版本</string>
-    <string name="about_app_translation">翻譯這個 App</string>
-    <string name="about_app_rate">評價這個 App</string>
+    <string name="about_app_translation">翻譯這個應用程式</string>
+    <string name="about_app_rate">評價這個應用程式</string>
     <string name="about_author">作者</string>
     <string name="about_author_email">電子郵件</string>
     <string name="about_author_website">網站</string>
@@ -124,5 +124,5 @@
     <string name="about_copyright">著作權</string>
     <string name="about_licenses">授權條款</string>
     <string name="about_open_source_licenses">開放原始碼授權</string>
-    <string name="donation_description">捐贈以支援開放原始碼開發。</string>
+    <string name="donation_description">捐助以支持開放原始碼開發</string>
 </resources>
