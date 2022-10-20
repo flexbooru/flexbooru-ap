@@ -17,31 +17,26 @@ import onlymash.flexbooru.ap.databinding.FragmentTagBlacklistBinding
 import onlymash.flexbooru.ap.databinding.ItemTagBlacklistBinding
 import onlymash.flexbooru.ap.extension.copyText
 import onlymash.flexbooru.ap.extension.getViewModel
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.diffcallback.TagBlacklistDiffCallback
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.extension.setupBottomPadding
+import onlymash.flexbooru.ap.ui.base.BaseFragment
 import org.kodein.di.instance
 
-class TagBlacklistFragment : KodeinFragment() {
-
-    private var _binding: FragmentTagBlacklistBinding? = null
-    private val binding get() = _binding!!
+class TagBlacklistFragment : BaseFragment<FragmentTagBlacklistBinding>() {
 
     private val tagsBlacklist: MutableList<TagBlacklist> = mutableListOf()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private lateinit var tagBlacklistViewModel: TagBlacklistViewModel
     private lateinit var tagBlacklistAdapter: TagBlacklistAdapter
 
-    override fun onCreateView(
+    override fun onCreateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        container: ViewGroup?
+    ): FragmentTagBlacklistBinding {
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
-        _binding = FragmentTagBlacklistBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentTagBlacklistBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,11 +57,6 @@ class TagBlacklistFragment : KodeinFragment() {
             result.dispatchUpdatesTo(tagBlacklistAdapter)
         })
         tagBlacklistViewModel.loadAll()
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     inner class TagBlacklistAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

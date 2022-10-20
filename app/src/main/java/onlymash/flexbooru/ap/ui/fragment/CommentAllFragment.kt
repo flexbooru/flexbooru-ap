@@ -30,19 +30,16 @@ import onlymash.flexbooru.ap.extension.asMergedLoadStates
 import onlymash.flexbooru.ap.extension.getViewModel
 import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.adapter.CommentAllAdapter
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.CommentAllViewModel
 import onlymash.flexbooru.ap.extension.setupBottomPaddingWithProgressBar
 import onlymash.flexbooru.ap.ui.adapter.NetworkLoadStateAdapter
+import onlymash.flexbooru.ap.ui.base.BaseFragment
 import org.kodein.di.instance
 
-class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class CommentAllFragment : BaseFragment<FragmentListRefreshableBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sp by instance<SharedPreferences>()
     private val api by instance<Api>()
-
-    private var _binding: FragmentListRefreshableBinding? = null
-    private val binding get() = _binding!!
 
     private val list get() = binding.layoutList.layoutRv.list
     private val swipeRefresh get() = binding.layoutList.refresh
@@ -59,14 +56,12 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
         sp.registerOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onCreateView(
+    override fun onCreateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        container: ViewGroup?
+    ): FragmentListRefreshableBinding {
         commentAllViewModel = getViewModel(CommentAllViewModel(repo = repo))
-        _binding = FragmentListRefreshableBinding.inflate(inflater, container, false)
-        return binding.root
+        return FragmentListRefreshableBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,7 +105,6 @@ class CommentAllFragment : KodeinFragment(), SharedPreferences.OnSharedPreferenc
     }
 
     override fun onDestroyView() {
-        _binding = null
         sp.unregisterOnSharedPreferenceChangeListener(this)
         super.onDestroyView()
     }

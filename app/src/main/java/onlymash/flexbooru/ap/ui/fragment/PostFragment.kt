@@ -28,11 +28,11 @@ import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.FROM_POSTS
 import onlymash.flexbooru.ap.ui.base.QueryListener
 import onlymash.flexbooru.ap.ui.adapter.PostAdapter
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.base.PostActivity
 import onlymash.flexbooru.ap.ui.viewmodel.PostViewModel
 import onlymash.flexbooru.ap.ui.viewmodel.TagBlacklistViewModel
 import onlymash.flexbooru.ap.ui.adapter.NetworkLoadStateAdapter
+import onlymash.flexbooru.ap.ui.base.BaseFragment
 import org.kodein.di.instance
 
 const val JUMP_TO_TOP_KEY = "jump_to_top"
@@ -43,7 +43,7 @@ const val JUMP_TO_POSITION_KEY = "jump_to_position"
 const val JUMP_TO_POSITION_QUERY_KEY = "jump_to_position_query"
 const val JUMP_TO_POSITION_ACTION_FILTER_KEY = "jump_to_position_action_filter"
 
-class PostFragment : KodeinFragment(),
+class PostFragment : BaseFragment<FragmentListRefreshableBinding>(),
     SharedPreferences.OnSharedPreferenceChangeListener, QueryListener {
 
     private lateinit var postViewModel: PostViewModel
@@ -53,9 +53,6 @@ class PostFragment : KodeinFragment(),
     private val db by instance<MyDatabase>()
     private val tagBlacklistDao by instance<TagBlacklistDao>()
     private val api by instance<Api>()
-
-    private var _binding: FragmentListRefreshableBinding? = null
-    private val binding get() = _binding!!
 
     private val list get() = binding.layoutList.layoutRv.list
     private val swipeRefresh get() = binding.layoutList.refresh
@@ -139,13 +136,13 @@ class PostFragment : KodeinFragment(),
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentListRefreshableBinding {
         postViewModel = getViewModel(PostViewModel(db = db, api = api))
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
-        _binding = FragmentListRefreshableBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentListRefreshableBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -272,7 +269,6 @@ class PostFragment : KodeinFragment(),
 
     override fun onDestroyView() {
         sp.unregisterOnSharedPreferenceChangeListener(this)
-        _binding = null
         super.onDestroyView()
     }
 

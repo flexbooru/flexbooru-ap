@@ -30,22 +30,20 @@ import onlymash.flexbooru.ap.glide.GlideApp
 import onlymash.flexbooru.ap.ui.activity.DetailActivity
 import onlymash.flexbooru.ap.ui.activity.FROM_HISTORY
 import onlymash.flexbooru.ap.ui.activity.UserActivity
-import onlymash.flexbooru.ap.ui.base.KodeinFragment
 import onlymash.flexbooru.ap.ui.viewmodel.DetailViewModel
 import onlymash.flexbooru.ap.viewbinding.viewBinding
 import onlymash.flexbooru.ap.extension.setupBottomPadding
+import onlymash.flexbooru.ap.ui.base.BaseFragment
 import org.kodein.di.instance
 
 
 const val HISTORY_JUMP_TO_TOP_KEY = "history_jump_to_top"
 const val HISTORY_JUMP_TO_TOP_ACTION_FILTER_KEY = "history_jump_to_top_action_filter"
 
-class HistoryFragment : KodeinFragment() {
+class HistoryFragment : BaseFragment<FragmentListBinding>() {
 
     private val api by instance<Api>()
     private val detailDao by instance<DetailDao>()
-    private var _binding: FragmentListBinding? = null
-    private val binding get() = _binding!!
     private val list get() = binding.layoutRv.list
     private val progressBar get() = binding.layoutProgress.progressBar
 
@@ -73,13 +71,12 @@ class HistoryFragment : KodeinFragment() {
         activity?.unregisterReceiver(broadcastReceiver)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentListBinding {
         detailViewModel = getViewModel(DetailViewModel(repo = DetailRepositoryImpl(api = api, detailDao = detailDao)))
-        _binding = FragmentListBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return FragmentListBinding.inflate(layoutInflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,11 +95,6 @@ class HistoryFragment : KodeinFragment() {
                 historyAdapter.submitData(it)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     class HistoryAdapter : PagingDataAdapter<Detail, HistoryAdapter.HistoryViewHolder>(DIFF_CALLBACK) {

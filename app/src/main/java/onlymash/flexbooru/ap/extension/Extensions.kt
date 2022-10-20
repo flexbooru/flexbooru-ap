@@ -105,11 +105,6 @@ inline val Activity.windowHeight: Int
             val metrics = windowManager.currentWindowMetrics
             val insets = metrics.windowInsets.getInsets(WindowInsets.Type.systemBars())
             metrics.bounds.height() - insets.bottom - insets.top
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val view = window.decorView
-            val insets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view).getInsets(
-                WindowInsetsCompat.Type.systemBars())
-            resources.displayMetrics.heightPixels - insets.bottom - insets.top
         } else {
             val dm = DisplayMetrics()
             @Suppress("DEPRECATION")
@@ -124,11 +119,6 @@ inline val Activity.windowWidth: Int
             val metrics = windowManager.currentWindowMetrics
             val insets = metrics.windowInsets.getInsets(WindowInsets.Type.systemBars())
             metrics.bounds.width() - insets.left - insets.right
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val view = window.decorView
-            val insets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view).getInsets(
-                WindowInsetsCompat.Type.systemBars())
-            resources.displayMetrics.widthPixels - insets.left - insets.right
         } else {
             val dm = DisplayMetrics()
             @Suppress("DEPRECATION")
