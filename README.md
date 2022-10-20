@@ -11,7 +11,8 @@ An [anime-pictures](https://anime-pictures.net) client for Android.
 
 
 ## Translate
-Click on this [link](https://crowdin.com/project/flexbooru-ap) and you can translate this app into your language.
+
+[![Crowdin](https://badges.crowdin.net/flexbooru-ap/localized.svg)](https://crowdin.com/project/flexbooru-ap) 
 
 
 ## Downlad
