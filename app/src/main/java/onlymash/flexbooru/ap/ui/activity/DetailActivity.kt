@@ -1,5 +1,6 @@
 package onlymash.flexbooru.ap.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -271,6 +272,7 @@ class DetailActivity : DirPickerActivity() {
         TooltipCompat.setTooltipText(shortcut.postVote, shortcut.postVote.contentDescription)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initViewModel() {
         if (fromWhere == FROM_POSTS) {
             localPostViewModel = getViewModel(LocalPostViewModel(LocalRepositoryImpl(postDao)))
@@ -292,7 +294,7 @@ class DetailActivity : DirPickerActivity() {
                 repo = DetailRepositoryImpl(api = api, detailDao = detailDao)
             )
         )
-        localDetailViewModel.details.observe(this, Observer {
+        localDetailViewModel.allDetails.observe(this, Observer {
             allDetails.clear()
             allDetails.addAll(it)
             if (fromWhere == FROM_HISTORY && details.isEmpty()) {

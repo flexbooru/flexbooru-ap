@@ -38,7 +38,7 @@ class TagBlacklistFragment : KodeinFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         tagBlacklistViewModel = getViewModel(TagBlacklistViewModel(tagBlacklistDao))
         _binding = FragmentTagBlacklistBinding.inflate(layoutInflater, container, false)
         return binding.root
