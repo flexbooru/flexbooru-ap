@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Flex/AP</string>
-    <string name="app_description">一個為 anime-pictures.net 而設的應用程式</string>
+    <string name="app_description">一個為 anime-pictures.net 而設計的應用程式</string>
     <string name="title_posts">貼圖</string>
     <string name="title_history">歷史記錄</string>
     <string name="title_settings">設定</string>
